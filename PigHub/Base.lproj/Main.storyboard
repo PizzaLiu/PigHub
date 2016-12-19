@@ -1,26 +1,115 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ciw-5x-Uos">
+    <device id="retina3_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Ranking-->
+        <scene sceneID="fCH-Lk-zWv">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController id="3zb-6f-qgc" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                        <viewControllerLayoutGuide type="top" id="1wK-am-dv7"/>
+                        <viewControllerLayoutGuide type="bottom" id="6ad-cL-yTf"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <view key="view" contentMode="scaleToFill" id="aPH-NP-WYl">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Ranking" image="Star" selectedImage="Star" id="zWU-SZ-dj5"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ydw-R3-auJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="617" y="315"/>
+        </scene>
+        <!--Trending-->
+        <scene sceneID="7ie-Wc-t6E">
+            <objects>
+                <viewController id="Pcq-zj-SQz" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="i5N-gQ-vp1"/>
+                        <viewControllerLayoutGuide type="bottom" id="aDB-xB-CV0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aen-Xp-5xe">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Trending" image="Fire" selectedImage="Fire" id="f3j-m6-uYF"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Jr-nO-Dcq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="617" y="-361"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="1JL-J3-GEY">
+            <objects>
+                <tabBarController id="ciw-5x-Uos" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="wyt-71-E9U">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Pcq-zj-SQz" kind="relationship" relationship="viewControllers" id="6Ak-fC-q6i"/>
+                        <segue destination="3zb-6f-qgc" kind="relationship" relationship="viewControllers" id="N3N-RV-WC7"/>
+                        <segue destination="yjk-vt-UQK" kind="relationship" relationship="viewControllers" id="zZo-N8-Q2K"/>
+                        <segue destination="HgG-bF-5UK" kind="relationship" relationship="viewControllers" id="PsE-8k-xaS"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pwp-g8-WPY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-188" y="-48"/>
+        </scene>
+        <!--Search-->
+        <scene sceneID="WHZ-Cj-Eek">
+            <objects>
+                <viewController id="yjk-vt-UQK" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aqu-Rp-Dcu"/>
+                        <viewControllerLayoutGuide type="bottom" id="HMY-s2-4q8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BeS-i6-eqD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Search" image="Search" selectedImage="Search" id="7Lr-dC-d20"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VGE-zN-4FO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="617" y="-1041"/>
+        </scene>
+        <!--My-->
+        <scene sceneID="dnK-uO-ugm">
+            <objects>
+                <viewController id="HgG-bF-5UK" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yD7-nV-gb1"/>
+                        <viewControllerLayoutGuide type="bottom" id="ICA-B4-Ojs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="c9o-8c-Xra">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="My" image="GithubLogo" selectedImage="GithubLogo" id="i5Q-1v-dI9"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="plG-b7-2Ui" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="617" y="1033"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Fire" width="25" height="24"/>
+        <image name="GithubLogo" width="24" height="25"/>
+        <image name="Search" width="25" height="25"/>
+        <image name="Star" width="24" height="25"/>
+    </resources>
 </document>
