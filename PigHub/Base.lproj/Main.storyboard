@@ -31,21 +31,87 @@
         <!--Trending-->
         <scene sceneID="7ie-Wc-t6E">
             <objects>
-                <viewController id="Pcq-zj-SQz" sceneMemberID="viewController">
+                <viewController id="Pcq-zj-SQz" customClass="TrendingViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="i5N-gQ-vp1"/>
                         <viewControllerLayoutGuide type="bottom" id="aDB-xB-CV0"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="aen-Xp-5xe">
+                    <view key="view" autoresizesSubviews="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="aen-Xp-5xe">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8yk-vE-DVM">
+                                <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Pcq-zj-SQz" id="fgX-1L-wdQ"/>
+                                    <outlet property="delegate" destination="Pcq-zj-SQz" id="bLk-ui-Hok"/>
+                                </connections>
+                            </tableView>
+                            <navigationBar opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U2I-iG-ScA">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="rmI-TW-aUA"/>
+                                </constraints>
+                                <textAttributes key="titleTextAttributes">
+                                    <offsetWrapper key="textShadowOffset" horizontal="0.0" vertical="0.0"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Trending" id="D7f-Wh-k2X">
+                                        <barButtonItem key="rightBarButtonItem" title="..." id="uTY-D4-CNQ"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <toolbar opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P1M-Hb-0cG" customClass="ExtendedNavBarView">
+                                <rect key="frame" x="0.0" y="54" width="320" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="fNI-0P-ypY"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="tLk-d2-pct"/>
+                                    <barButtonItem style="plain" id="Udp-xm-p5u">
+                                        <segmentedControl key="customView" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" id="9pk-be-ziw">
+                                            <rect key="frame" x="10" y="10" width="300" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <segments>
+                                                <segment title="Repositories"/>
+                                                <segment title="Developers"/>
+                                            </segments>
+                                        </segmentedControl>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="GeL-QF-6S8"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="U2I-iG-ScA" firstAttribute="width" secondItem="aen-Xp-5xe" secondAttribute="width" id="0rI-Kf-xdB"/>
+                            <constraint firstItem="P1M-Hb-0cG" firstAttribute="width" secondItem="aen-Xp-5xe" secondAttribute="width" id="39J-zM-L4j"/>
+                            <constraint firstItem="8yk-vE-DVM" firstAttribute="leading" secondItem="aen-Xp-5xe" secondAttribute="leading" id="5jx-sG-lwX"/>
+                            <constraint firstItem="aDB-xB-CV0" firstAttribute="top" secondItem="8yk-vE-DVM" secondAttribute="bottom" constant="-49" id="CXa-1T-eR3"/>
+                            <constraint firstItem="P1M-Hb-0cG" firstAttribute="top" secondItem="U2I-iG-ScA" secondAttribute="bottom" constant="-10" id="Kbb-eU-f9j"/>
+                            <constraint firstItem="U2I-iG-ScA" firstAttribute="width" secondItem="aen-Xp-5xe" secondAttribute="width" id="Sa9-PO-hga"/>
+                            <constraint firstAttribute="trailing" secondItem="8yk-vE-DVM" secondAttribute="trailing" id="cUj-gr-RQy"/>
+                            <constraint firstItem="8yk-vE-DVM" firstAttribute="top" secondItem="P1M-Hb-0cG" secondAttribute="bottom" constant="-84" id="cnP-ds-SIB"/>
+                            <constraint firstItem="U2I-iG-ScA" firstAttribute="leading" secondItem="P1M-Hb-0cG" secondAttribute="leading" id="hn4-7s-0j7"/>
+                            <constraint firstItem="U2I-iG-ScA" firstAttribute="top" secondItem="i5N-gQ-vp1" secondAttribute="bottom" constant="-20" id="m2h-xm-zfK"/>
+                            <constraint firstItem="U2I-iG-ScA" firstAttribute="leading" secondItem="aen-Xp-5xe" secondAttribute="leading" id="neg-5G-08M"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Trending" image="Fire" selectedImage="Fire" id="f3j-m6-uYF"/>
+                    <tabBarItem key="tabBarItem" title="Trending" image="Fire" selectedImage="Fire" id="TZt-yc-bcC"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="UfR-4I-2tB"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="navBar" destination="U2I-iG-ScA" id="Mja-Tf-ZrT"/>
+                        <outlet property="segmentBar" destination="P1M-Hb-0cG" id="K3O-Hb-o0l"/>
+                        <outlet property="tableView" destination="8yk-vE-DVM" id="mXz-2E-EgY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Jr-nO-Dcq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="617" y="-361"/>
+            <point key="canvasLocation" x="616.875" y="-361.25"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="1JL-J3-GEY">
@@ -78,13 +144,20 @@
                     <view key="view" contentMode="scaleToFill" id="BeS-i6-eqD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fQH-RI-4Pc" customClass="GLKView">
+                                <rect key="frame" x="0.0" y="20" width="320" height="124"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Search" image="Search" selectedImage="Search" id="7Lr-dC-d20"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VGE-zN-4FO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="617" y="-1041"/>
+            <point key="canvasLocation" x="616.875" y="-1041.25"/>
         </scene>
         <!--My-->
         <scene sceneID="dnK-uO-ugm">
