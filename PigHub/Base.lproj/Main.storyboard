@@ -59,7 +59,7 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Trending" id="D7f-Wh-k2X">
-                                        <barButtonItem key="rightBarButtonItem" title="..." id="uTY-D4-CNQ"/>
+                                        <barButtonItem key="rightBarButtonItem" image="Menu" id="uTY-D4-CNQ"/>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -175,6 +175,7 @@
     <resources>
         <image name="Fire" width="25" height="24"/>
         <image name="GithubLogo" width="24" height="25"/>
+        <image name="Menu" width="16" height="15"/>
         <image name="Search" width="25" height="25"/>
         <image name="Star" width="24" height="25"/>
     </resources>
