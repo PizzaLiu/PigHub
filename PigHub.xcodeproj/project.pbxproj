@@ -14,7 +14,7 @@
 		3EDC33FB1E0695CD00B96CB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EDC33FA1E0695CD00B96CB1 /* Assets.xcassets */; };
 		3EDC33FE1E0695CD00B96CB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EDC33FC1E0695CD00B96CB1 /* LaunchScreen.storyboard */; };
 		3EDC34131E07DF7300B96CB1 /* TrendingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC34121E07DF7300B96CB1 /* TrendingViewController.m */; };
-		3EDC34161E08287C00B96CB1 /* ExtendedNavBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC34151E08287C00B96CB1 /* ExtendedNavBarView.m */; };
+		3EDC34161E08287C00B96CB1 /* SegmentBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC34151E08287C00B96CB1 /* SegmentBarView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,8 +30,8 @@
 		3EDC33FF1E0695CD00B96CB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3EDC34111E07DF7300B96CB1 /* TrendingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrendingViewController.h; path = Modules/Trending/TrendingViewController.h; sourceTree = "<group>"; };
 		3EDC34121E07DF7300B96CB1 /* TrendingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrendingViewController.m; path = Modules/Trending/TrendingViewController.m; sourceTree = "<group>"; };
-		3EDC34141E08287C00B96CB1 /* ExtendedNavBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExtendedNavBarView.h; path = Common/Views/ExtendedNavBarView.h; sourceTree = "<group>"; };
-		3EDC34151E08287C00B96CB1 /* ExtendedNavBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExtendedNavBarView.m; path = Common/Views/ExtendedNavBarView.m; sourceTree = "<group>"; };
+		3EDC34141E08287C00B96CB1 /* SegmentBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SegmentBarView.h; path = Common/Views/SegmentBarView.h; sourceTree = "<group>"; };
+		3EDC34151E08287C00B96CB1 /* SegmentBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SegmentBarView.m; path = Common/Views/SegmentBarView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,8 +115,8 @@
 		3EDC34181E08288B00B96CB1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3EDC34141E08287C00B96CB1 /* ExtendedNavBarView.h */,
-				3EDC34151E08287C00B96CB1 /* ExtendedNavBarView.m */,
+				3EDC34141E08287C00B96CB1 /* SegmentBarView.h */,
+				3EDC34151E08287C00B96CB1 /* SegmentBarView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -194,7 +194,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EDC33F61E0695CD00B96CB1 /* ViewController.m in Sources */,
-				3EDC34161E08287C00B96CB1 /* ExtendedNavBarView.m in Sources */,
+				3EDC34161E08287C00B96CB1 /* SegmentBarView.m in Sources */,
 				3EDC34131E07DF7300B96CB1 /* TrendingViewController.m in Sources */,
 				3EDC33F31E0695CD00B96CB1 /* AppDelegate.m in Sources */,
 				3EDC33F01E0695CD00B96CB1 /* main.m in Sources */,

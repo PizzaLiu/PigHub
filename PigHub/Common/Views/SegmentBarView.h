@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ExtendedNavBarView : UIToolbar
+@interface SegmentBarView : UIToolbar
 
 @end

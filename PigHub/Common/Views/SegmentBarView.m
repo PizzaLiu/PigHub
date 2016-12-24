@@ -6,9 +6,9 @@
 //  Copyright © 2016年 PizzaLiu. All rights reserved.
 //
 
-#import "ExtendedNavBarView.h"
+#import "SegmentBarView.h"
 
-@implementation ExtendedNavBarView
+@implementation SegmentBarView
 
 - (instancetype)init
 {

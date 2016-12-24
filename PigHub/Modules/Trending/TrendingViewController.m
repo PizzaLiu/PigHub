@@ -7,14 +7,14 @@
 //
 
 #import "TrendingViewController.h"
-#import "ExtendedNavBarView.h"
+#import "SegmentBarView.h"
 
-@interface TrendingViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface TrendingViewController () <UITableViewDelegate, UITableViewDataSource, UIToolbarDelegate>
 
-@property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
-@property (weak, nonatomic) IBOutlet ExtendedNavBarView *segmentBar;
+@property (weak, nonatomic) IBOutlet SegmentBarView *segmentBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@property (weak, nonatomic) UIImage *shadowImageView;
+@property (weak, nonatomic) UIImageView *navHairline;
 
 @end
 
@@ -23,16 +23,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
-        self.automaticallyAdjustsScrollViewInsets = NO;
-    }
+    self.navHairline = [self findNavBarHairline];
 
-    self.navBar.clipsToBounds = YES;
+    //if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
+    //    self.automaticallyAdjustsScrollViewInsets = NO;
+    //}
+    self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 0, 0);
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(40, 0, 0, 0);
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
+}
 
-    self.tableView.contentInset = UIEdgeInsetsMake(84, 0, 49, 0);
-    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(84, 0, 49, 0);
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
+{
+    return UIBarPositionTopAttached;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    [self.segmentBar setHidden:NO];
+    [self.navHairline setHidden:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    [self.segmentBar setHidden:YES];
+    [self.navHairline setHidden:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,6 +88,24 @@
 
     return [UIColor colorWithRed:(r / 255.0) green:(g / 255.0) blue:(b / 255.0) alpha:1];
 }
+
+#pragma mark - navbar
+
+- (UIImageView *)findNavBarHairline
+{
+    for (UIView *aView in self.navigationController.navigationBar.subviews) {
+        for (UIView *bView in aView.subviews) {
+            if ([bView isKindOfClass:[UIImageView class]] &&
+                bView.bounds.size.width == self.navigationController.navigationBar.frame.size.width &&
+                bView.bounds.size.height < 2) {
+                return (UIImageView *)bView;
+            }
+        }
+    }
+
+    return nil;
+}
+
 
 /*
 #pragma mark - Navigation
