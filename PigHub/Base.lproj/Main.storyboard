@@ -69,7 +69,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="N8d-Ag-fsP"/>
                                 </items>
                                 <connections>
-                                    <outlet property="delegate" destination="Pcq-zj-SQz" id="dgz-so-Hso"/>
+                                    <outlet property="delegate" destination="Pcq-zj-SQz" id="uEV-mE-rpH"/>
                                 </connections>
                             </toolbar>
                         </subviews>
@@ -87,7 +87,11 @@
                     <tabBarItem key="tabBarItem" title="Trending" image="Fire" selectedImage="Fire" id="TZt-yc-bcC"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Trending" id="UfR-4I-2tB">
-                        <barButtonItem key="rightBarButtonItem" image="Menu" id="uTY-D4-CNQ"/>
+                        <barButtonItem key="rightBarButtonItem" image="Menu" id="uTY-D4-CNQ">
+                            <connections>
+                                <segue destination="Jvu-Ro-FLB" kind="show" id="OWz-na-aut"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="segmentBar" destination="Jaw-BG-V4I" id="ZT7-Mr-8b9"/>
@@ -174,12 +178,41 @@
             </objects>
             <point key="canvasLocation" x="617" y="1033"/>
         </scene>
+        <!--Languages-->
+        <scene sceneID="cKb-gv-owe">
+            <objects>
+                <tableViewController title="Languages" id="Jvu-Ro-FLB" customClass="LanguageViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="GVl-Pu-w9c">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="Jvu-Ro-FLB" id="pWn-m4-759"/>
+                            <outlet property="delegate" destination="Jvu-Ro-FLB" id="FUk-w4-7hY"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="jGN-ma-P9X">
+                        <barButtonItem key="rightBarButtonItem" image="Sort" id="J4m-eO-Hpa">
+                            <connections>
+                                <action selector="triggerReorder:" destination="Jvu-Ro-FLB" id="uQi-eO-duD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="sortBtn" destination="J4m-eO-Hpa" id="770-67-C54"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oKK-iT-9go" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2569" y="-365"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Fire" width="25" height="24"/>
         <image name="GithubLogo" width="24" height="25"/>
         <image name="Menu" width="20" height="16"/>
         <image name="Search" width="25" height="25"/>
+        <image name="Sort" width="20" height="20"/>
         <image name="Star" width="24" height="25"/>
     </resources>
 </document>

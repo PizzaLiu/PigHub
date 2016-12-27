@@ -9,7 +9,7 @@
 #import "TrendingViewController.h"
 #import "SegmentBarView.h"
 
-@interface TrendingViewController () <UITableViewDelegate, UITableViewDataSource, UIToolbarDelegate>
+@interface TrendingViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet SegmentBarView *segmentBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -43,15 +43,16 @@
 {
     [super viewWillAppear:animated];
 
-    [self.segmentBar setHidden:NO];
     [self.navHairline setHidden:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+}
 
-    [self.segmentBar setHidden:YES];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     [self.navHairline setHidden:NO];
 }
 
