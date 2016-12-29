@@ -24,6 +24,7 @@
     [super viewDidLoad];
 
     self.navHairline = [self findNavBarHairline];
+    self.hidesBottomBarWhenPushed = YES;
 
     //if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
     //    self.automaticallyAdjustsScrollViewInsets = NO;
