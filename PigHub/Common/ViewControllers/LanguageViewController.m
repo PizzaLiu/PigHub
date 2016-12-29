@@ -11,7 +11,7 @@
 @interface LanguageViewController ()
 
 {
-    NSArray *languages;
+    NSMutableArray *languages;
     NSInteger selectedIndex;
 }
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sortBtn;
@@ -27,7 +27,7 @@
 
     self.title = NSLocalizedString(@"Languages", @"");
 
-    languages = @[NSLocalizedString(@"All Languages", @""),@"JavaScript",@"Java",@"PHP",@"Ruby",@"Python",@"CSS",@"C++",@"C",@"Objective-C",@"Swift",@"Shell",@"R",@"Perl",@"Lua",@"HTML",@"Scala",@"Go"];
+    languages = [[NSMutableArray alloc] initWithArray: @[NSLocalizedString(@"All Languages", @""),@"JavaScript",@"Java",@"PHP",@"Ruby",@"Python",@"CSS",@"C++",@"C",@"Objective-C",@"Swift",@"Shell",@"R",@"Perl",@"Lua",@"HTML",@"Scala",@"Go"]];
     selectedIndex = 0;
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"LangCell"];
@@ -110,12 +110,22 @@
 
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-
+    NSString *langToMove = [languages objectAtIndex:fromIndexPath.row];
+    [languages removeObjectAtIndex:fromIndexPath.row];
+    [languages insertObject:langToMove atIndex:toIndexPath.row];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) return FALSE;
     return YES;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
+{
+    if (proposedDestinationIndexPath.row == 0) {
+        return [NSIndexPath indexPathForRow:1 inSection:proposedDestinationIndexPath.section];
+    }
+    return proposedDestinationIndexPath;
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
