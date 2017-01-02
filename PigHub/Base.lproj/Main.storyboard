@@ -181,7 +181,7 @@
         <!--Languages-->
         <scene sceneID="cKb-gv-owe">
             <objects>
-                <tableViewController title="Languages" id="Jvu-Ro-FLB" customClass="LanguageViewController" sceneMemberID="viewController">
+                <tableViewController title="Languages" hidesBottomBarWhenPushed="YES" id="Jvu-Ro-FLB" customClass="LanguageViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="GVl-Pu-w9c">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -7,11 +7,11 @@
 //
 
 #import "LanguageViewController.h"
+#import "LanguageModel.h"
 
 @interface LanguageViewController ()
 
 {
-    NSMutableArray *languages;
     NSInteger selectedIndex;
 }
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sortBtn;
@@ -27,7 +27,6 @@
 
     self.title = NSLocalizedString(@"Languages", @"");
 
-    languages = [[NSMutableArray alloc] initWithArray: @[NSLocalizedString(@"All Languages", @""),@"JavaScript",@"Java",@"PHP",@"Ruby",@"Python",@"CSS",@"C++",@"C",@"Objective-C",@"Swift",@"Shell",@"R",@"Perl",@"Lua",@"HTML",@"Scala",@"Go"]];
     selectedIndex = 0;
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"LangCell"];
@@ -44,10 +43,10 @@
 {
     if (self.tableView.isEditing) {
         [self.sortBtn setImage:[UIImage imageNamed:@"Sort"]];
-        [self.tableView setEditing:NO];
+        [self.tableView setEditing:NO animated:YES];
     } else {
         [self.sortBtn setImage:[UIImage imageNamed:@"Okay"]];
-        [self.tableView setEditing:YES];
+        [self.tableView setEditing:YES animated:YES];
     }
 }
 
@@ -58,13 +57,13 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [languages count];
+    return [[LanguagesModel sharedStore] languagesCount];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LangCell" forIndexPath:indexPath];
 
-    cell.textLabel.text = [languages objectAtIndex:indexPath.row];
+    cell.textLabel.text = [[LanguagesModel sharedStore] languageNameForOrder:indexPath.row];//[languages objectAtIndex:indexPath.row];
 
     if (selectedIndex == indexPath.row) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -95,24 +94,8 @@
     return YES;
 }
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-// Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-    NSString *langToMove = [languages objectAtIndex:fromIndexPath.row];
-    [languages removeObjectAtIndex:fromIndexPath.row];
-    [languages insertObject:langToMove atIndex:toIndexPath.row];
+    [[LanguagesModel sharedStore] moveLanguageAtIndex:fromIndexPath.row toIndex:toIndexPath.row];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -125,6 +108,9 @@
     if (proposedDestinationIndexPath.row == 0) {
         return [NSIndexPath indexPathForRow:1 inSection:proposedDestinationIndexPath.section];
     }
+    if (proposedDestinationIndexPath.row >= [[LanguagesModel sharedStore] languagesCount]) {
+        return sourceIndexPath;
+    }
     return proposedDestinationIndexPath;
 }
 
@@ -133,15 +119,5 @@
     return UITableViewCellEditingStyleNone;
 }
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
