@@ -89,7 +89,7 @@
                     <navigationItem key="navigationItem" title="Trending" id="UfR-4I-2tB">
                         <barButtonItem key="rightBarButtonItem" image="Menu" id="uTY-D4-CNQ">
                             <connections>
-                                <segue destination="Jvu-Ro-FLB" kind="show" id="OWz-na-aut"/>
+                                <segue destination="Jvu-Ro-FLB" kind="show" identifier="LanguageSelector" id="OWz-na-aut"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -186,6 +186,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="LangCell" id="ADj-YB-OZA">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ADj-YB-OZA" id="F3N-RT-2rc">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="Jvu-Ro-FLB" id="pWn-m4-759"/>
                             <outlet property="delegate" destination="Jvu-Ro-FLB" id="FUk-w4-7hY"/>

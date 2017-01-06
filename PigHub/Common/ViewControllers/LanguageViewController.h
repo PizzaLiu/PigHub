@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LanguageModel.h"
 
 @interface LanguageViewController : UITableViewController
+
+@property (nonatomic, strong) NSString *selectedLanguageQuery;
+@property (nonatomic, strong) NSString *selectedLanguageName;
+@property(nonatomic, copy) void (^dismissBlock)(Language *);
 
 @end

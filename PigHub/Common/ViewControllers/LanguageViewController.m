@@ -7,7 +7,6 @@
 //
 
 #import "LanguageViewController.h"
-#import "LanguageModel.h"
 
 @interface LanguageViewController ()
 
@@ -28,8 +27,18 @@
     self.title = NSLocalizedString(@"Languages", @"");
 
     selectedIndex = 0;
+    Language *selectedLanguage = nil;
+    if (self.selectedLanguageName) {
+        selectedLanguage = [[LanguagesModel sharedStore] languageForName:self.selectedLanguageName];
+    }
+    if (self.selectedLanguageQuery) {
+        selectedLanguage = [[LanguagesModel sharedStore] languageForQuery:self.selectedLanguageQuery];
+    }
+    if (selectedLanguage) {
+        selectedIndex = [[[LanguagesModel sharedStore] allLanguages] indexOfObject:selectedLanguage];
+    }
 
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"LangCell"];
+    //[self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"LangCell"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,7 +72,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LangCell" forIndexPath:indexPath];
 
-    cell.textLabel.text = [[LanguagesModel sharedStore] languageNameForOrder:indexPath.row];//[languages objectAtIndex:indexPath.row];
+    cell.textLabel.text = [[LanguagesModel sharedStore] languageNameForIndex:indexPath.row];
 
     if (selectedIndex == indexPath.row) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -78,6 +87,12 @@
 {
     selectedIndex = indexPath.row;
     [tableView reloadData];
+
+    if (self.dismissBlock) {
+        Language *selectedLanguage = [[LanguagesModel sharedStore] languageForIndex:selectedIndex];
+        self.dismissBlock(selectedLanguage);
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath

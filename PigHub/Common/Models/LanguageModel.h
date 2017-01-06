@@ -24,7 +24,10 @@
 @interface LanguagesModel : NSObject
 
 + (instancetype) sharedStore;
-- (NSString *) languageNameForOrder:(NSInteger) order;
+- (NSString *) languageNameForIndex:(NSInteger) index;
+- (Language *) languageForIndex:(NSInteger) index;
+- (Language *) languageForName:(NSString *) name;
+- (Language *) languageForQuery:(NSString *) query;
 - (NSInteger) languagesCount;
 - (NSArray *) allLanguages;
 - (void) moveLanguageAtIndex:(NSInteger) fromIndex toIndex:(NSInteger) toIndex;

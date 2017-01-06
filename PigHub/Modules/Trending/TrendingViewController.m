@@ -8,6 +8,10 @@
 
 #import "TrendingViewController.h"
 #import "SegmentBarView.h"
+#import "LanguageViewController.h"
+#import "LanguageModel.h"
+
+NSString * const SelectedLangQueryPrefKey = @"SelectedLangPrefKey";
 
 @interface TrendingViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -15,15 +19,33 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) UIImage *shadowImageView;
 @property (weak, nonatomic) UIImageView *navHairline;
+@property (strong, nonatomic) Language *targetLanguage;
 
 @end
 
 @implementation TrendingViewController
 
++ (void)initialize
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *factorySettings = @{SelectedLangQueryPrefKey: @""};
+
+    [defaults registerDefaults:factorySettings];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     self.navHairline = [self findNavBarHairline];
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *selectedLangQuery = [defaults objectForKey: SelectedLangQueryPrefKey];
+    if (selectedLangQuery) {
+        Language *selectedLang = [[LanguagesModel sharedStore] languageForQuery:selectedLangQuery];
+        if (selectedLang) {
+            self.targetLanguage = selectedLang;
+        }
+    }
 
     //if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
     //    self.automaticallyAdjustsScrollViewInsets = NO;
@@ -44,6 +66,11 @@
     [super viewWillAppear:animated];
 
     [self.navHairline setHidden:YES];
+
+    if (self.targetLanguage) {
+        self.navigationItem.title = self.targetLanguage.name;
+    }
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -54,6 +81,18 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     [self.navHairline setHidden:NO];
+
+    UIViewController *desVc = segue.destinationViewController;
+    if ([segue.identifier isEqualToString:@"LanguageSelector"]) {
+        LanguageViewController *lvc = (LanguageViewController *)desVc;
+        lvc.selectedLanguageQuery = self.targetLanguage.query;
+        lvc.dismissBlock = ^(Language *selectedLang){
+            self.targetLanguage = selectedLang;
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:selectedLang.query forKey:SelectedLangQueryPrefKey];
+        };
+        return ;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

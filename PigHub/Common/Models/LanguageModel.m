@@ -89,11 +89,39 @@
 
 #pragma makr - languages
 
-- (NSString *) languageNameForOrder:(NSInteger) order
+- (NSString *) languageNameForIndex:(NSInteger) index
 {
-    Language *language = self.languages[order];
+    Language *language = self.languages[index];
     if (!language) return @"";
     return language.name;
+}
+
+- (Language *) languageForIndex:(NSInteger) index
+{
+    Language *language = self.languages[index];
+    return language;
+}
+
+- (Language *) languageForName:(NSString *) name
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", name];
+    NSArray *filteredArray = [self.languages filteredArrayUsingPredicate:predicate];
+
+    if (filteredArray) {
+        return filteredArray[0];
+    }
+    return nil;
+}
+
+- (Language *) languageForQuery:(NSString *) query
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"query == %@", query];
+    NSArray *filteredArray = [self.languages filteredArrayUsingPredicate:predicate];
+
+    if (filteredArray) {
+        return filteredArray[0];
+    }
+    return nil;
 }
 
 - (NSArray *) allLanguages
@@ -127,7 +155,6 @@
     NSMutableArray *languages = [self readLanguages];
 
     if (languages) {
-        NSLog(@"have it~");
         return languages;
     }
 
@@ -527,7 +554,6 @@
 
 - (BOOL) saveLanguages
 {
-    NSLog(@"save it~");
     NSString *writePath = [self archivePath];
     BOOL written = [NSKeyedArchiver archiveRootObject:self.languages toFile:writePath];
 
