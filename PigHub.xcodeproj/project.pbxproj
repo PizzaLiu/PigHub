@@ -24,6 +24,7 @@
 		3E7092571E0E69D900DB50B7 /* LanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguageViewController.m; path = Common/ViewControllers/LanguageViewController.m; sourceTree = "<group>"; };
 		3E9CF1971E1538BA00238038 /* LanguageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageModel.h; path = Common/Models/LanguageModel.h; sourceTree = "<group>"; };
 		3E9CF1981E1538BA00238038 /* LanguageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguageModel.m; path = Common/Models/LanguageModel.m; sourceTree = "<group>"; };
+		3E9CF1A01E1F95ED00238038 /* WeakifyStrongify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WeakifyStrongify.h; path = Common/General/WeakifyStrongify.h; sourceTree = "<group>"; };
 		3EDC33EB1E0695CD00B96CB1 /* PigHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PigHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EDC33EF1E0695CD00B96CB1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3EDC33F11E0695CD00B96CB1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -67,6 +68,14 @@
 				3E9CF1981E1538BA00238038 /* LanguageModel.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		3E9CF19F1E1F955200238038 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				3E9CF1A01E1F95ED00238038 /* WeakifyStrongify.h */,
+			);
+			name = General;
 			sourceTree = "<group>";
 		};
 		3EDC33E21E0695CD00B96CB1 = {
@@ -131,6 +140,7 @@
 		3EDC34171E08288200B96CB1 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				3E9CF19F1E1F955200238038 /* General */,
 				3E9CF1961E1537C700238038 /* Models */,
 				3E7092591E0E69DF00DB50B7 /* ViewControllers */,
 				3EDC34181E08288B00B96CB1 /* Views */,
@@ -281,6 +291,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -327,6 +339,8 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -346,6 +360,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = CN88TT56R7;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = PigHub/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -359,6 +374,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = CN88TT56R7;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = PigHub/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

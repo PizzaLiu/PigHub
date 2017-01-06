@@ -10,6 +10,7 @@
 #import "SegmentBarView.h"
 #import "LanguageViewController.h"
 #import "LanguageModel.h"
+#import "WeakifyStrongify.h"
 
 NSString * const SelectedLangQueryPrefKey = @"SelectedLangPrefKey";
 
@@ -86,11 +87,15 @@ NSString * const SelectedLangQueryPrefKey = @"SelectedLangPrefKey";
     if ([segue.identifier isEqualToString:@"LanguageSelector"]) {
         LanguageViewController *lvc = (LanguageViewController *)desVc;
         lvc.selectedLanguageQuery = self.targetLanguage.query;
+
+        weakify(self);
         lvc.dismissBlock = ^(Language *selectedLang){
+            strongify(self);
             self.targetLanguage = selectedLang;
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:selectedLang.query forKey:SelectedLangQueryPrefKey];
         };
+
         return ;
     }
 }
