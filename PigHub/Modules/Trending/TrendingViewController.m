@@ -11,6 +11,7 @@
 #import "LanguageViewController.h"
 #import "LanguageModel.h"
 #import "WeakifyStrongify.h"
+#import "MJRefresh.h"
 
 NSString * const SelectedLangQueryPrefKey = @"SelectedLangPrefKey";
 
@@ -55,6 +56,8 @@ NSString * const SelectedLangQueryPrefKey = @"SelectedLangPrefKey";
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(40, 0, 0, 0);
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
+
+    [self initRefresh];
 }
 
 - (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
@@ -150,5 +153,23 @@ NSString * const SelectedLangQueryPrefKey = @"SelectedLangPrefKey";
 
     return nil;
 }
+
+#pragma mark - refresh
+
+- (void)initRefresh
+{
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self.tableView.mj_header endRefreshing];
+    }];
+    self.tableView.mj_header = header;
+
+    self.tableView.mj_header.automaticallyChangeAlpha = YES;
+    header.lastUpdatedTimeLabel.hidden = YES;
+    // header.stateLabel.hidden = YES;
+
+    [self.tableView.mj_header beginRefreshing];
+}
+
+
 
 @end
