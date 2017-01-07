@@ -13,7 +13,7 @@
 #import "WeakifyStrongify.h"
 #import "MJRefresh.h"
 
-NSString * const SelectedLangQueryPrefKey = @"SelectedLangPrefKey";
+NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
 @interface TrendingViewController () <UITableViewDelegate, UITableViewDataSource>
 
