@@ -12,6 +12,8 @@
 #import "LanguageModel.h"
 #import "WeakifyStrongify.h"
 #import "MJRefresh.h"
+#import "DataEngine.h"
+#import "Repository.h"
 
 NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
@@ -21,6 +23,8 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) UIImage *shadowImageView;
 @property (weak, nonatomic) UIImageView *navHairline;
+
+@property (strong, nonatomic) NSArray<Repository *> *tableData;
 @property (strong, nonatomic) Language *targetLanguage;
 
 @end
@@ -33,6 +37,15 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     NSDictionary *factorySettings = @{SelectedLangQueryPrefKey: @""};
 
     [defaults registerDefaults:factorySettings];
+}
+
+- (instancetype)init
+{
+    self = [super init];
+
+    self.tableData = [[NSMutableArray alloc] init];
+
+    return self;
 }
 
 - (void)viewDidLoad {
@@ -86,7 +99,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 {
     [self.navHairline setHidden:NO];
 
-    UIViewController *desVc = segue.destinationViewController;
+    __weak UIViewController *desVc = segue.destinationViewController;
     if ([segue.identifier isEqualToString:@"LanguageSelector"]) {
         LanguageViewController *lvc = (LanguageViewController *)desVc;
         lvc.selectedLanguageQuery = self.targetLanguage.query;
@@ -94,9 +107,14 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
         weakify(self);
         lvc.dismissBlock = ^(Language *selectedLang){
             strongify(self);
-            self.targetLanguage = selectedLang;
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setObject:selectedLang.query forKey:SelectedLangQueryPrefKey];
+            if (![self.targetLanguage.query isEqualToString:selectedLang.query]) {
+                self.targetLanguage = selectedLang;
+                self.tableData = nil;
+                [self.tableView reloadData];
+                [self.tableView.mj_header beginRefreshing];
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:selectedLang.query forKey:SelectedLangQueryPrefKey];
+            }
         };
 
         return ;
@@ -112,7 +130,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 100;
+    return [self.tableData count];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -123,6 +141,10 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
+    Repository *repo = [self.tableData objectAtIndex:indexPath.row];
+
+    cell.textLabel.text = repo.name;
+    cell.textLabel.textColor = [UIColor whiteColor];
     cell.backgroundColor = [self randomColor];
 
     return cell;
@@ -158,16 +180,25 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
 - (void)initRefresh
 {
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self.tableView.mj_header endRefreshing];
-    }];
-    self.tableView.mj_header = header;
+    __unsafe_unretained UITableView *tableView = self.tableView;
+    weakify(self);
+    tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
 
-    self.tableView.mj_header.automaticallyChangeAlpha = YES;
-    header.lastUpdatedTimeLabel.hidden = YES;
+        strongify(self);
+        [DataEngine getTrendingDataWithSince:@"daily" lang:self.targetLanguage.query isDeveloper:NO completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
+            self.tableData = repositories;
+            [self.tableView reloadData];
+            [tableView.mj_header endRefreshing];
+        }];
+
+    }];
+    //self.tableView.mj_header = header;
+
+    tableView.mj_header.automaticallyChangeAlpha = YES;
+    ((MJRefreshNormalHeader *)tableView.mj_header).lastUpdatedTimeLabel.hidden = YES;
     // header.stateLabel.hidden = YES;
 
-    [self.tableView.mj_header beginRefreshing];
+    [tableView.mj_header beginRefreshing];
 }
 
 

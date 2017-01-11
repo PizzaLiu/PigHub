@@ -1,12 +1,32 @@
 PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
+  - HTMLReader (2.0.1)
   - MJRefresh (3.1.12)
 
 DEPENDENCIES:
+  - AFNetworking
+  - HTMLReader
   - MJRefresh
 
 SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  HTMLReader: 9ce35242b19732b9f5a09a583f7f27b1724e8b7d
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
 
-PODFILE CHECKSUM: 19fd6730b7be29163095ac49e129c49a61bbc9c7
+PODFILE CHECKSUM: 627d0896fc7a666b32166e1a19b27868413b339e
 
 COCOAPODS: 1.1.1

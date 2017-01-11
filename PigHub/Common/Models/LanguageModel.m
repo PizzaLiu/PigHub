@@ -79,9 +79,7 @@
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        if (!sharedStore) {
-            sharedStore = [[self alloc] initPrivate];
-        }
+        sharedStore = [[self alloc] initPrivate];
     });
 
     return sharedStore;
