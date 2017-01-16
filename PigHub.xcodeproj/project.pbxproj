@@ -11,6 +11,8 @@
 		3E9CF1991E1538BA00238038 /* LanguageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9CF1981E1538BA00238038 /* LanguageModel.m */; };
 		3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCC9B41E21265300E33F6F /* DataEngine.m */; };
 		3ECCC9B81E22441400E33F6F /* Repository.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCC9B71E22441400E33F6F /* Repository.m */; };
+		3ECCC9BC1E26317600E33F6F /* RepositoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCC9BA1E26317600E33F6F /* RepositoryTableViewCell.m */; };
+		3ECCC9BD1E26317600E33F6F /* RepositoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3ECCC9BB1E26317600E33F6F /* RepositoryTableViewCell.xib */; };
 		3EDC33F01E0695CD00B96CB1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC33EF1E0695CD00B96CB1 /* main.m */; };
 		3EDC33F31E0695CD00B96CB1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC33F21E0695CD00B96CB1 /* AppDelegate.m */; };
 		3EDC33F61E0695CD00B96CB1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC33F51E0695CD00B96CB1 /* ViewController.m */; };
@@ -32,6 +34,9 @@
 		3ECCC9B41E21265300E33F6F /* DataEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataEngine.m; path = Common/General/DataEngine.m; sourceTree = "<group>"; };
 		3ECCC9B61E22441400E33F6F /* Repository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Repository.h; path = Common/Models/Repository.h; sourceTree = "<group>"; };
 		3ECCC9B71E22441400E33F6F /* Repository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Repository.m; path = Common/Models/Repository.m; sourceTree = "<group>"; };
+		3ECCC9B91E26317600E33F6F /* RepositoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RepositoryTableViewCell.h; path = Common/Views/RepositoryTableViewCell.h; sourceTree = "<group>"; };
+		3ECCC9BA1E26317600E33F6F /* RepositoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RepositoryTableViewCell.m; path = Common/Views/RepositoryTableViewCell.m; sourceTree = "<group>"; };
+		3ECCC9BB1E26317600E33F6F /* RepositoryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RepositoryTableViewCell.xib; path = Common/Views/RepositoryTableViewCell.xib; sourceTree = "<group>"; };
 		3EDC33EB1E0695CD00B96CB1 /* PigHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PigHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EDC33EF1E0695CD00B96CB1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3EDC33F11E0695CD00B96CB1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -170,6 +175,9 @@
 			children = (
 				3EDC34141E08287C00B96CB1 /* SegmentBarView.h */,
 				3EDC34151E08287C00B96CB1 /* SegmentBarView.m */,
+				3ECCC9B91E26317600E33F6F /* RepositoryTableViewCell.h */,
+				3ECCC9BA1E26317600E33F6F /* RepositoryTableViewCell.m */,
+				3ECCC9BB1E26317600E33F6F /* RepositoryTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -255,6 +263,7 @@
 			files = (
 				3EDC33FE1E0695CD00B96CB1 /* LaunchScreen.storyboard in Resources */,
 				3EDC33FB1E0695CD00B96CB1 /* Assets.xcassets in Resources */,
+				3ECCC9BD1E26317600E33F6F /* RepositoryTableViewCell.xib in Resources */,
 				3EDC33F91E0695CD00B96CB1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,6 +329,7 @@
 				3EDC34131E07DF7300B96CB1 /* TrendingViewController.m in Sources */,
 				3EDC33F31E0695CD00B96CB1 /* AppDelegate.m in Sources */,
 				3E7092581E0E69D900DB50B7 /* LanguageViewController.m in Sources */,
+				3ECCC9BC1E26317600E33F6F /* RepositoryTableViewCell.m in Sources */,
 				3EDC33F01E0695CD00B96CB1 /* main.m in Sources */,
 				3ECCC9B81E22441400E33F6F /* Repository.m in Sources */,
 				3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */,

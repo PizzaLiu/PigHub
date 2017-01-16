@@ -14,6 +14,7 @@
 #import "MJRefresh.h"
 #import "DataEngine.h"
 #import "Repository.h"
+#import "RepositoryTableViewCell.h"
 
 NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
@@ -68,7 +69,10 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 0, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(40, 0, 0, 0);
 
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
+    //[self.tableView registerClass:[RepositoryTableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
+
+    UINib *nib = [UINib nibWithNibName:@"RepositoryTableViewCell" bundle:nil];
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"UITableViewCell"];
 
     [self initRefresh];
 }
@@ -140,14 +144,21 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
+    RepositoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
     Repository *repo = [self.tableData objectAtIndex:indexPath.row];
 
-    cell.textLabel.text = repo.name;
-    cell.textLabel.textColor = [UIColor whiteColor];
-    cell.backgroundColor = [self randomColor];
+    cell.nameLabel.text = repo.name;
+    cell.descLabel.text = repo.desc;
+    cell.starLabel.text = repo.starCount;
+    cell.ownerLabel.text = repo.orgName;
+    cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
 
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [RepositoryTableViewCell cellHeight];
 }
 
 - (UIColor *)randomColor
