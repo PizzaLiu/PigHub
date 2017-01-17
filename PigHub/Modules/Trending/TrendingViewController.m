@@ -23,11 +23,14 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
 @property (weak, nonatomic) IBOutlet SegmentBarView *segmentBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) UIImage *shadowImageView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *sinceSigmentBar;
+//@property (weak, nonatomic) UIImage *shadowImageView;
 @property (weak, nonatomic) UIImageView *navHairline;
 
 @property (strong, nonatomic) NSArray<Repository *> *tableData;
 @property (strong, nonatomic) Language *targetLanguage;
+
+@property (strong, nonatomic) NSString *sinceStr;
 
 @end
 
@@ -201,7 +204,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
 
         strongify(self);
-        [DataEngine getTrendingDataWithSince:@"daily" lang:self.targetLanguage.query isDeveloper:NO completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
+        [DataEngine getTrendingDataWithSince:self.sinceStr lang:self.targetLanguage.query isDeveloper:NO completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
             self.tableData = repositories;
             [self.tableView reloadData];
             [tableView.mj_header endRefreshing];
@@ -217,6 +220,17 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     [tableView.mj_header beginRefreshing];
 }
 
+#pragma mark - segmentbar
 
+- (IBAction)sinceSegmentChange:(id)sender {
+    static NSArray *sinces;
+    if (!sinces) {
+        sinces = @[@"daily", @"weekly", @"monthly"];
+    }
+    NSInteger index = [sender selectedSegmentIndex];
+    NSLog(@"change: %ld", (long)index);
+    self.sinceStr = sinces[index];
+    [self.tableView.mj_header beginRefreshing];
+}
 
 @end
