@@ -213,6 +213,8 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
     }];
     //self.tableView.mj_header = header;
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:nil];
+    [tableView.mj_footer endRefreshingWithNoMoreData];
 
     tableView.mj_header.automaticallyChangeAlpha = YES;
     ((MJRefreshNormalHeader *)tableView.mj_header).lastUpdatedTimeLabel.hidden = YES;
@@ -229,7 +231,6 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
         sinces = @[@"daily", @"weekly", @"monthly"];
     }
     NSInteger index = [sender selectedSegmentIndex];
-    NSLog(@"change: %ld", (long)index);
     self.sinceStr = sinces[index];
     [self.tableView.mj_header beginRefreshing];
 }
