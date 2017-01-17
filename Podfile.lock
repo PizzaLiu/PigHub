@@ -14,26 +14,24 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - FlyImage (1.0):
-    - AFNetworking (~> 3.1)
-    - FlyImage/Core (= 1.0)
-  - FlyImage/Core (1.0):
-    - AFNetworking (~> 3.1)
   - HTMLReader (2.0.1)
   - MJRefresh (3.1.12)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
 
 DEPENDENCIES:
   - AFNetworking
-  - FlyImage
   - HTMLReader
   - MJRefresh
+  - SDWebImage
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  FlyImage: 4a39cbc95b5a40cbec6a5ea5747f978e50c8e732
   HTMLReader: 9ce35242b19732b9f5a09a583f7f27b1724e8b7d
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
-PODFILE CHECKSUM: f16df873a71466c7525489967626dfd6f16ff51b
+PODFILE CHECKSUM: d708a85bfad0ac3bbb9419ae082101186f435cc1
 
 COCOAPODS: 1.1.1

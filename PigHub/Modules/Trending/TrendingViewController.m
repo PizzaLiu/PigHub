@@ -15,7 +15,7 @@
 #import "DataEngine.h"
 #import "Repository.h"
 #import "RepositoryTableViewCell.h"
-#import "FlyImage.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
@@ -158,9 +158,13 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
     cell.langLabel.text = repo.langName;
 
+    /*
     [cell.avatarImage setPlaceHolderImageName:@"GithubLogo"
                           thumbnailURL:[NSURL URLWithString:[repo avatarUrlForSize:10]]
                            originalURL:[NSURL URLWithString:[repo avatarUrlForSize:50]]];
+     */
+    [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[repo avatarUrlForSize:50]]
+                 placeholderImage:[UIImage imageNamed:@"GithubLogo"]];
 
     return cell;
 }
