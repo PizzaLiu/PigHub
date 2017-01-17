@@ -156,6 +156,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     cell.starLabel.text = repo.starCount;
     cell.ownerLabel.text = repo.orgName;
     cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
+    cell.langLabel.text = repo.langName;
 
     [cell.avatarImage setPlaceHolderImageName:@"GithubLogo"
                           thumbnailURL:[NSURL URLWithString:[repo avatarUrlForSize:10]]
