@@ -196,6 +196,31 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     return nil;
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat offsetY = scrollView.contentOffset.y + self.tableView.contentInset.top;
+    CGFloat panTranslationY = [scrollView.panGestureRecognizer translationInView:self.tableView].y;
+    if (offsetY > 40) {
+        // show in down scroll
+        if (panTranslationY > 0) {
+            [UIView animateWithDuration:0.5 animations:^{
+                [self.segmentBar setAlpha:1.0];
+                [self.navHairline setHidden:YES];
+            }];
+        }
+        // hide in up scroll
+        else {
+            [UIView animateWithDuration:0.5 animations:^{
+                [self.segmentBar setAlpha:0.0];
+                [self.navHairline setHidden:NO];
+            }];
+        }
+    } else {
+        [self.navHairline setHidden:YES];
+        [self.segmentBar setAlpha:1.0];
+    }
+}
+
 #pragma mark - refresh
 
 - (void)initRefresh
