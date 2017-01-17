@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E185C931E2E31DE0017E46A /* RepositoryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185C921E2E31DE0017E46A /* RepositoryDetailViewController.m */; };
 		3E7092581E0E69D900DB50B7 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7092571E0E69D900DB50B7 /* LanguageViewController.m */; };
 		3E9CF1991E1538BA00238038 /* LanguageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9CF1981E1538BA00238038 /* LanguageModel.m */; };
 		3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCC9B41E21265300E33F6F /* DataEngine.m */; };
@@ -25,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E185C911E2E31DE0017E46A /* RepositoryDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RepositoryDetailViewController.h; path = Common/ViewControllers/RepositoryDetailViewController.h; sourceTree = "<group>"; };
+		3E185C921E2E31DE0017E46A /* RepositoryDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RepositoryDetailViewController.m; path = Common/ViewControllers/RepositoryDetailViewController.m; sourceTree = "<group>"; };
 		3E7092561E0E69D900DB50B7 /* LanguageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageViewController.h; path = Common/ViewControllers/LanguageViewController.h; sourceTree = "<group>"; };
 		3E7092571E0E69D900DB50B7 /* LanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguageViewController.m; path = Common/ViewControllers/LanguageViewController.m; sourceTree = "<group>"; };
 		3E9CF1971E1538BA00238038 /* LanguageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageModel.h; path = Common/Models/LanguageModel.h; sourceTree = "<group>"; };
@@ -73,6 +76,8 @@
 			children = (
 				3E7092561E0E69D900DB50B7 /* LanguageViewController.h */,
 				3E7092571E0E69D900DB50B7 /* LanguageViewController.m */,
+				3E185C911E2E31DE0017E46A /* RepositoryDetailViewController.h */,
+				3E185C921E2E31DE0017E46A /* RepositoryDetailViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -328,6 +333,7 @@
 				3EDC34161E08287C00B96CB1 /* SegmentBarView.m in Sources */,
 				3EDC34131E07DF7300B96CB1 /* TrendingViewController.m in Sources */,
 				3EDC33F31E0695CD00B96CB1 /* AppDelegate.m in Sources */,
+				3E185C931E2E31DE0017E46A /* RepositoryDetailViewController.m in Sources */,
 				3E7092581E0E69D900DB50B7 /* LanguageViewController.m in Sources */,
 				3ECCC9BC1E26317600E33F6F /* RepositoryTableViewCell.m in Sources */,
 				3EDC33F01E0695CD00B96CB1 /* main.m in Sources */,

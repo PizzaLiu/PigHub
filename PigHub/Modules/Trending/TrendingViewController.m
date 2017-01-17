@@ -16,6 +16,7 @@
 #import "Repository.h"
 #import "RepositoryTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "RepositoryDetailViewController.h"
 
 NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
@@ -70,8 +71,8 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    self.tableView.contentInset = UIEdgeInsetsMake(104, 0, 50, 0);
-    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(104, 0, 50, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(104, 0, 48, 0);
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(104, 0, 48, 0);
 
     //[self.tableView registerClass:[RepositoryTableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
 
@@ -162,11 +163,6 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
     cell.langLabel.text = repo.langName;
 
-    /*
-    [cell.avatarImage setPlaceHolderImageName:@"GithubLogo"
-                          thumbnailURL:[NSURL URLWithString:[repo avatarUrlForSize:10]]
-                           originalURL:[NSURL URLWithString:[repo avatarUrlForSize:50]]];
-     */
     [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[repo avatarUrlForSize:50]]
                  placeholderImage:[UIImage imageNamed:@"GithubLogo"]];
 
@@ -178,13 +174,15 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     return [RepositoryTableViewCell cellHeight];
 }
 
-- (UIColor *)randomColor
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat r = arc4random_uniform(255);
-    CGFloat g = arc4random_uniform(255);
-    CGFloat b = arc4random_uniform(255);
-
-    return [UIColor colorWithRed:(r / 255.0) green:(g / 255.0) blue:(b / 255.0) alpha:1];
+    Repository *repo = [self.tableData objectAtIndex:indexPath.row];
+    RepositoryDetailViewController *rdvc = [[RepositoryDetailViewController alloc] init];
+    rdvc.repo = repo;
+    rdvc.hidesBottomBarWhenPushed = YES;
+    [self.navHairline setHidden:NO];
+    [self.navigationController pushViewController:rdvc animated:YES];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - navbar
