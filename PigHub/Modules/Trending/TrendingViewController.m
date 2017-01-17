@@ -67,11 +67,11 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
         }
     }
 
-    //if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
-    //    self.automaticallyAdjustsScrollViewInsets = NO;
-    //}
-    self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 0, 0);
-    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(40, 0, 0, 0);
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    self.tableView.contentInset = UIEdgeInsetsMake(104, 0, 50, 0);
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(104, 0, 50, 0);
 
     //[self.tableView registerClass:[RepositoryTableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
 
@@ -90,7 +90,11 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 {
     [super viewWillAppear:animated];
 
-    [self.navHairline setHidden:YES];
+    if (self.segmentBar.alpha > 0) {
+        [self.navHairline setHidden:YES];
+    } else {
+        [self.navHairline setHidden:NO];
+    }
 
     if (self.targetLanguage) {
         self.navigationItem.title = self.targetLanguage.name;
