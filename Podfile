@@ -4,4 +4,5 @@ target 'PigHub' do
     pod 'MJRefresh'
     pod 'AFNetworking'
     pod 'HTMLReader'
+    pod 'FlyImage'
 end

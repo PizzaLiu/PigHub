@@ -10,4 +10,9 @@
 
 @implementation Repository
 
+- (NSString *)avatarUrlForSize:(int)size
+{
+    return [NSString stringWithFormat:@"%@?s=%d", self.avatarUrl, size];
+}
+
 @end

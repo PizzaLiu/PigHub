@@ -18,4 +18,6 @@
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, strong) NSString *starCount;
 
+- (NSString *) avatarUrlForSize:(int) size;
+
 @end

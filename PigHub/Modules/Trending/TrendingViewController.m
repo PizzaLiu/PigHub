@@ -15,6 +15,7 @@
 #import "DataEngine.h"
 #import "Repository.h"
 #import "RepositoryTableViewCell.h"
+#import "FlyImage.h"
 
 NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
@@ -152,6 +153,10 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     cell.starLabel.text = repo.starCount;
     cell.ownerLabel.text = repo.orgName;
     cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
+
+    [cell.avatarImage setPlaceHolderImageName:@"GithubLogo"
+                          thumbnailURL:[NSURL URLWithString:[repo avatarUrlForSize:10]]
+                           originalURL:[NSURL URLWithString:[repo avatarUrlForSize:50]]];
 
     return cell;
 }

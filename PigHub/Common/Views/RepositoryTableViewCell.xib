@@ -39,7 +39,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gX6-lf-xfz">
-                                <rect key="frame" x="58" y="8" width="132" height="21"/>
+                                <rect key="frame" x="58" y="8" width="172" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="ZQR-EL-BhO"/>
                                 </constraints>
@@ -57,9 +57,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ke5-XU-Fe6">
-                                <rect key="frame" x="200" y="8" width="100" height="21"/>
+                                <rect key="frame" x="240" y="8" width="60" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="eLX-Cc-IQ8"/>
+                                    <constraint firstAttribute="width" constant="60" id="eLX-Cc-IQ8"/>
                                     <constraint firstAttribute="height" constant="21" id="pgs-i0-NwO"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
