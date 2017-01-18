@@ -90,6 +90,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.tableView.delegate = self;
 
     if (self.segmentBar.alpha > 0) {
         [self.navHairline setHidden:YES];
@@ -113,6 +114,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     [self.navHairline setHidden:NO];
+    self.tableView.delegate = nil;
 
     __weak UIViewController *desVc = segue.destinationViewController;
     if ([segue.identifier isEqualToString:@"LanguageSelector"]) {
