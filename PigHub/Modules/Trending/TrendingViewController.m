@@ -25,7 +25,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 @property (weak, nonatomic) IBOutlet SegmentBarView *segmentBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *sinceSigmentBar;
-//@property (weak, nonatomic) UIImage *shadowImageView;
+@property (weak, nonatomic) IBOutlet UILabel *noticeLabel;
 @property (weak, nonatomic) UIImageView *navHairline;
 
 @property (strong, nonatomic) NSArray<Repository *> *tableData;
@@ -100,6 +100,8 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     if (self.targetLanguage) {
         self.navigationItem.title = self.targetLanguage.name;
     }
+
+    self.noticeLabel.hidden = YES;
 
 }
 
@@ -236,7 +238,15 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
 
         strongify(self);
+        self.noticeLabel.hidden = YES;
         [DataEngine getTrendingDataWithSince:self.sinceStr lang:self.targetLanguage.query isDeveloper:NO completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
+            if (error) {
+                self.noticeLabel.text = @"error occured in loading data";
+                self.noticeLabel.hidden = NO;
+            } else if ([repositories count] <= 0) {
+                self.noticeLabel.text = @"no relatived data or being dissected";
+                self.noticeLabel.hidden = NO;
+            }
             self.tableData = repositories;
             [self.tableView reloadData];
             [tableView.mj_header endRefreshing];

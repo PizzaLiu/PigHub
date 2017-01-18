@@ -49,6 +49,15 @@
                                     <outlet property="delegate" destination="Pcq-zj-SQz" id="bLk-ui-Hok"/>
                                 </connections>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="notice" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kWc-W2-PW1">
+                                <rect key="frame" x="0.0" y="184" width="320" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="D9k-qN-QEB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.75686274509803919" green="0.75686274509803919" blue="0.75686274509803919" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jaw-BG-V4I" customClass="SegmentBarView">
                                 <rect key="frame" x="0.0" y="64" width="320" height="40"/>
                                 <constraints>
@@ -79,9 +88,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="kWc-W2-PW1" firstAttribute="top" secondItem="Jaw-BG-V4I" secondAttribute="bottom" constant="80" id="3cM-Ni-Kf4"/>
                             <constraint firstItem="8yk-vE-DVM" firstAttribute="leading" secondItem="aen-Xp-5xe" secondAttribute="leading" id="5jx-sG-lwX"/>
                             <constraint firstItem="aDB-xB-CV0" firstAttribute="top" secondItem="8yk-vE-DVM" secondAttribute="bottom" constant="-49" id="CXa-1T-eR3"/>
                             <constraint firstItem="Jaw-BG-V4I" firstAttribute="leading" secondItem="aen-Xp-5xe" secondAttribute="leading" id="Hn1-54-kLE"/>
+                            <constraint firstItem="kWc-W2-PW1" firstAttribute="leading" secondItem="aen-Xp-5xe" secondAttribute="leading" id="LCZ-ly-QiB"/>
+                            <constraint firstAttribute="trailing" secondItem="kWc-W2-PW1" secondAttribute="trailing" id="bZP-hd-mxz"/>
                             <constraint firstAttribute="trailing" secondItem="8yk-vE-DVM" secondAttribute="trailing" id="cUj-gr-RQy"/>
                             <constraint firstItem="8yk-vE-DVM" firstAttribute="top" secondItem="aen-Xp-5xe" secondAttribute="top" id="sex-RB-prP"/>
                             <constraint firstItem="Jaw-BG-V4I" firstAttribute="top" secondItem="i5N-gQ-vp1" secondAttribute="bottom" id="vtr-ON-m4a"/>
@@ -98,6 +110,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="noticeLabel" destination="kWc-W2-PW1" id="VVR-Fv-zFR"/>
                         <outlet property="segmentBar" destination="Jaw-BG-V4I" id="ZT7-Mr-8b9"/>
                         <outlet property="sinceSigmentBar" destination="ufZ-PP-8VN" id="2rJ-xJ-oGJ"/>
                         <outlet property="tableView" destination="8yk-vE-DVM" id="mXz-2E-EgY"/>
