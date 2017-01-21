@@ -25,7 +25,7 @@
 
 + (float)cellHeight
 {
-    return 91;
+    return 61;
 }
 
 @end

@@ -184,7 +184,7 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
 
     cell.nameLabel.text = user.name;
     cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
-    [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[user avatarUrlForSize:80]]
+    [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[user avatarUrlForSize:50]]
                         placeholderImage:[UIImage imageNamed:@"GithubLogo"]];
 
     return cell;
