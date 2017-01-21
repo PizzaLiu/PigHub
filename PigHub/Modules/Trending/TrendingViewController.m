@@ -17,6 +17,7 @@
 #import "RepositoryTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "RepositoryDetailViewController.h"
+#import "UserModel.h"
 
 NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 

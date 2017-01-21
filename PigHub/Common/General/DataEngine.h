@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Repository.h"
+#import "UserModel.h"
 #import "AFNetworking.h"
 
 #pragma mark - AFAppDotNetAPIClient
@@ -31,5 +32,9 @@
                                                query:(NSString *)query
                                                 sort:(NSString *)sort
                                    completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)searchUsersWithPage:(NSInteger)page
+                                        query:(NSString *)query
+                                         sort:(NSString *)sort
+                            completionHandler:(void (^)(NSArray<UserModel *> *users, NSError *error))completionBlock;
 
 @end

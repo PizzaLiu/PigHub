@@ -17,6 +17,7 @@
 #import "DataEngine.h"
 #import "RepositoryTableViewCell.h"
 #import "RepositoryDetailViewController.h"
+#import "UserTableViewCell.h"
 
 NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey";
 
@@ -28,10 +29,13 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
 @property (weak, nonatomic) IBOutlet UILabel *noticeLabel;
 @property (weak, nonatomic) UIImageView *navHairline;
 
-@property (strong, nonatomic) NSMutableArray<Repository *> *tableData;
+@property (strong, nonatomic) NSMutableArray<Repository *> *repoTableData;
+@property (strong, nonatomic) NSMutableArray<UserModel *> *userTableData;
+@property (strong, nonatomic) NSMutableArray *tableData;
 @property (strong, nonatomic) Language *targetLanguage;
 
 @property (assign, nonatomic) long repoNowPage;
+@property (assign, nonatomic) long userNowPage;
 
 @end
 
@@ -71,8 +75,10 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
 
     //[self.tableView registerClass:[RepositoryTableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
 
-    UINib *nib = [UINib nibWithNibName:@"RepositoryTableViewCell" bundle:nil];
-    [self.tableView registerNib:nib forCellReuseIdentifier:@"UITableViewCell"];
+    UINib *repoNib = [UINib nibWithNibName:@"RepositoryTableViewCell" bundle:nil];
+    [self.tableView registerNib:repoNib forCellReuseIdentifier:@"RepoTableViewCell"];
+    UINib *userNib = [UINib nibWithNibName:@"UserTableViewCell" bundle:nil];
+    [self.tableView registerNib:userNib forCellReuseIdentifier:@"UserTableViewCell"];
 
     [self initRefresh];
 }
@@ -135,7 +141,11 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    if ([self.typeSigment selectedSegmentIndex] == 0) {
+        self.userTableData = nil;
+    } else {
+        self.repoTableData = nil;
+    }
 }
 
 #pragma mark - Table view data source
@@ -145,20 +155,36 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.tableData count];
+    if ([self.typeSigment selectedSegmentIndex] == 0) {
+        return [self.repoTableData count];
+    }
+
+    return [self.userTableData count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    RepositoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
-    Repository *repo = [self.tableData objectAtIndex:indexPath.row];
 
-    cell.nameLabel.text = repo.name;
+    if ([self.typeSigment selectedSegmentIndex] == 0) {
+        RepositoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepoTableViewCell" forIndexPath:indexPath];
+        Repository *repo = [self.repoTableData objectAtIndex:indexPath.row];
+
+        cell.nameLabel.text = repo.name;
+        cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
+        cell.descLabel.text = repo.desc;
+        cell.starLabel.text = repo.starCount;
+        cell.ownerLabel.text = repo.orgName;
+        cell.langLabel.text = repo.langName;
+        [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[repo avatarUrlForSize:50]]
+                            placeholderImage:[UIImage imageNamed:@"GithubLogo"]];
+        return cell;
+    }
+
+    UserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserTableViewCell" forIndexPath:indexPath];
+    UserModel *user = [self.userTableData objectAtIndex:indexPath.row];
+
+    cell.nameLabel.text = user.name;
     cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
-    cell.descLabel.text = repo.desc;
-    cell.starLabel.text = repo.starCount;
-    cell.ownerLabel.text = repo.orgName;
-    cell.langLabel.text = repo.langName;
-    [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[repo avatarUrlForSize:50]]
+    [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[user avatarUrlForSize:80]]
                         placeholderImage:[UIImage imageNamed:@"GithubLogo"]];
 
     return cell;
@@ -166,18 +192,26 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [RepositoryTableViewCell cellHeight];
+    if ([self.typeSigment selectedSegmentIndex] == 0) {
+        return [RepositoryTableViewCell cellHeight];
+    }
+
+    return [UserTableViewCell cellHeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Repository *repo = [self.tableData objectAtIndex:indexPath.row];
-    RepositoryDetailViewController *rdvc = [[RepositoryDetailViewController alloc] init];
-    rdvc.repo = repo;
-    rdvc.hidesBottomBarWhenPushed = YES;
-    [self.navHairline setHidden:NO];
-    [self.navigationController pushViewController:rdvc animated:YES];
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if ([self.typeSigment selectedSegmentIndex] == 0) {
+        Repository *repo = [self.repoTableData objectAtIndex:indexPath.row];
+        RepositoryDetailViewController *rdvc = [[RepositoryDetailViewController alloc] init];
+        rdvc.repo = repo;
+        rdvc.hidesBottomBarWhenPushed = YES;
+        [self.navHairline setHidden:NO];
+        [self.navigationController pushViewController:rdvc animated:YES];
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    } else {
+        NSLog(@"TODO: select user");
+    }
 }
 
 
@@ -232,40 +266,86 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
 
     tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
 
+        [tableView reloadData];
         strongify(self);
         self.noticeLabel.hidden = YES;
-        [[DataEngine sharedEngine] searchRepositoriesWithPage:1 query:[NSString stringWithFormat:@"language:%@", self.targetLanguage.query] sort:@"stars" completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
-            if (error) {
-                self.noticeLabel.text = @"error occured in loading data";
-                self.noticeLabel.hidden = NO;
-            } else if ([repositories count] <= 0) {
-                self.noticeLabel.text = @"no relatived data or being dissected";
-                self.noticeLabel.hidden = NO;
+
+        if ([self.typeSigment selectedSegmentIndex] == 0) {
+            [[DataEngine sharedEngine] searchRepositoriesWithPage:1 query:[NSString stringWithFormat:@"language:%@", self.targetLanguage.query] sort:@"stars" completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
+                if (error) {
+                    self.noticeLabel.text = @"error occured in loading data";
+                    self.noticeLabel.hidden = NO;
+                } else if ([repositories count] <= 0) {
+                    self.noticeLabel.text = @"no relatived data or being dissected";
+                    self.noticeLabel.hidden = NO;
+                }
+                self.repoTableData = [NSMutableArray arrayWithArray:repositories];
+                [tableView reloadData];
+                [tableView.mj_header endRefreshing];
+                self.repoNowPage = 1;
+            }];
+        } else {
+            NSString *query;
+            if ([self.targetLanguage.query isEqualToString:@""]) {
+                query = @"repos:>1";
+            } else {
+                query = [NSString stringWithFormat:@"language:%@", self.targetLanguage.query];
             }
-            self.tableData = [NSMutableArray arrayWithArray:repositories];
-            [tableView reloadData];
-            [tableView.mj_header endRefreshing];
-            self.repoNowPage = 1;
-        }];
+            [[DataEngine sharedEngine] searchUsersWithPage:1 query:query sort:@"stars" completionHandler:^(NSArray<UserModel *> *users, NSError *error) {
+                if (error) {
+                    self.noticeLabel.text = @"error occured in loading data";
+                    self.noticeLabel.hidden = NO;
+                } else if ([users count] <= 0) {
+                    self.noticeLabel.text = @"no relatived data or being dissected";
+                    self.noticeLabel.hidden = NO;
+                }
+                self.userTableData = [NSMutableArray arrayWithArray:users];
+                [tableView reloadData];
+                [tableView.mj_header endRefreshing];
+                self.userNowPage = 1;
+            }];
+        }
 
     }];
 
     tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
 
         strongify(self);
-        [[DataEngine sharedEngine] searchRepositoriesWithPage:(self.repoNowPage+1) query:[NSString stringWithFormat:@"language:%@", self.targetLanguage.query] sort:@"stars" completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
-            if (error) {
-                ;
-            } else if ([repositories count] <= 0) {
-                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+
+        if ([self.typeSigment selectedSegmentIndex] == 0) {
+            [[DataEngine sharedEngine] searchRepositoriesWithPage:(self.repoNowPage+1) query:[NSString stringWithFormat:@"language:%@", self.targetLanguage.query] sort:@"stars" completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
+                if (error) {
+                    ;
+                } else if ([repositories count] <= 0) {
+                    [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                } else {
+                    [self.repoTableData addObjectsFromArray:repositories];
+                    [tableView reloadData];
+                    self.repoNowPage++;
+                }
+                [tableView.mj_footer endRefreshing];
+            }];
+        } else {
+            NSString *query;
+            if ([self.targetLanguage.query isEqualToString:@""]) {
+                query = @"repos:>1";
             } else {
-                [self.tableData addObjectsFromArray:repositories];
-                [tableView reloadData];
-                self.repoNowPage++;
+                query = [NSString stringWithFormat:@"language:%@", self.targetLanguage.query];
             }
-            [tableView.mj_footer endRefreshing];
-        }];
-        
+            [[DataEngine sharedEngine] searchUsersWithPage:(self.userNowPage+1) query:query sort:@"stars" completionHandler:^(NSArray<UserModel *> *users, NSError *error) {
+                if (error) {
+                    ;
+                } else if ([users count] <= 0) {
+                    [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                } else {
+                    [self.userTableData addObjectsFromArray:users];
+                    [tableView reloadData];
+                    self.userNowPage++;
+                }
+                [tableView.mj_footer endRefreshing];
+            }];
+        }
+
     }];
 
     tableView.mj_header.automaticallyChangeAlpha = YES;

@@ -179,7 +179,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
                     owner = [item valueForKey:@"owner"];
                     repo.name = [item valueForKey:@"name"];
                     repo.desc = [item valueForKey:@"description"] == (id)[NSNull null] ?  @"" : [item valueForKey:@"description"];
-                    repo.langName = [item valueForKey:@"language"];
+                    repo.langName = [item valueForKey:@"language"] == (id)[NSNull null] ? @"" : [item valueForKey:@"language"];
                     repo.starCount =[DataEngine formatNumberForInt:(int)[item valueForKey:@"stargazers_count"]];
                     //repo.starCount = [NSString stringWithFormat:@"%@", [item valueForKey:@"stargazers_count"]];
                     repo.href = [item valueForKey:@"html_url"];
@@ -201,5 +201,47 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
     return task;
 }
 
+//https://developer.github.com/v3/search/#search-users
+//Search users
+- (NSURLSessionDataTask *)searchUsersWithPage:(NSInteger)page
+                                               query:(NSString *)query
+                                                sort:(NSString *)sort
+                                   completionHandler:(void (^)(NSArray<UserModel *> *users, NSError *error))completionBlock
+{
+    NSString *getString = [NSString stringWithFormat:@"/search/users?q=%@&sort=%@&page=%ld",query,sort,(long)page];
+    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+    getString = [getString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            //NSInteger totalCount = [[responseObject objectForKey:@"total_count"] intValue];
+            NSArray *list = [responseObject objectForKey:@"items"];
+            if ([list isKindOfClass:[NSArray class]] && list.count > 0) {
+                NSMutableArray<UserModel *> *users = [[NSMutableArray alloc] init];
+                UserModel *user = nil;
+                NSDictionary *item = nil;
+                for (NSInteger i = 0; i < list.count; i++) {
+                    user = [[UserModel alloc] init];
+                    item = [list objectAtIndex:i];
+                    user.name = [item valueForKey:@"login"];
+                    user.avatarUrl = [item valueForKey:@"avatar_url"];
+                    user.href = [item valueForKey:@"html_url"];
+                    user.score = [[item valueForKey:@"score"] floatValue];
+                    [users addObject:user];
+                }
+                completionBlock(users, nil);
+            } else {
+                completionBlock(nil, responseObject);
+            }
+        } else {
+            completionBlock(nil, responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
+    }];
+
+    return task;
+}
 
 @end

@@ -1,20 +1,20 @@
 //
-//  Repository.m
+//  UserModel.m
 //  PigHub
 //
-//  Created by Rainbow on 2017/1/8.
+//  Created by Rainbow on 2017/1/21.
 //  Copyright © 2017年 PizzaLiu. All rights reserved.
 //
 
-#import "Repository.h"
+#import "UserModel.h"
 #import <UIKit/UIKit.h>
 
-@implementation Repository
+@implementation UserModel
 
 - (NSString *)avatarUrlForSize:(int)size
 {
     int realSize = [UIScreen mainScreen].scale * size;
-    return [NSString stringWithFormat:@"%@?s=%d", self.avatarUrl, realSize];
+    return [NSString stringWithFormat:@"%@&s=%d", self.avatarUrl, realSize];
 }
 
 @end
