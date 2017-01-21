@@ -12,6 +12,7 @@
 		3E185C9A1E333CA00017E46A /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185C991E333CA00017E46A /* UserModel.m */; };
 		3E185C9E1E33420D0017E46A /* UserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185C9C1E33420D0017E46A /* UserTableViewCell.m */; };
 		3E185C9F1E33420D0017E46A /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E185C9D1E33420D0017E46A /* UserTableViewCell.xib */; };
+		3E185CA21E3386E80017E46A /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CA11E3386E80017E46A /* UserDetailViewController.m */; };
 		3E7092581E0E69D900DB50B7 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7092571E0E69D900DB50B7 /* LanguageViewController.m */; };
 		3E9CF1991E1538BA00238038 /* LanguageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9CF1981E1538BA00238038 /* LanguageModel.m */; };
 		3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCC9B41E21265300E33F6F /* DataEngine.m */; };
@@ -39,6 +40,8 @@
 		3E185C9B1E33420D0017E46A /* UserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserTableViewCell.h; path = Common/Views/UserTableViewCell.h; sourceTree = "<group>"; };
 		3E185C9C1E33420D0017E46A /* UserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserTableViewCell.m; path = Common/Views/UserTableViewCell.m; sourceTree = "<group>"; };
 		3E185C9D1E33420D0017E46A /* UserTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserTableViewCell.xib; path = Common/Views/UserTableViewCell.xib; sourceTree = "<group>"; };
+		3E185CA01E3386E80017E46A /* UserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDetailViewController.h; path = Common/ViewControllers/UserDetailViewController.h; sourceTree = "<group>"; };
+		3E185CA11E3386E80017E46A /* UserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDetailViewController.m; path = Common/ViewControllers/UserDetailViewController.m; sourceTree = "<group>"; };
 		3E7092561E0E69D900DB50B7 /* LanguageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageViewController.h; path = Common/ViewControllers/LanguageViewController.h; sourceTree = "<group>"; };
 		3E7092571E0E69D900DB50B7 /* LanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguageViewController.m; path = Common/ViewControllers/LanguageViewController.m; sourceTree = "<group>"; };
 		3E9CF1971E1538BA00238038 /* LanguageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageModel.h; path = Common/Models/LanguageModel.h; sourceTree = "<group>"; };
@@ -98,6 +101,8 @@
 				3E7092571E0E69D900DB50B7 /* LanguageViewController.m */,
 				3E185C911E2E31DE0017E46A /* RepositoryDetailViewController.h */,
 				3E185C921E2E31DE0017E46A /* RepositoryDetailViewController.m */,
+				3E185CA01E3386E80017E46A /* UserDetailViewController.h */,
+				3E185CA11E3386E80017E46A /* UserDetailViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -368,6 +373,7 @@
 				3EDC33F01E0695CD00B96CB1 /* main.m in Sources */,
 				3ECCC9B81E22441400E33F6F /* Repository.m in Sources */,
 				3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */,
+				3E185CA21E3386E80017E46A /* UserDetailViewController.m in Sources */,
 				3E185C971E31B42A0017E46A /* RankingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

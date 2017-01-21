@@ -18,6 +18,7 @@
 #import "RepositoryTableViewCell.h"
 #import "RepositoryDetailViewController.h"
 #import "UserTableViewCell.h"
+#import "UserDetailViewController.h"
 
 NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey";
 
@@ -210,7 +211,13 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
         [self.navigationController pushViewController:rdvc animated:YES];
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     } else {
-        NSLog(@"TODO: select user");
+        UserModel *user = [self.userTableData objectAtIndex:indexPath.row];
+        UserDetailViewController *udvc = [[UserDetailViewController alloc] init];
+        udvc.user = user;
+        udvc.hidesBottomBarWhenPushed = YES;
+        [self.navHairline setHidden:NO];
+        [self.navigationController pushViewController:udvc animated:YES];
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
 
