@@ -25,6 +25,11 @@
 
 +(instancetype)sharedEngine;
 
-+ (void)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionHandler;
+- (void)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionHandler;
+
+- (NSURLSessionDataTask *)searchRepositoriesWithPage:(NSInteger)page
+                                               query:(NSString *)query
+                                                sort:(NSString *)sort
+                                   completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionBlock;
 
 @end

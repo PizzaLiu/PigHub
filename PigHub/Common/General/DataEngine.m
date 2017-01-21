@@ -13,7 +13,7 @@
 
 #pragma mark - AFAppDotNetAPIClient
 
-static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com/";
+static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
 
 @implementation AFAppDotNetAPIClient
 
@@ -21,7 +21,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com/"
     static AFAppDotNetAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[AFAppDotNetAPIClient alloc] init];
+        _sharedClient = [[AFAppDotNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:AFAppDotNetAPIBaseURLString]];
         _sharedClient.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
     });
 
@@ -73,9 +73,21 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com/"
     return [str stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
++ (NSString *)formatNumberForInt:(NSInteger)num
+{
+    static NSNumberFormatter *formatter = nil;
+    if (!formatter) {
+        formatter = [[NSNumberFormatter alloc] init];
+        [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+        [formatter setAlwaysShowsDecimalSeparator:NO];
+    }
+
+    return [formatter stringFromNumber:[NSNumber numberWithInteger:num]];
+}
+
 #pragma mark - Github page
 
-+ (void)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionBlock
+- (void)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionBlock
 {
     // /trending/developers  /trending
     // /trending/css  /trending/php
@@ -92,13 +104,9 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com/"
     __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
     NSString *url = [[NSString alloc] initWithFormat:@"https://github.com/trending%@%@?since=%@", developer, langDir, since];
 
-    weakify(self);
-
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager.requestSerializer setValue:@"" forHTTPHeaderField:@"User-Agent"];
     [manager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-
-        strongify(self);
 
         NSError *error = nil;
         NSMutableArray<Repository *> *repositories = nil;
@@ -114,13 +122,13 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com/"
                 repository = [[Repository alloc] init];
 
                 link = [repo firstNodeMatchingSelector:@"h3 a"];
-                repository.langName = [self trimString:[repo firstNodeMatchingSelector:@"[itemprop='programmingLanguage']"].textContent];
-                repository.name = [self trimString:[link childAtIndex:2].textContent];
-                repository.orgName = [self trimString:[[link childAtIndex:1].textContent stringByReplacingOccurrencesOfString:@"/" withString:@""]];
+                repository.langName = [DataEngine trimString:[repo firstNodeMatchingSelector:@"[itemprop='programmingLanguage']"].textContent];
+                repository.name = [DataEngine trimString:[link childAtIndex:2].textContent];
+                repository.orgName = [DataEngine trimString:[[link childAtIndex:1].textContent stringByReplacingOccurrencesOfString:@"/" withString:@""]];
                 repository.avatarUrl = [NSString stringWithFormat:@"https://github.com/%@.png", repository.orgName];
-                repository.href = [link.attributes objectForKey:@"href"];
-                repository.desc = [self trimString:[repo firstNodeMatchingSelector:@".py-1 p"].textContent];
-                repository.starCount = [self trimString:[repo firstNodeMatchingSelector:@"[aria-label='Stargazers']"].textContent];
+                repository.href = [NSString stringWithFormat:@"https://github.com%@", [link.attributes objectForKey:@"href"]];
+                repository.desc = [DataEngine trimString:[repo firstNodeMatchingSelector:@".py-1 p"].textContent];
+                repository.starCount = [DataEngine trimString:[repo firstNodeMatchingSelector:@"[aria-label='Stargazers']"].textContent];
 
                 [repositories addObject:repository];
             }
@@ -142,5 +150,56 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com/"
         completionBlock(nil, error);
     }];
 }
+
+#pragma mark - api
+
+//https://developer.github.com/v3/search/#search-repositories
+//Search repositories
+- (NSURLSessionDataTask *)searchRepositoriesWithPage:(NSInteger)page
+                                               query:(NSString *)query
+                                                sort:(NSString *)sort
+                                   completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionBlock
+{
+    NSString *getString = [NSString stringWithFormat:@"/search/repositories?q=%@&sort=%@&page=%ld",query,sort,(long)page];
+    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            // NSInteger totalCount=[[responseObject objectForKey:@"total_count"] intValue];
+            NSArray *list = [responseObject objectForKey:@"items"];
+            if ([list isKindOfClass:[NSArray class]] && list.count > 0) {
+                NSMutableArray<Repository *> *repositories = [[NSMutableArray alloc] init];
+                Repository *repo = nil;
+                NSDictionary *item = nil;
+                NSDictionary *owner = nil;
+                for (NSInteger i = 0; i < list.count; i++) {
+                    repo = [[Repository alloc] init];
+                    item = [list objectAtIndex:i];
+                    owner = [item valueForKey:@"owner"];
+                    repo.name = [item valueForKey:@"name"];
+                    repo.desc = [item valueForKey:@"description"] == (id)[NSNull null] ?  @"" : [item valueForKey:@"description"];
+                    repo.langName = [item valueForKey:@"language"];
+                    repo.starCount =[DataEngine formatNumberForInt:(int)[item valueForKey:@"stargazers_count"]];
+                    //repo.starCount = [NSString stringWithFormat:@"%@", [item valueForKey:@"stargazers_count"]];
+                    repo.href = [item valueForKey:@"html_url"];
+                    repo.orgName = [owner valueForKey:@"login"];
+                    repo.avatarUrl = [owner valueForKey:@"avatar_url"];
+                    [repositories addObject:repo];
+                }
+                completionBlock(repositories, nil);
+            } else {
+                completionBlock(nil, responseObject);
+            }
+        } else {
+            completionBlock(nil, responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
+    }];
+
+    return task;
+}
+
 
 @end

@@ -48,7 +48,7 @@
     self.view = webView;
     [self.view addSubview:self.loadingView];
 
-    NSString *uri = [NSString stringWithFormat:@"https://github.com%@", self.repo.href];
+    NSString *uri = self.repo.href;
     NSURL *url = [NSURL URLWithString:uri];
     NSURLRequest *req = [[NSURLRequest alloc] initWithURL: url];
     [(UIWebView *)self.view loadRequest:req];

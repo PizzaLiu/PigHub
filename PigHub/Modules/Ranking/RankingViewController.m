@@ -1,57 +1,61 @@
 //
-//  TrendingViewController.m
+//  RankingViewController.m
 //  PigHub
 //
-//  Created by Rainbow on 2016/12/19.
-//  Copyright © 2016年 PizzaLiu. All rights reserved.
+//  Created by Rainbow on 2017/1/20.
+//  Copyright © 2017年 PizzaLiu. All rights reserved.
 //
 
-#import "TrendingViewController.h"
-#import "SegmentBarView.h"
+#import "RankingViewController.h"
 #import "LanguageViewController.h"
-#import "LanguageModel.h"
-#import "WeakifyStrongify.h"
-#import "MJRefresh.h"
-#import "DataEngine.h"
+#import "SegmentBarView.h"
 #import "Repository.h"
-#import "RepositoryTableViewCell.h"
+#import "LanguageModel.h"
+#import "MJRefresh.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "WeakifyStrongify.h"
+#import "DataEngine.h"
+#import "RepositoryTableViewCell.h"
 #import "RepositoryDetailViewController.h"
 
-NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
+NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey";
 
-@interface TrendingViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface RankingViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet SegmentBarView *segmentBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *sinceSigmentBar;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *typeSigment;
 @property (weak, nonatomic) IBOutlet UILabel *noticeLabel;
 @property (weak, nonatomic) UIImageView *navHairline;
 
-@property (strong, nonatomic) NSArray<Repository *> *tableData;
+@property (strong, nonatomic) NSMutableArray<Repository *> *tableData;
 @property (strong, nonatomic) Language *targetLanguage;
 
-@property (strong, nonatomic) NSString *sinceStr;
+@property (assign, nonatomic) long repoNowPage;
 
 @end
 
-@implementation TrendingViewController
+@implementation RankingViewController
 
 + (void)initialize
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *factorySettings = @{SelectedLangQueryPrefKey: @""};
+    NSDictionary *factorySettings = @{RankingSelectedLangQueryPrefKey: @""};
 
     [defaults registerDefaults:factorySettings];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"Ranking";
+
+    self.tableData = [[NSMutableArray alloc] init];
+    self.repoNowPage = 1;
 
     self.navHairline = [self findNavBarHairline];
 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *selectedLangQuery = [defaults objectForKey: SelectedLangQueryPrefKey];
+    NSString *selectedLangQuery = [defaults objectForKey: RankingSelectedLangQueryPrefKey];
     if (selectedLangQuery) {
         Language *selectedLang = [[LanguagesModel sharedStore] languageForQuery:selectedLangQuery];
         if (selectedLang) {
@@ -94,7 +98,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     }
 
     self.noticeLabel.hidden = YES;
-
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -108,7 +112,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     self.tableView.delegate = nil;
 
     __weak UIViewController *desVc = segue.destinationViewController;
-    if ([segue.identifier isEqualToString:@"LanguageSelector"]) {
+    if ([segue.destinationViewController isKindOfClass:[LanguageViewController class]]) {
         LanguageViewController *lvc = (LanguageViewController *)desVc;
         lvc.selectedLanguageQuery = self.targetLanguage.query;
 
@@ -121,7 +125,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
                 [self.tableView reloadData];
                 [self.tableView.mj_header beginRefreshing];
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                [defaults setObject:selectedLang.query forKey:SelectedLangQueryPrefKey];
+                [defaults setObject:selectedLang.query forKey:RankingSelectedLangQueryPrefKey];
             }
         };
 
@@ -134,32 +138,28 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - tableView
+#pragma mark - Table view data source
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.tableData count];
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.tableData count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RepositoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
     Repository *repo = [self.tableData objectAtIndex:indexPath.row];
 
     cell.nameLabel.text = repo.name;
+    cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
     cell.descLabel.text = repo.desc;
     cell.starLabel.text = repo.starCount;
     cell.ownerLabel.text = repo.orgName;
-    cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
     cell.langLabel.text = repo.langName;
-
     [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[repo avatarUrlForSize:50]]
-                 placeholderImage:[UIImage imageNamed:@"GithubLogo"]];
+                        placeholderImage:[UIImage imageNamed:@"GithubLogo"]];
 
     return cell;
 }
@@ -179,6 +179,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     [self.navigationController pushViewController:rdvc animated:YES];
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
 
 #pragma mark - navbar
 
@@ -228,11 +229,12 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 {
     __unsafe_unretained UITableView *tableView = self.tableView;
     weakify(self);
+
     tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
 
         strongify(self);
         self.noticeLabel.hidden = YES;
-        [[DataEngine sharedEngine] getTrendingDataWithSince:self.sinceStr lang:self.targetLanguage.query isDeveloper:NO completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
+        [[DataEngine sharedEngine] searchRepositoriesWithPage:1 query:[NSString stringWithFormat:@"language:%@", self.targetLanguage.query] sort:@"stars" completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
             if (error) {
                 self.noticeLabel.text = @"error occured in loading data";
                 self.noticeLabel.hidden = NO;
@@ -240,33 +242,44 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
                 self.noticeLabel.text = @"no relatived data or being dissected";
                 self.noticeLabel.hidden = NO;
             }
-            self.tableData = repositories;
-            [self.tableView reloadData];
+            self.tableData = [NSMutableArray arrayWithArray:repositories];
+            [tableView reloadData];
             [tableView.mj_header endRefreshing];
+            self.repoNowPage = 1;
         }];
 
     }];
-    //self.tableView.mj_header = header;
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:nil];
-    [tableView.mj_footer endRefreshingWithNoMoreData];
+
+    tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+
+        strongify(self);
+        [[DataEngine sharedEngine] searchRepositoriesWithPage:(self.repoNowPage+1) query:[NSString stringWithFormat:@"language:%@", self.targetLanguage.query] sort:@"stars" completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
+            if (error) {
+                ;
+            } else if ([repositories count] <= 0) {
+                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            } else {
+                [self.tableData addObjectsFromArray:repositories];
+                [tableView reloadData];
+                self.repoNowPage++;
+            }
+            [tableView.mj_footer endRefreshing];
+        }];
+        
+    }];
 
     tableView.mj_header.automaticallyChangeAlpha = YES;
+    tableView.mj_footer.automaticallyChangeAlpha = YES;
     ((MJRefreshNormalHeader *)tableView.mj_header).lastUpdatedTimeLabel.hidden = YES;
-    // header.stateLabel.hidden = YES;
 
     [tableView.mj_header beginRefreshing];
 }
 
 #pragma mark - segmentbar
 
-- (IBAction)sinceSegmentChange:(id)sender {
-    static NSArray *sinces;
-    if (!sinces) {
-        sinces = @[@"daily", @"weekly", @"monthly"];
-    }
-    NSInteger index = [sender selectedSegmentIndex];
-    self.sinceStr = sinces[index];
+- (IBAction)typeSegmentChange:(id)sender {
     [self.tableView.mj_header beginRefreshing];
 }
+
 
 @end

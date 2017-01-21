@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3E185C931E2E31DE0017E46A /* RepositoryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185C921E2E31DE0017E46A /* RepositoryDetailViewController.m */; };
+		3E185C971E31B42A0017E46A /* RankingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185C961E31B42A0017E46A /* RankingViewController.m */; };
 		3E7092581E0E69D900DB50B7 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7092571E0E69D900DB50B7 /* LanguageViewController.m */; };
 		3E9CF1991E1538BA00238038 /* LanguageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9CF1981E1538BA00238038 /* LanguageModel.m */; };
 		3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCC9B41E21265300E33F6F /* DataEngine.m */; };
@@ -28,6 +29,8 @@
 /* Begin PBXFileReference section */
 		3E185C911E2E31DE0017E46A /* RepositoryDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RepositoryDetailViewController.h; path = Common/ViewControllers/RepositoryDetailViewController.h; sourceTree = "<group>"; };
 		3E185C921E2E31DE0017E46A /* RepositoryDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RepositoryDetailViewController.m; path = Common/ViewControllers/RepositoryDetailViewController.m; sourceTree = "<group>"; };
+		3E185C951E31B42A0017E46A /* RankingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RankingViewController.h; path = Modules/Ranking/RankingViewController.h; sourceTree = "<group>"; };
+		3E185C961E31B42A0017E46A /* RankingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RankingViewController.m; path = Modules/Ranking/RankingViewController.m; sourceTree = "<group>"; };
 		3E7092561E0E69D900DB50B7 /* LanguageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageViewController.h; path = Common/ViewControllers/LanguageViewController.h; sourceTree = "<group>"; };
 		3E7092571E0E69D900DB50B7 /* LanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguageViewController.m; path = Common/ViewControllers/LanguageViewController.m; sourceTree = "<group>"; };
 		3E9CF1971E1538BA00238038 /* LanguageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageModel.h; path = Common/Models/LanguageModel.h; sourceTree = "<group>"; };
@@ -71,6 +74,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E185C941E31B27A0017E46A /* Ranking */ = {
+			isa = PBXGroup;
+			children = (
+				3E185C951E31B42A0017E46A /* RankingViewController.h */,
+				3E185C961E31B42A0017E46A /* RankingViewController.m */,
+			);
+			name = Ranking;
+			sourceTree = "<group>";
+		};
 		3E7092591E0E69DF00DB50B7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +162,7 @@
 		3EDC340F1E07D6DC00B96CB1 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				3E185C941E31B27A0017E46A /* Ranking */,
 				3EDC34101E07D74100B96CB1 /* Trending */,
 			);
 			name = Modules;
@@ -339,6 +352,7 @@
 				3EDC33F01E0695CD00B96CB1 /* main.m in Sources */,
 				3ECCC9B81E22441400E33F6F /* Repository.m in Sources */,
 				3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */,
+				3E185C971E31B42A0017E46A /* RankingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
