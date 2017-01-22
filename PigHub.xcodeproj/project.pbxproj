@@ -13,6 +13,7 @@
 		3E185C9E1E33420D0017E46A /* UserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185C9C1E33420D0017E46A /* UserTableViewCell.m */; };
 		3E185C9F1E33420D0017E46A /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E185C9D1E33420D0017E46A /* UserTableViewCell.xib */; };
 		3E185CA21E3386E80017E46A /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CA11E3386E80017E46A /* UserDetailViewController.m */; };
+		3E185CA61E338D300017E46A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CA51E338D300017E46A /* SearchViewController.m */; };
 		3E7092581E0E69D900DB50B7 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7092571E0E69D900DB50B7 /* LanguageViewController.m */; };
 		3E9CF1991E1538BA00238038 /* LanguageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9CF1981E1538BA00238038 /* LanguageModel.m */; };
 		3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCC9B41E21265300E33F6F /* DataEngine.m */; };
@@ -42,6 +43,8 @@
 		3E185C9D1E33420D0017E46A /* UserTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserTableViewCell.xib; path = Common/Views/UserTableViewCell.xib; sourceTree = "<group>"; };
 		3E185CA01E3386E80017E46A /* UserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDetailViewController.h; path = Common/ViewControllers/UserDetailViewController.h; sourceTree = "<group>"; };
 		3E185CA11E3386E80017E46A /* UserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDetailViewController.m; path = Common/ViewControllers/UserDetailViewController.m; sourceTree = "<group>"; };
+		3E185CA41E338D300017E46A /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController.h; path = Modules/Search/SearchViewController.h; sourceTree = "<group>"; };
+		3E185CA51E338D300017E46A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController.m; path = Modules/Search/SearchViewController.m; sourceTree = "<group>"; };
 		3E7092561E0E69D900DB50B7 /* LanguageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageViewController.h; path = Common/ViewControllers/LanguageViewController.h; sourceTree = "<group>"; };
 		3E7092571E0E69D900DB50B7 /* LanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguageViewController.m; path = Common/ViewControllers/LanguageViewController.m; sourceTree = "<group>"; };
 		3E9CF1971E1538BA00238038 /* LanguageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageModel.h; path = Common/Models/LanguageModel.h; sourceTree = "<group>"; };
@@ -92,6 +95,15 @@
 				3E185C961E31B42A0017E46A /* RankingViewController.m */,
 			);
 			name = Ranking;
+			sourceTree = "<group>";
+		};
+		3E185CA31E338AFB0017E46A /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				3E185CA41E338D300017E46A /* SearchViewController.h */,
+				3E185CA51E338D300017E46A /* SearchViewController.m */,
+			);
+			name = Search;
 			sourceTree = "<group>";
 		};
 		3E7092591E0E69DF00DB50B7 /* ViewControllers */ = {
@@ -177,6 +189,7 @@
 		3EDC340F1E07D6DC00B96CB1 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				3E185CA31E338AFB0017E46A /* Search */,
 				3E185C941E31B27A0017E46A /* Ranking */,
 				3EDC34101E07D74100B96CB1 /* Trending */,
 			);
@@ -366,6 +379,7 @@
 				3EDC34161E08287C00B96CB1 /* SegmentBarView.m in Sources */,
 				3EDC34131E07DF7300B96CB1 /* TrendingViewController.m in Sources */,
 				3EDC33F31E0695CD00B96CB1 /* AppDelegate.m in Sources */,
+				3E185CA61E338D300017E46A /* SearchViewController.m in Sources */,
 				3E185C931E2E31DE0017E46A /* RepositoryDetailViewController.m in Sources */,
 				3E7092581E0E69D900DB50B7 /* LanguageViewController.m in Sources */,
 				3ECCC9BC1E26317600E33F6F /* RepositoryTableViewCell.m in Sources */,

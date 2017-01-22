@@ -237,7 +237,7 @@
                     <connections>
                         <segue destination="1is-Qo-HHw" kind="relationship" relationship="viewControllers" id="YGE-bX-cdh"/>
                         <segue destination="yRK-Yd-j4V" kind="relationship" relationship="viewControllers" id="LWy-Ic-cow"/>
-                        <segue destination="yjk-vt-UQK" kind="relationship" relationship="viewControllers" id="zZo-N8-Q2K"/>
+                        <segue destination="6Ar-Gx-X8z" kind="relationship" relationship="viewControllers" id="Pjq-lO-fCa"/>
                         <segue destination="HgG-bF-5UK" kind="relationship" relationship="viewControllers" id="PsE-8k-xaS"/>
                     </connections>
                 </tabBarController>
@@ -245,24 +245,106 @@
             </objects>
             <point key="canvasLocation" x="-188" y="-48"/>
         </scene>
-        <!--Search-->
-        <scene sceneID="WHZ-Cj-Eek">
+        <!--Search View Controller-->
+        <scene sceneID="fXE-Y2-8uz">
             <objects>
-                <viewController id="yjk-vt-UQK" sceneMemberID="viewController">
+                <viewController id="bFF-Xb-7wL" customClass="SearchViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="aqu-Rp-Dcu"/>
-                        <viewControllerLayoutGuide type="bottom" id="HMY-s2-4q8"/>
+                        <viewControllerLayoutGuide type="top" id="vnu-vJ-mpI"/>
+                        <viewControllerLayoutGuide type="bottom" id="UeC-su-1Je"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="BeS-i6-eqD">
+                    <view key="view" contentMode="scaleToFill" id="MXt-4C-mWW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VdT-xU-jZ3">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="bFF-Xb-7wL" id="Vai-DM-0sL"/>
+                                    <outlet property="delegate" destination="bFF-Xb-7wL" id="ioi-h8-wXC"/>
+                                </connections>
+                            </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fkQ-Ad-7fN" customClass="SegmentBarView">
+                                <rect key="frame" x="0.0" y="64" width="320" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Ssx-km-xbf"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="sWu-2A-7eb"/>
+                                    <barButtonItem style="plain" id="JUd-ZA-oIq">
+                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" id="y9K-2e-xhb">
+                                            <rect key="frame" x="10" y="5" width="300" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <segments>
+                                                <segment title="Repositories"/>
+                                                <segment title="Developers"/>
+                                            </segments>
+                                            <connections>
+                                                <action selector="typeSegmentChange:" destination="Cu4-9S-R5p" eventType="valueChanged" id="M36-jg-vbn"/>
+                                                <action selector="typeSegmentChange:" destination="bFF-Xb-7wL" eventType="valueChanged" id="WMU-mN-Z9u"/>
+                                            </connections>
+                                        </segmentedControl>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="6HP-p1-nxU"/>
+                                </items>
+                                <connections>
+                                    <outlet property="delegate" destination="bFF-Xb-7wL" id="dP7-pC-gOc"/>
+                                </connections>
+                            </toolbar>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="notice" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v3c-lc-ZK6">
+                                <rect key="frame" x="0.0" y="184" width="320" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="XMf-R7-RBC"/>
+                                    <constraint firstAttribute="height" constant="30" id="hp6-6Z-nsV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.75686274509999996" green="0.75686274509999996" blue="0.75686274509999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="VdT-xU-jZ3" firstAttribute="top" secondItem="MXt-4C-mWW" secondAttribute="top" id="PNh-aP-5hN"/>
+                            <constraint firstItem="v3c-lc-ZK6" firstAttribute="top" secondItem="fkQ-Ad-7fN" secondAttribute="bottom" constant="80" id="Qr2-yc-rRB"/>
+                            <constraint firstItem="fkQ-Ad-7fN" firstAttribute="top" secondItem="vnu-vJ-mpI" secondAttribute="bottom" id="U2w-XV-Nj6"/>
+                            <constraint firstAttribute="trailing" secondItem="v3c-lc-ZK6" secondAttribute="trailing" id="ZFl-Gh-dkM"/>
+                            <constraint firstAttribute="trailing" secondItem="VdT-xU-jZ3" secondAttribute="trailing" id="ZZ2-he-7Jk"/>
+                            <constraint firstItem="v3c-lc-ZK6" firstAttribute="leading" secondItem="MXt-4C-mWW" secondAttribute="leading" id="Zh9-tU-5OU"/>
+                            <constraint firstItem="VdT-xU-jZ3" firstAttribute="leading" secondItem="MXt-4C-mWW" secondAttribute="leading" id="Zmc-ef-ON5"/>
+                            <constraint firstAttribute="trailing" secondItem="fkQ-Ad-7fN" secondAttribute="trailing" id="d6j-Cu-VdU"/>
+                            <constraint firstAttribute="bottom" secondItem="VdT-xU-jZ3" secondAttribute="bottom" id="gtk-Qh-BPr"/>
+                            <constraint firstItem="fkQ-Ad-7fN" firstAttribute="leading" secondItem="MXt-4C-mWW" secondAttribute="leading" id="m5r-F7-KTs"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Search" image="Search" selectedImage="Search" id="7Lr-dC-d20"/>
+                    <navigationItem key="navigationItem" id="dfx-st-IJl"/>
+                    <connections>
+                        <outlet property="noticeLabel" destination="v3c-lc-ZK6" id="HjX-mo-pFD"/>
+                        <outlet property="segmentBar" destination="fkQ-Ad-7fN" id="lHj-Uj-d9W"/>
+                        <outlet property="tableView" destination="VdT-xU-jZ3" id="jq6-6t-hG2"/>
+                        <outlet property="typeSigment" destination="y9K-2e-xhb" id="Gvf-z3-VsB"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VGE-zN-4FO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="591-Ir-R3x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="616.875" y="-1041.25"/>
+            <point key="canvasLocation" x="1531.875" y="-1041.25"/>
+        </scene>
+        <!--Search Nav-->
+        <scene sceneID="JIx-i4-YEv">
+            <objects>
+                <navigationController title="Search Nav" id="6Ar-Gx-X8z" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Search" image="Search" id="FGN-QJ-bAW"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6ep-Pr-Zng">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="bFF-Xb-7wL" kind="relationship" relationship="rootViewController" id="H2k-cm-Ept"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uu5-g8-kP4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="617" y="-1041"/>
         </scene>
         <!--My-->
         <scene sceneID="dnK-uO-ugm">
@@ -331,6 +413,6 @@
         <image name="Star" width="24" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zM1-wH-4gk"/>
+        <segue reference="OWz-na-aut"/>
     </inferredMetricsTieBreakers>
 </document>
