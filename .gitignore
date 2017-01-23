@@ -48,3 +48,5 @@ xcuserdata
 # Carthage/Checkouts
 
 Carthage/Build
+
+AppConfig.h

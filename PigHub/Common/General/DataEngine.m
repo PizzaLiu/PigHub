@@ -10,6 +10,7 @@
 #import "AFNetworking.h"
 #import "HTMLReader.h"
 #import "WeakifyStrongify.h"
+#import "AppConfig.h"
 
 #pragma mark - AFAppDotNetAPIClient
 
@@ -204,9 +205,9 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
 //https://developer.github.com/v3/search/#search-users
 //Search users
 - (NSURLSessionDataTask *)searchUsersWithPage:(NSInteger)page
-                                               query:(NSString *)query
-                                                sort:(NSString *)sort
-                                   completionHandler:(void (^)(NSArray<UserModel *> *users, NSError *error))completionBlock
+                                        query:(NSString *)query
+                                         sort:(NSString *)sort
+                            completionHandler:(void (^)(NSArray<UserModel *> *users, NSError *error))completionBlock
 {
     NSString *getString = [NSString stringWithFormat:@"/search/users?q=%@&sort=%@&page=%ld",query,sort,(long)page];
     __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
@@ -234,6 +235,65 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
             } else {
                 completionBlock(nil, responseObject);
             }
+        } else {
+            completionBlock(nil, responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
+    }];
+
+    return task;
+}
+
+#pragma mark - OAuth2
+
+// https://developer.github.com/v3/oauth/#redirect-users-to-request-github-access
+// get access_token with OAuth2 code
+- (NSURLSessionDataTask *)getAccessTokenWithCode:(NSString *)code
+                               completionHandler:(void (^)(NSString *accessToken, NSError *error))completionBlock
+{
+    NSString *postUrl = @"https://github.com/login/oauth/access_token";
+    NSDictionary *parameters = @{
+                                 @"client_id": GitHubClientID,
+                                 @"client_secret": GitHubClientSecret,
+                                 @"code": code,
+                                 @"state": @"cool"
+                                 };
+    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    NSURLSessionDataTask *task = [manager POST:postUrl parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSString *accessToken = [responseObject objectForKey:@"access_token"];
+            completionBlock(accessToken, nil);
+        } else {
+            completionBlock(nil, nil);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
+    }];
+
+    return task;
+}
+
+// https://developer.github.com/v3/oauth/#use-the-access-token-to-access-the-api
+// get user info with access_token
+- (NSURLSessionDataTask *)getUserInfoWithAccessToken:(NSString *)access_token
+                                   completionHandler:(void (^)(UserModel *user, NSError *error))completionBlock
+{
+    NSString *getString = [NSString stringWithFormat:@"/user?access_token=%@", access_token];
+    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            UserModel *user = [[UserModel alloc] init];
+            user.name = [responseObject objectForKey:@"login"];
+            user.avatarUrl = [responseObject valueForKey:@"avatar_url"];
+            user.href = [responseObject valueForKey:@"html_url"];
+            user.score = [[responseObject valueForKey:@"score"] floatValue];
+            completionBlock(user, responseObject);
         } else {
             completionBlock(nil, responseObject);
         }

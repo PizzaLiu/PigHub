@@ -10,6 +10,7 @@
 #import "Repository.h"
 #import "UserModel.h"
 #import "AFNetworking.h"
+#import "WeakifyStrongify.h"
 
 #pragma mark - AFAppDotNetAPIClient
 
@@ -36,5 +37,9 @@
                                         query:(NSString *)query
                                          sort:(NSString *)sort
                             completionHandler:(void (^)(NSArray<UserModel *> *users, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getAccessTokenWithCode:(NSString *)code
+                               completionHandler:(void (^)(NSString *accessToken, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getUserInfoWithAccessToken:(NSString *)access_token
+                                   completionHandler:(void (^)(UserModel *user, NSError *error))completionBlock;
 
 @end
