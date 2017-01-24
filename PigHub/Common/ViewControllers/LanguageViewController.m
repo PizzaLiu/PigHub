@@ -38,6 +38,10 @@
         selectedIndex = [[[LanguagesModel sharedStore] allLanguages] indexOfObject:selectedLanguage];
     }
 
+    // scroll to selected row
+    NSIndexPath *selectedIndexPath = [NSIndexPath indexPathForItem:selectedIndex inSection:0];
+    [self.tableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+
     //[self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"LangCell"];
 }
 

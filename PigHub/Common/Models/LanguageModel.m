@@ -158,7 +158,7 @@
 
     languages = [[NSMutableArray alloc] init];
 
-    [languages addObject:[self genLanguageWithName:@"All Languages" query:@""]];
+    [languages addObject:[self genLanguageWithName:NSLocalizedString(@"All Languages", @"") query:@""]];
 
     [languages addObject:[self genLanguageWithName: @"JavaScript" query: @"javascript"]];
     [languages addObject:[self genLanguageWithName: @"Java" query: @"java"]];
