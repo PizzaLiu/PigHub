@@ -163,6 +163,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
 {
     NSString *getString = [NSString stringWithFormat:@"/search/repositories?q=%@&sort=%@&page=%ld",query,sort,(long)page];
     __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+    getString = [getString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

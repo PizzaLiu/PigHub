@@ -80,6 +80,13 @@
 
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (self.searchController.searchBar.text.length == 0) {
+        [self.searchController.searchBar becomeFirstResponder];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -109,7 +116,7 @@
     return UIBarPositionTopAttached;
 }
 
-#pragma mark - UISearchBarDelegatex
+#pragma mark - UISearchBarDelegate
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
@@ -122,7 +129,6 @@
         [self triggerContentShow:NO];
     }
 }
-
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
