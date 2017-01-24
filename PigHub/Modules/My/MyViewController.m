@@ -12,6 +12,7 @@
 #import "DataEngine.h"
 #import "UserModel.h"
 #import "UserDetailViewController.h"
+#import "AboutViewController.h"
 
 @interface MyViewController () <UIAlertViewDelegate>
 
@@ -107,6 +108,10 @@
                 [logoutAlert show];
             }
         }
+    } else  {
+        AboutViewController *aboutVc = [[AboutViewController alloc] init];
+        aboutVc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:aboutVc animated:YES];
     }
 
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
