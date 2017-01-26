@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "LoadingView.h"
 #import "DataEngine.h"
 
 @interface LoginViewController () <UIWebViewDelegate>
@@ -22,24 +23,7 @@
 
     self.title = NSLocalizedString(@"GitHub Login", @"Title of login page");
 
-    // loading view
-    int loadingViewWidth = 80;
-    int loadingViewHeight = 80;
-    self.loadingView = [[UIView alloc]initWithFrame:CGRectMake((self.view.frame.size.width - loadingViewWidth)/2.0, (self.view.frame.size.height - loadingViewHeight)/2.0, loadingViewWidth, loadingViewHeight)];
-    self.loadingView.backgroundColor = [UIColor colorWithWhite:0. alpha:0.6];
-    self.loadingView.layer.cornerRadius = 5;
-
-    UIActivityIndicatorView *activityView=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    activityView.center = CGPointMake(self.loadingView.frame.size.width / 2.0, 35);
-    [activityView startAnimating];
-    activityView.tag = 100;
-    [self.loadingView addSubview:activityView];
-    UILabel* lblLoading = [[UILabel alloc]initWithFrame:CGRectMake(0, 48, 80, 30)];
-    lblLoading.text = NSLocalizedString(@"Loading...", @"loading web page");
-    lblLoading.textColor = [UIColor whiteColor];
-    lblLoading.font = [UIFont fontWithName:lblLoading.font.fontName size:15];
-    lblLoading.textAlignment = NSTextAlignmentCenter;
-    [self.loadingView addSubview:lblLoading];
+    self.loadingView = [[LoadingView alloc] initWithFrame:self.view.frame];
 
     // web view
     UIWebView *webView = [[UIWebView alloc] init];
@@ -89,16 +73,17 @@
     NSString *code = [self getOAuthCodeInURL:request.URL];
 
     if (code && self.callback) {
-
+        self.loadingView.hidden = NO;
         weakify(self);
+
         [[DataEngine sharedEngine] getAccessTokenWithCode:code completionHandler:^(NSString *accessToken, NSError *error) {
             strongify(self);
             if (accessToken) {
                 [[NSUserDefaults standardUserDefaults] setObject:accessToken forKey:@"access_token"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
             }
-            self.loadingView.hidden = YES;
             self.callback(accessToken);
+            //self.loadingView.hidden = YES;
             [self.navigationController popViewControllerAnimated:YES];
         }];
 
@@ -113,9 +98,5 @@
     self.loadingView.hidden = NO;
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
-    self.loadingView.hidden = YES;
-}
 
 @end

@@ -11,6 +11,20 @@
 
 @implementation UserModel
 
++ (instancetype)modelWithDic:(NSDictionary *)dic
+{
+    UserModel *user = [[UserModel alloc] init];
+
+    if (user) {
+        user.name = [dic valueForKey:@"login"];
+        user.avatarUrl = [dic valueForKey:@"avatar_url"];
+        user.href = [dic valueForKey:@"html_url"] ? [dic valueForKey:@"html_url"] : [NSString stringWithFormat:@"https://github.com/%@", user.name];
+        user.score = [[dic valueForKey:@"score"] floatValue];
+    }
+
+    return user;
+}
+
 - (NSString *)avatarUrlForSize:(int)size
 {
     int realSize = [UIScreen mainScreen].scale * size;

@@ -7,6 +7,7 @@
 //
 
 #import "RepositoryDetailViewController.h"
+#import "LoadingView.h"
 
 @interface RepositoryDetailViewController() <UIWebViewDelegate>
 
@@ -20,25 +21,7 @@
     [super viewDidLoad];
 
     self.title = self.repo.name;
-
-    // loading view
-    int loadingViewWidth = 80;
-    int loadingViewHeight = 80;
-    self.loadingView = [[UIView alloc]initWithFrame:CGRectMake((self.view.frame.size.width - loadingViewWidth)/2.0, (self.view.frame.size.height - loadingViewHeight)/2.0, loadingViewWidth, loadingViewHeight)];
-    self.loadingView.backgroundColor = [UIColor colorWithWhite:0. alpha:0.6];
-    self.loadingView.layer.cornerRadius = 5;
-
-    UIActivityIndicatorView *activityView=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    activityView.center = CGPointMake(self.loadingView.frame.size.width / 2.0, 35);
-    [activityView startAnimating];
-    activityView.tag = 100;
-    [self.loadingView addSubview:activityView];
-    UILabel* lblLoading = [[UILabel alloc]initWithFrame:CGRectMake(0, 48, 80, 30)];
-    lblLoading.text = NSLocalizedString(@"Loading...", @"loading web page");;
-    lblLoading.textColor = [UIColor whiteColor];
-    lblLoading.font = [UIFont fontWithName:lblLoading.font.fontName size:15];
-    lblLoading.textAlignment = NSTextAlignmentCenter;
-    [self.loadingView addSubview:lblLoading];
+    self.loadingView = [[LoadingView alloc] initWithFrame:self.view.frame];
 
     // web view
     UIWebView *webView = [[UIWebView alloc] init];

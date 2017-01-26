@@ -5,4 +5,5 @@ target 'PigHub' do
     pod 'AFNetworking'
     pod 'HTMLReader'
     pod 'SDWebImage'
+    pod 'DateTools'
 end

@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString *href;
 @property (nonatomic, assign) float score;
 
++ (instancetype)modelWithDic:(NSDictionary *)dic;
 - (NSString *)avatarUrlForSize:(int)size;
 
 @end

@@ -13,10 +13,14 @@
 #import "UserModel.h"
 #import "UserDetailViewController.h"
 #import "AboutViewController.h"
+#import "EventViewController.h"
+#import "LoadingView.h"
 
 @interface MyViewController () <UIAlertViewDelegate>
 
 @property (strong, nonatomic) UserModel *user;
+@property (copy, nonatomic) NSString *accessToken;
+@property (strong, nonatomic) UIView *loadingView;
 
 @end
 
@@ -25,9 +29,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.loadingView = [[LoadingView alloc] initWithFrame:self.view.frame];
+
     NSData *encodeUserData = [[NSUserDefaults standardUserDefaults] objectForKey:@"login_user"];
     if (encodeUserData) {
         self.user = (UserModel *)[NSKeyedUnarchiver unarchiveObjectWithData:encodeUserData];
+        self.accessToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"access_token"];
     } else {
         self.user = nil;
     }
@@ -46,7 +53,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0 && self.user) {
-        return 2;
+        return 3;
     }
     return 1;
 }
@@ -74,6 +81,9 @@
                 }
                 break;
             case 1:
+                cell.textLabel.text = NSLocalizedString(@"Events", @"Events of github");
+                break;
+            case 2:
                 cell.textLabel.text = NSLocalizedString(@"Logout", @"Login by github OAuth2");
                 break;
             default:
@@ -98,8 +108,16 @@
                 userDetailVc.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:userDetailVc animated:YES];
             } else
-            // logout
+            // events
             if (indexPath.row == 1) {
+                EventViewController *eventVc = [[EventViewController alloc] init];
+                eventVc.hidesBottomBarWhenPushed = YES;
+                eventVc.accessToken = self.accessToken;
+                eventVc.loginedUser = self.user;
+                [self.navigationController pushViewController:eventVc animated:YES];
+            } else
+            // logout
+            if (indexPath.row == 2) {
                 NSString *title = NSLocalizedString(@"Notification", @"Title for logout notification");
                 NSString *message = NSLocalizedString(@"Are you sure?", @"Message for logout notification");
                 NSString *cancelButtonTitle = NSLocalizedString(@"NO", @"Cancel button title for logout notification");
@@ -122,7 +140,7 @@
 - (void)oauth2LoginAction
 {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    NSString *reqUrl = [NSString stringWithFormat:@"https://github.com/login/oauth/authorize/?client_id=%@&state=cool&scope=", GitHubClientID];
+    NSString *reqUrl = [NSString stringWithFormat:@"https://github.com/login/oauth/authorize/?client_id=%@&state=cool&scope=notifications,repo", GitHubClientID];
 
     LoginViewController *loginVc = [[LoginViewController alloc] init];
     loginVc.hidesBottomBarWhenPushed = YES;
@@ -132,10 +150,10 @@
     loginVc.callback = ^(NSString *accessToken){
         if (!accessToken) return;
 
-        // TODO: show loading here
+        strongify(self);
+        self.loadingView.hidden = NO;
 
         [[DataEngine sharedEngine] getUserInfoWithAccessToken:accessToken completionHandler:^(UserModel *user, NSError *error) {
-            strongify(self);
             if (user) {
                 self.user = user;
                 [self.tableView reloadData];
@@ -144,7 +162,7 @@
                 [[NSUserDefaults standardUserDefaults] setObject:encodedUser forKey:@"login_user"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
             }
-            // TODO: hide loading here
+            self.loadingView.hidden = YES;
         }];
     };
 

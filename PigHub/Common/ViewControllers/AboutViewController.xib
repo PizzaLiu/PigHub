@@ -108,7 +108,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D5x-bb-U81">
-                            <rect key="frame" x="186" y="95.5" width="161" height="110"/>
+                            <rect key="frame" x="186" y="95.5" width="161" height="130"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6UW-27-z1L">
                                     <rect key="frame" x="0.0" y="-7" width="119" height="21"/>
@@ -154,22 +154,35 @@
                                         <action selector="showSDWebImageAction:" destination="-1" eventType="touchUpInside" id="YTp-kH-cJW"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RC1-l7-rpt">
+                                    <rect key="frame" x="0.0" y="109" width="120" height="21"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="120" id="ILZ-UY-gDg"/>
+                                        <constraint firstAttribute="height" constant="21" id="jSt-Mw-55a"/>
+                                    </constraints>
+                                    <state key="normal" title="DateTools"/>
+                                    <connections>
+                                        <action selector="showDateToolsAction:" destination="-1" eventType="touchUpInside" id="40J-5M-tqp"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="ASV-Rs-2bF" firstAttribute="leading" secondItem="D5x-bb-U81" secondAttribute="leading" id="011-Xf-hzc"/>
                                 <constraint firstItem="CRR-Q0-5ZF" firstAttribute="leading" secondItem="D5x-bb-U81" secondAttribute="leading" id="6Q9-13-ga0"/>
+                                <constraint firstItem="RC1-l7-rpt" firstAttribute="leading" secondItem="D5x-bb-U81" secondAttribute="leading" id="Dze-Bp-Csk"/>
                                 <constraint firstItem="6UW-27-z1L" firstAttribute="top" secondItem="D5x-bb-U81" secondAttribute="top" constant="-7" id="X8O-MB-Twg"/>
                                 <constraint firstItem="6UW-27-z1L" firstAttribute="leading" secondItem="D5x-bb-U81" secondAttribute="leading" id="YZZ-38-upz"/>
                                 <constraint firstItem="CRR-Q0-5ZF" firstAttribute="top" secondItem="ASV-Rs-2bF" secondAttribute="bottom" constant="8" id="iyp-gI-jnZ"/>
-                                <constraint firstAttribute="height" constant="110" id="lZv-wS-olw"/>
+                                <constraint firstAttribute="height" constant="130" id="lZv-wS-olw"/>
                                 <constraint firstItem="ASV-Rs-2bF" firstAttribute="top" secondItem="6UW-27-z1L" secondAttribute="bottom" constant="8" id="mTU-kT-a6K"/>
                                 <constraint firstItem="bPo-ea-eWw" firstAttribute="leading" secondItem="D5x-bb-U81" secondAttribute="leading" id="plC-Rq-HVp"/>
+                                <constraint firstItem="RC1-l7-rpt" firstAttribute="top" secondItem="bPo-ea-eWw" secondAttribute="bottom" constant="8" id="r5g-u6-aHq"/>
                                 <constraint firstItem="bPo-ea-eWw" firstAttribute="top" secondItem="CRR-Q0-5ZF" secondAttribute="bottom" constant="8" id="xxb-rL-ada"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to join and make it better." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i2b-J8-e0G">
-                            <rect key="frame" x="0.0" y="245" width="355" height="21"/>
+                            <rect key="frame" x="0.0" y="265" width="355" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="JIL-Ah-Ehh"/>
                             </constraints>

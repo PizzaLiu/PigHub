@@ -18,6 +18,13 @@
 		3E185CB81E35AD710017E46A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CB71E35AD710017E46A /* LoginViewController.m */; };
 		3E185CBC1E3716340017E46A /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CBA1E3716340017E46A /* AboutViewController.m */; };
 		3E185CBD1E3716340017E46A /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E185CBB1E3716340017E46A /* AboutViewController.xib */; };
+		3E185CC01E3794FE0017E46A /* EventModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CBF1E3794FE0017E46A /* EventModel.m */; };
+		3E185CC41E384A470017E46A /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CC21E384A470017E46A /* EventViewController.m */; };
+		3E185CC81E38657E0017E46A /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CC71E38657E0017E46A /* Utility.m */; };
+		3E185CCB1E3896430017E46A /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CCA1E3896430017E46A /* LoadingView.m */; };
+		3E185CCF1E38C72D0017E46A /* EventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CCD1E38C72D0017E46A /* EventTableViewCell.m */; };
+		3E185CD01E38C72D0017E46A /* EventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E185CCE1E38C72D0017E46A /* EventTableViewCell.xib */; };
+		3E185CD31E3A1F660017E46A /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CD21E3A1F660017E46A /* WebViewController.m */; };
 		3E7092581E0E69D900DB50B7 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7092571E0E69D900DB50B7 /* LanguageViewController.m */; };
 		3E9CF1991E1538BA00238038 /* LanguageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9CF1981E1538BA00238038 /* LanguageModel.m */; };
 		3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCC9B41E21265300E33F6F /* DataEngine.m */; };
@@ -57,6 +64,19 @@
 		3E185CB91E3716340017E46A /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutViewController.h; path = Common/ViewControllers/AboutViewController.h; sourceTree = "<group>"; };
 		3E185CBA1E3716340017E46A /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutViewController.m; path = Common/ViewControllers/AboutViewController.m; sourceTree = "<group>"; };
 		3E185CBB1E3716340017E46A /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutViewController.xib; path = Common/ViewControllers/AboutViewController.xib; sourceTree = "<group>"; };
+		3E185CBE1E3794FE0017E46A /* EventModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventModel.h; path = Common/Models/EventModel.h; sourceTree = "<group>"; };
+		3E185CBF1E3794FE0017E46A /* EventModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventModel.m; path = Common/Models/EventModel.m; sourceTree = "<group>"; };
+		3E185CC11E384A470017E46A /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventViewController.h; path = Common/ViewControllers/EventViewController.h; sourceTree = "<group>"; };
+		3E185CC21E384A470017E46A /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventViewController.m; path = Common/ViewControllers/EventViewController.m; sourceTree = "<group>"; };
+		3E185CC61E38657E0017E46A /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utility.h; path = Common/General/Utility.h; sourceTree = "<group>"; };
+		3E185CC71E38657E0017E46A /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utility.m; path = Common/General/Utility.m; sourceTree = "<group>"; };
+		3E185CC91E3896430017E46A /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingView.h; path = Common/Views/LoadingView.h; sourceTree = "<group>"; };
+		3E185CCA1E3896430017E46A /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingView.m; path = Common/Views/LoadingView.m; sourceTree = "<group>"; };
+		3E185CCC1E38C72D0017E46A /* EventTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventTableViewCell.h; path = Common/Views/EventTableViewCell.h; sourceTree = "<group>"; };
+		3E185CCD1E38C72D0017E46A /* EventTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventTableViewCell.m; path = Common/Views/EventTableViewCell.m; sourceTree = "<group>"; };
+		3E185CCE1E38C72D0017E46A /* EventTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EventTableViewCell.xib; path = Common/Views/EventTableViewCell.xib; sourceTree = "<group>"; };
+		3E185CD11E3A1F660017E46A /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = Common/ViewControllers/WebViewController.h; sourceTree = "<group>"; };
+		3E185CD21E3A1F660017E46A /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = Common/ViewControllers/WebViewController.m; sourceTree = "<group>"; };
 		3E7092561E0E69D900DB50B7 /* LanguageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageViewController.h; path = Common/ViewControllers/LanguageViewController.h; sourceTree = "<group>"; };
 		3E7092571E0E69D900DB50B7 /* LanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguageViewController.m; path = Common/ViewControllers/LanguageViewController.m; sourceTree = "<group>"; };
 		3E9CF1971E1538BA00238038 /* LanguageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageModel.h; path = Common/Models/LanguageModel.h; sourceTree = "<group>"; };
@@ -141,6 +161,10 @@
 				3E185CB91E3716340017E46A /* AboutViewController.h */,
 				3E185CBA1E3716340017E46A /* AboutViewController.m */,
 				3E185CBB1E3716340017E46A /* AboutViewController.xib */,
+				3E185CC11E384A470017E46A /* EventViewController.h */,
+				3E185CC21E384A470017E46A /* EventViewController.m */,
+				3E185CD11E3A1F660017E46A /* WebViewController.h */,
+				3E185CD21E3A1F660017E46A /* WebViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -148,6 +172,8 @@
 		3E9CF1961E1537C700238038 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3E185CBE1E3794FE0017E46A /* EventModel.h */,
+				3E185CBF1E3794FE0017E46A /* EventModel.m */,
 				3E9CF1971E1538BA00238038 /* LanguageModel.h */,
 				3E9CF1981E1538BA00238038 /* LanguageModel.m */,
 				3ECCC9B61E22441400E33F6F /* Repository.h */,
@@ -165,6 +191,8 @@
 				3ECCC9B41E21265300E33F6F /* DataEngine.m */,
 				3E9CF1A01E1F95ED00238038 /* WeakifyStrongify.h */,
 				3E185CB11E359EB50017E46A /* AppConfig.h */,
+				3E185CC61E38657E0017E46A /* Utility.h */,
+				3E185CC71E38657E0017E46A /* Utility.m */,
 			);
 			name = General;
 			sourceTree = "<group>";
@@ -255,6 +283,11 @@
 				3E185C9B1E33420D0017E46A /* UserTableViewCell.h */,
 				3E185C9C1E33420D0017E46A /* UserTableViewCell.m */,
 				3E185C9D1E33420D0017E46A /* UserTableViewCell.xib */,
+				3E185CC91E3896430017E46A /* LoadingView.h */,
+				3E185CCA1E3896430017E46A /* LoadingView.m */,
+				3E185CCC1E38C72D0017E46A /* EventTableViewCell.h */,
+				3E185CCD1E38C72D0017E46A /* EventTableViewCell.m */,
+				3E185CCE1E38C72D0017E46A /* EventTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -344,6 +377,7 @@
 				3EDC33F91E0695CD00B96CB1 /* Main.storyboard in Resources */,
 				3E185CBD1E3716340017E46A /* AboutViewController.xib in Resources */,
 				3E185C9F1E33420D0017E46A /* UserTableViewCell.xib in Resources */,
+				3E185CD01E38C72D0017E46A /* EventTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +438,8 @@
 			files = (
 				3E185C9E1E33420D0017E46A /* UserTableViewCell.m in Sources */,
 				3E9CF1991E1538BA00238038 /* LanguageModel.m in Sources */,
+				3E185CC01E3794FE0017E46A /* EventModel.m in Sources */,
+				3E185CC41E384A470017E46A /* EventViewController.m in Sources */,
 				3EDC33F61E0695CD00B96CB1 /* ViewController.m in Sources */,
 				3EDC34161E08287C00B96CB1 /* SegmentBarView.m in Sources */,
 				3EDC34131E07DF7300B96CB1 /* TrendingViewController.m in Sources */,
@@ -418,8 +454,12 @@
 				3E185CBC1E3716340017E46A /* AboutViewController.m in Sources */,
 				3ECCC9B81E22441400E33F6F /* Repository.m in Sources */,
 				3E185CB81E35AD710017E46A /* LoginViewController.m in Sources */,
+				3E185CC81E38657E0017E46A /* Utility.m in Sources */,
 				3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */,
+				3E185CCF1E38C72D0017E46A /* EventTableViewCell.m in Sources */,
+				3E185CD31E3A1F660017E46A /* WebViewController.m in Sources */,
 				3E185CA21E3386E80017E46A /* UserDetailViewController.m in Sources */,
+				3E185CCB1E3896430017E46A /* LoadingView.m in Sources */,
 				3E185C971E31B42A0017E46A /* RankingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

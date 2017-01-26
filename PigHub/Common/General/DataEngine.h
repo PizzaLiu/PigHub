@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Repository.h"
 #import "UserModel.h"
+#import "EventModel.h"
 #import "AFNetworking.h"
 #import "WeakifyStrongify.h"
 
@@ -41,5 +42,9 @@
                                completionHandler:(void (^)(NSString *accessToken, NSError *error))completionBlock;
 - (NSURLSessionDataTask *)getUserInfoWithAccessToken:(NSString *)access_token
                                    completionHandler:(void (^)(UserModel *user, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getUserEventWithUserName:(NSString *)userName
+                                       accessToken:(NSString *)access_token
+                                              page:(NSInteger)page
+                                 completionHandler:(void (^)(NSArray<EventModel *> *users, NSError *error))completionBlock;
 
 @end

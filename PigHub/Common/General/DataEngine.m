@@ -11,6 +11,7 @@
 #import "HTMLReader.h"
 #import "WeakifyStrongify.h"
 #import "AppConfig.h"
+#import "Utility.h"
 
 #pragma mark - AFAppDotNetAPIClient
 
@@ -67,25 +68,6 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
     return self;
 }
 
-#pragma mark - Utility
-
-+ (NSString *)trimString:(NSString *) str
-{
-    return [str stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-}
-
-+ (NSString *)formatNumberForInt:(NSInteger)num
-{
-    static NSNumberFormatter *formatter = nil;
-    if (!formatter) {
-        formatter = [[NSNumberFormatter alloc] init];
-        [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-        [formatter setAlwaysShowsDecimalSeparator:NO];
-    }
-
-    return [formatter stringFromNumber:[NSNumber numberWithInteger:num]];
-}
-
 #pragma mark - Github page
 
 - (void)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionBlock
@@ -123,13 +105,13 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
                 repository = [[Repository alloc] init];
 
                 link = [repo firstNodeMatchingSelector:@"h3 a"];
-                repository.langName = [DataEngine trimString:[repo firstNodeMatchingSelector:@"[itemprop='programmingLanguage']"].textContent];
-                repository.name = [DataEngine trimString:[link childAtIndex:2].textContent];
-                repository.orgName = [DataEngine trimString:[[link childAtIndex:1].textContent stringByReplacingOccurrencesOfString:@"/" withString:@""]];
+                repository.langName = [Utility trimString:[repo firstNodeMatchingSelector:@"[itemprop='programmingLanguage']"].textContent];
+                repository.name = [Utility trimString:[link childAtIndex:2].textContent];
+                repository.orgName = [Utility trimString:[[link childAtIndex:1].textContent stringByReplacingOccurrencesOfString:@"/" withString:@""]];
                 repository.avatarUrl = [NSString stringWithFormat:@"https://github.com/%@.png", repository.orgName];
                 repository.href = [NSString stringWithFormat:@"https://github.com%@", [link.attributes objectForKey:@"href"]];
-                repository.desc = [DataEngine trimString:[repo firstNodeMatchingSelector:@".py-1 p"].textContent];
-                repository.starCount = [DataEngine trimString:[repo firstNodeMatchingSelector:@"[aria-label='Stargazers']"].textContent];
+                repository.desc = [Utility trimString:[repo firstNodeMatchingSelector:@".py-1 p"].textContent];
+                repository.starCount = [Utility trimString:[repo firstNodeMatchingSelector:@"[aria-label='Stargazers']"].textContent];
 
                 [repositories addObject:repository];
             }
@@ -173,22 +155,11 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
             if ([list isKindOfClass:[NSArray class]] && list.count > 0) {
                 NSMutableArray<Repository *> *repositories = [[NSMutableArray alloc] init];
                 Repository *repo = nil;
-                NSDictionary *item = nil;
-                NSDictionary *owner = nil;
                 for (NSInteger i = 0; i < list.count; i++) {
-                    repo = [[Repository alloc] init];
-                    item = [list objectAtIndex:i];
-                    owner = [item valueForKey:@"owner"];
-                    repo.name = [item valueForKey:@"name"];
-                    repo.desc = [item valueForKey:@"description"] == (id)[NSNull null] ?  @"" : [item valueForKey:@"description"];
-                    repo.langName = [item valueForKey:@"language"] == (id)[NSNull null] ? @"" : [item valueForKey:@"language"];
-                    repo.starCount =[DataEngine formatNumberForInt:(int)[item valueForKey:@"stargazers_count"]];
-                    //repo.starCount = [NSString stringWithFormat:@"%@", [item valueForKey:@"stargazers_count"]];
-                    repo.href = [item valueForKey:@"html_url"];
-                    repo.orgName = [owner valueForKey:@"login"];
-                    repo.avatarUrl = [owner valueForKey:@"avatar_url"];
+                    repo = [Repository modelWithDic:[list objectAtIndex:i]];
                     [repositories addObject:repo];
                 }
+                repo = nil;
                 completionBlock(repositories, nil);
             } else {
                 completionBlock(nil, responseObject);
@@ -222,16 +193,11 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
             if ([list isKindOfClass:[NSArray class]] && list.count > 0) {
                 NSMutableArray<UserModel *> *users = [[NSMutableArray alloc] init];
                 UserModel *user = nil;
-                NSDictionary *item = nil;
-                for (NSInteger i = 0; i < list.count; i++) {
-                    user = [[UserModel alloc] init];
-                    item = [list objectAtIndex:i];
-                    user.name = [item valueForKey:@"login"];
-                    user.avatarUrl = [item valueForKey:@"avatar_url"];
-                    user.href = [item valueForKey:@"html_url"];
-                    user.score = [[item valueForKey:@"score"] floatValue];
+                for (NSDictionary *item in list) {
+                    user = [UserModel modelWithDic:item];
                     [users addObject:user];
                 }
+                user = nil;
                 completionBlock(users, nil);
             } else {
                 completionBlock(nil, responseObject);
@@ -289,12 +255,39 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            UserModel *user = [[UserModel alloc] init];
-            user.name = [responseObject objectForKey:@"login"];
-            user.avatarUrl = [responseObject valueForKey:@"avatar_url"];
-            user.href = [responseObject valueForKey:@"html_url"];
-            user.score = [[responseObject valueForKey:@"score"] floatValue];
+            UserModel *user = [UserModel modelWithDic:responseObject];
             completionBlock(user, responseObject);
+        } else {
+            completionBlock(nil, responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
+    }];
+
+    return task;
+}
+
+// https://developer.github.com/v3/activity/events/#list-public-events-that-a-user-has-received
+// get user events with access_token
+- (NSURLSessionDataTask *)getUserEventWithUserName:(NSString *)userName
+                                       accessToken:(NSString *)access_token
+                                              page:(NSInteger)page
+                                   completionHandler:(void (^)(NSArray<EventModel *> *users, NSError *error))completionBlock
+{
+    NSString *getString = [NSString stringWithFormat:@"/users/%@/received_events?access_token=%@&page=%lu", userName, access_token, (long)page];
+    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSArray class]]) {
+            NSMutableArray<EventModel *> *events = [[NSMutableArray alloc] init];
+            EventModel *event = nil;
+            for (NSDictionary *eventDic in responseObject) {
+                event = [EventModel modelWithDic:eventDic];
+                [events addObject:event];
+            }
+            event = nil;
+            completionBlock(events, nil);
         } else {
             completionBlock(nil, responseObject);
         }

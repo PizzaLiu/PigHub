@@ -99,5 +99,13 @@
 
     [self showRepoDetailWithRepo:repo];
 }
+- (IBAction)showDateToolsAction:(id)sender {
+    Repository *repo = [Repository new];
+
+    repo.name = @"DateTool";
+    repo.href = @"https://github.com/MatthewYork/DateTools";
+
+    [self showRepoDetailWithRepo:repo];
+}
 
 @end
