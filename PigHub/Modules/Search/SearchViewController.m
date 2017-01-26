@@ -82,6 +82,8 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+
     if (self.searchController.searchBar.text.length == 0) {
         [self.searchController.searchBar becomeFirstResponder];
     }
