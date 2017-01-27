@@ -102,30 +102,26 @@
 - (NSArray<UIMenuItem *> *)getMenuItemsByEventModel:(EventModel *)event
 {
 
-    UIMenuItem *delItem1 = [[UIMenuItem alloc] initWithTitle:event.actor.name action:@selector(showActorDetail:)];
+    NSMutableArray<UIMenuItem *> *menues = [[NSMutableArray alloc] init];
 
-    UIMenuItem *delItem2 = nil;
+    UIMenuItem *menuItem1 = [[UIMenuItem alloc] initWithTitle:event.actor.name action:@selector(showActorDetail:)];
+    [menues addObject:menuItem1];
+
+    UIMenuItem *menuItem2 = nil;
     NSString *repoFullPath = [NSString stringWithFormat:@"%@/%@", event.sourceRepo.orgName, event.sourceRepo.name];
     if (event.url) {
-        delItem2 = [[UIMenuItem alloc] initWithTitle:repoFullPath action:@selector(showWebPage:)];
+        menuItem2 = [[UIMenuItem alloc] initWithTitle:repoFullPath action:@selector(showWebPage:)];
     } else {
-        delItem2 = [[UIMenuItem alloc] initWithTitle:repoFullPath action:@selector(showSourceRepoDetail:)];
+        menuItem2 = [[UIMenuItem alloc] initWithTitle:repoFullPath action:@selector(showSourceRepoDetail:)];
     }
+    [menues addObject:menuItem2];
 
-    UIMenuItem *delItem3 = nil;
     if (event.destRepo) {
-        delItem3 = [[UIMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"%@/%@", event.destRepo.orgName, event.destRepo.name] action:@selector(showDestRepoDetail:)];
+        UIMenuItem *menuItem3 = [[UIMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"%@/%@", event.destRepo.orgName, event.destRepo.name] action:@selector(showDestRepoDetail:)];
+        [menues addObject:menuItem3];
     }
 
-    if (delItem3) {
-        return @[delItem1, delItem2, delItem3];
-    }
-
-    return @[delItem1, delItem2];
-}
-
--(void)deleteLine:(id)sender {
-    NSLog(@"trigger");
+    return menues;
 }
 
 -(void)showActorDetail:(id)sender
