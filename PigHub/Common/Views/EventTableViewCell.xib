@@ -22,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PizzaLiu/PigHub" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vAm-Eu-zzd">
-                                <rect key="frame" x="121" y="34" width="191" height="21"/>
+                                <rect key="frame" x="80.5" y="34" width="231.5" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="2ZC-mV-FHI"/>
                                 </constraints>
@@ -56,10 +56,10 @@
                                     <constraint firstAttribute="width" constant="20" id="vfd-nJ-TSz"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="forked" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zZB-m1-Uip">
-                                <rect key="frame" x="29" y="34" width="90" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="forked" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zZB-m1-Uip">
+                                <rect key="frame" x="31" y="34" width="46.5" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="5c0-Df-Kec"/>
+                                    <constraint firstAttribute="width" priority="500" constant="90" id="5c0-Df-Kec"/>
                                     <constraint firstAttribute="height" constant="21" id="deU-hi-BWb"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -72,13 +72,13 @@
                             <constraint firstItem="zZB-m1-Uip" firstAttribute="top" secondItem="tWM-7S-skh" secondAttribute="bottom" constant="5" id="2QY-oF-pFh"/>
                             <constraint firstItem="Q7C-Dq-Q9c" firstAttribute="top" secondItem="tWM-7S-skh" secondAttribute="bottom" constant="5.5" id="3tk-Md-9YD"/>
                             <constraint firstAttribute="trailing" secondItem="vAm-Eu-zzd" secondAttribute="trailing" constant="8" id="4Mg-h1-TGl"/>
-                            <constraint firstItem="zZB-m1-Uip" firstAttribute="leading" secondItem="Q7C-Dq-Q9c" secondAttribute="trailing" constant="1" id="75y-8z-ite"/>
+                            <constraint firstItem="zZB-m1-Uip" firstAttribute="leading" secondItem="Q7C-Dq-Q9c" secondAttribute="trailing" constant="3" id="75y-8z-ite"/>
                             <constraint firstItem="tWM-7S-skh" firstAttribute="leading" secondItem="Kt8-70-Nr7" secondAttribute="leading" constant="8" id="AKQ-rJ-4Jx"/>
                             <constraint firstAttribute="trailing" secondItem="Y8p-5L-9o1" secondAttribute="trailing" constant="8" id="Q0R-LF-oWa"/>
                             <constraint firstItem="vAm-Eu-zzd" firstAttribute="baseline" secondItem="zZB-m1-Uip" secondAttribute="baseline" id="Q9t-c1-Eeg"/>
                             <constraint firstItem="vAm-Eu-zzd" firstAttribute="top" secondItem="Y8p-5L-9o1" secondAttribute="bottom" constant="5" id="XLX-xf-6ev"/>
                             <constraint firstItem="Q7C-Dq-Q9c" firstAttribute="leading" secondItem="Kt8-70-Nr7" secondAttribute="leading" constant="8" id="XbF-Wd-NH3"/>
-                            <constraint firstItem="vAm-Eu-zzd" firstAttribute="leading" secondItem="zZB-m1-Uip" secondAttribute="trailing" constant="2" id="jeo-lN-Ohr"/>
+                            <constraint firstItem="vAm-Eu-zzd" firstAttribute="leading" secondItem="zZB-m1-Uip" secondAttribute="trailing" constant="3" id="jeo-lN-Ohr"/>
                             <constraint firstItem="tWM-7S-skh" firstAttribute="top" secondItem="Kt8-70-Nr7" secondAttribute="top" constant="8" id="vfb-Rc-iPT"/>
                             <constraint firstItem="Y8p-5L-9o1" firstAttribute="top" secondItem="Kt8-70-Nr7" secondAttribute="top" constant="8" id="z5a-xq-8u6"/>
                             <constraint firstAttribute="trailing" secondItem="tWM-7S-skh" secondAttribute="trailing" constant="100" id="zqF-WW-Snj"/>

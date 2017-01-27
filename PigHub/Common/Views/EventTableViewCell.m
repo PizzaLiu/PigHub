@@ -36,6 +36,7 @@
 {
     self.actorNameLabel.text = event.actor.name;
     self.actionNameLabel.text = event.actionName;
+    [self.actionNameLabel sizeToFit];
     self.sourceRepoNameLabel.text = [NSString stringWithFormat:@"%@/%@", event.sourceRepo.orgName, event.sourceRepo.name];
     self.dateLabel.text = event.createdDate.timeAgoSinceNow;
     switch (event.eventType) {
