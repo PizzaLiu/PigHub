@@ -65,6 +65,7 @@
     if (buttonIndex == 1) {
         if (!self.loadingView) {
             self.loadingView = [[LoadingView alloc] initWithFrame:self.view.frame];
+            [self.view addSubview:self.loadingView];
         }
         self.loadingView.hidden = NO;
         NSString *lastReadAt = [self.tableData firstObject].updatedDateStr;

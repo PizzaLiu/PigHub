@@ -96,7 +96,9 @@
                 cell.textLabel.text = NSLocalizedString(@"Notifications", @"Notifications of github");
                 if (self.notiCount > 0) {
                     cell.accessoryView = [self createCountLabelWithCount:self.notiCount];
+                    cell.textLabel.textColor = [UIColor darkTextColor];
                 } else {
+                    cell.accessoryView = nil;
                     cell.textLabel.textColor = [UIColor grayColor];
                 }
                 cell.accessoryType = UITableViewCellAccessoryNone;
