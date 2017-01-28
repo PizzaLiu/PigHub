@@ -176,7 +176,7 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
         cell.ownerLabel.text = repo.orgName;
         cell.langLabel.text = repo.langName;
         [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[repo avatarUrlForSize:50]]
-                            placeholderImage:[UIImage imageNamed:@"GithubLogo"]];
+                            placeholderImage:[UIImage imageNamed:@"DefaultAvatar"]];
         return cell;
     }
 
@@ -186,7 +186,7 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
     cell.nameLabel.text = user.name;
     cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
     [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[user avatarUrlForSize:44]]
-                        placeholderImage:[UIImage imageNamed:@"GithubLogo"]];
+                        placeholderImage:[UIImage imageNamed:@"DefaultAvatar"]];
 
     return cell;
 }

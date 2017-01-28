@@ -163,8 +163,8 @@
         cell.starLabel.text = repo.starCount;
         cell.ownerLabel.text = repo.orgName;
         cell.langLabel.text = repo.langName;
-        [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[repo avatarUrlForSize:50]]
-                            placeholderImage:[UIImage imageNamed:@"GithubLogo"]];
+        [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[repo avatarUrlForSize:42]]
+                            placeholderImage:[UIImage imageNamed:@"DefaultAvatar"]];
         return cell;
     }
 
@@ -173,8 +173,8 @@
 
     cell.nameLabel.text = user.name;
     cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
-    [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[user avatarUrlForSize:50]]
-                        placeholderImage:[UIImage imageNamed:@"GithubLogo"]];
+    [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[user avatarUrlForSize:44]]
+                        placeholderImage:[UIImage imageNamed:@"DefaultAvatar"]];
 
     return cell;
 }
