@@ -30,7 +30,7 @@
             NSString *countStr = nil;
             NSInteger notiCount = [notifications count];
             if (notiCount > 0) {
-                countStr = [NSString stringWithFormat:@"%lu", notiCount];
+                countStr = [NSString stringWithFormat:@"%lu", (long)notiCount];
             }
             [[tabVc.tabBar.items objectAtIndex:3] setBadgeValue:countStr];
         }];

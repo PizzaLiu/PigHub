@@ -271,7 +271,7 @@
         self.notiCount = [notifications count];
         NSString *countStr = nil;
         if (self.notiCount > 0) {
-            countStr = [NSString stringWithFormat:@"%lu", self.notiCount];
+            countStr = [NSString stringWithFormat:@"%lu", (long)self.notiCount];
         }
         [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:countStr];
         if (self.tableView) [self.tableView reloadData];
