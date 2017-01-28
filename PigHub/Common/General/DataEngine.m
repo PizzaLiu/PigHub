@@ -25,9 +25,24 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
     dispatch_once(&onceToken, ^{
         _sharedClient = [[AFAppDotNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:AFAppDotNetAPIBaseURLString]];
         _sharedClient.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+        _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
     });
 
     return _sharedClient;
+}
+
++ (instancetype)sharedHttpClient {
+    static AFAppDotNetAPIClient *_sharedHttpClient = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedHttpClient = [[AFAppDotNetAPIClient alloc] init];
+        _sharedHttpClient.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+
+        _sharedHttpClient.responseSerializer = [AFHTTPResponseSerializer serializer];
+        [_sharedHttpClient.requestSerializer setValue:@"" forHTTPHeaderField:@"User-Agent"];
+    });
+
+    return _sharedHttpClient;
 }
 
 @end
@@ -84,11 +99,9 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
         developer = @"";
     }
 
-    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedHttpClient];
     NSString *url = [[NSString alloc] initWithFormat:@"https://github.com/trending%@%@?since=%@", developer, langDir, since];
 
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    [manager.requestSerializer setValue:@"" forHTTPHeaderField:@"User-Agent"];
     [manager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 
         NSError *error = nil;
@@ -293,6 +306,84 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         completionBlock(nil, error);
+    }];
+
+    return task;
+}
+
+#pragma mark - Notification
+
+// https://developer.github.com/v3/activity/notifications/#list-your-notifications
+// get user notifications with access_token
+- (NSURLSessionDataTask *)getUserNotificationsWithAccessToken:(NSString *)access_token
+                                                         page:(NSInteger)page
+                                            completionHandler:(void (^)(NSArray<NotificationModel *> *notifications, NSError *error))completionBlock
+{
+    // NSString *getString = [NSString stringWithFormat:@"/notifications?access_token=%@&page=%lu", access_token, (long)page];
+    NSString *getString = [NSString stringWithFormat:@"/notifications?access_token=%@&t=%f", access_token, [[NSDate date] timeIntervalSince1970] * 1000];
+    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSArray class]]) {
+            NSMutableArray<NotificationModel *> *notifications = [[NSMutableArray alloc] init];
+            NotificationModel *noti = nil;
+            for (NSDictionary *notiDic in responseObject) {
+                noti = [NotificationModel modelWithDic:notiDic];
+                [notifications addObject:noti];
+            }
+            noti = nil;
+            completionBlock(notifications, nil);
+        } else {
+            completionBlock(nil, responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
+    }];
+
+    return task;
+}
+
+// https://developer.github.com/v3/activity/notifications/#mark-a-thread-as-read
+// Mark a thread as read with access_token
+- (NSURLSessionDataTask *)markReadedNotificationsWithAccessToken:(NSString *)access_token
+                                                        threadId:(NSString *)threadId
+                                               completionHandler:(void (^)(BOOL done, NSError *error))completionBlock
+{
+    NSString *patchString = [NSString stringWithFormat:@"https://api.github.com/notifications/threads/%@?access_token=%@", threadId, access_token];
+    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedHttpClient];
+
+    NSURLSessionDataTask *task = [manager PATCH:patchString parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSInteger statusCode = httpResponse.statusCode;
+        completionBlock(statusCode == 205, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSInteger statusCode = httpResponse.statusCode;
+        completionBlock(statusCode == 205, nil);
+    }];
+
+    return task;
+}
+
+// https://developer.github.com/v3/activity/notifications/#mark-as-read
+// Mark all as read with access_token
+- (NSURLSessionDataTask *)markAllNotificationsReadedWithAccessToken:(NSString *)access_token
+                                                           lastTime:(NSString *)lastReadAt
+                                                  completionHandler:(void (^)(BOOL done, NSError *error))completionBlock
+{
+    NSString *putString = [NSString stringWithFormat:@"https://api.github.com/notifications?access_token=%@&last_read_at=%@", access_token, lastReadAt];
+    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedHttpClient];
+
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    NSURLSessionDataTask *task = [manager PUT:putString parameters:@{} success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSInteger statusCode = httpResponse.statusCode;
+        completionBlock(statusCode == 205, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSInteger statusCode = httpResponse.statusCode;
+        completionBlock(statusCode == 205, nil);
     }];
 
     return task;

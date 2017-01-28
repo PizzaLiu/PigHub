@@ -15,12 +15,15 @@
 #import "AboutViewController.h"
 #import "EventViewController.h"
 #import "LoadingView.h"
+#import "NotificationViewController.h"
 
 @interface MyViewController () <UIAlertViewDelegate>
 
 @property (strong, nonatomic) UserModel *user;
 @property (copy, nonatomic) NSString *accessToken;
 @property (strong, nonatomic) UIView *loadingView;
+
+@property (assign, nonatomic) NSInteger notiCount;
 
 @end
 
@@ -43,6 +46,12 @@
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"TableCell"];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    // init notification badge
+    [self setNotificationBadge];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -53,7 +62,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0 && self.user) {
-        return 3;
+        return 4;
     }
     return 1;
 }
@@ -84,6 +93,15 @@
                 cell.textLabel.text = NSLocalizedString(@"Events", @"Events of github");
                 break;
             case 2:
+                cell.textLabel.text = NSLocalizedString(@"Notifications", @"Notifications of github");
+                if (self.notiCount > 0) {
+                    cell.accessoryView = [self createCountLabelWithCount:self.notiCount];
+                } else {
+                    cell.textLabel.textColor = [UIColor grayColor];
+                }
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                break;
+            case 3:
                 cell.textLabel.text = NSLocalizedString(@"Logout", @"Login by github OAuth2");
                 break;
             default:
@@ -116,8 +134,15 @@
                 eventVc.loginedUser = self.user;
                 [self.navigationController pushViewController:eventVc animated:YES];
             } else
-            // logout
+            // notifications
             if (indexPath.row == 2) {
+                NotificationViewController *notiVc = [[NotificationViewController alloc] init];
+                notiVc.hidesBottomBarWhenPushed = YES;
+                notiVc.accessToken = self.accessToken;
+                [self.navigationController pushViewController:notiVc animated:YES];
+            } else
+            // logout
+            if (indexPath.row == 3) {
                 NSString *title = NSLocalizedString(@"Notification", @"Title for logout notification");
                 NSString *message = NSLocalizedString(@"Are you sure?", @"Message for logout notification");
                 NSString *cancelButtonTitle = NSLocalizedString(@"NO", @"Cancel button title for logout notification");
@@ -133,6 +158,42 @@
     }
 
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // disable notification cell when no any notification
+    if (indexPath.section == 0 && indexPath.row == 2 && self.notiCount <= 0) {
+        return nil;
+    }
+        
+    return indexPath;
+}
+
+-(UILabel *)createCountLabelWithCount:(NSInteger)count
+{
+    UILabel *label;
+    CGFloat fontSize = 14;
+    label = [[UILabel alloc] init];
+    label.font = [UIFont systemFontOfSize:fontSize];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor redColor];
+
+    label.text = [NSString stringWithFormat:@"%lu", (long)count];
+    [label sizeToFit];
+
+    // Adjust frame to be square for single digits or elliptical for numbers > 9
+    CGRect frame = label.frame;
+    frame.size.height += (int)(0.4*fontSize);
+    frame.size.width = ((long)count <= 9) ? frame.size.height : frame.size.width + (int)fontSize;
+    label.frame = frame;
+
+    // Set radius and clip to bounds
+    label.layer.cornerRadius = frame.size.height/2.0;
+    label.clipsToBounds = true;
+
+    return label;
 }
 
 #pragma mark - Login
@@ -195,6 +256,24 @@
         [self logout];
         [self.tableView reloadData];
     }
+}
+
+#pragma mark - badge
+
+- (void)setNotificationBadge
+{
+    self.notiCount = [self.tabBarController.tabBar.selectedItem.badgeValue intValue];
+    weakify(self);
+    [[DataEngine sharedEngine] getUserNotificationsWithAccessToken:self.accessToken page:1 completionHandler:^(NSArray<NotificationModel *> *notifications, NSError *error) {
+        strongify(self);
+        self.notiCount = [notifications count];
+        NSString *countStr = nil;
+        if (self.notiCount > 0) {
+            countStr = [NSString stringWithFormat:@"%lu", self.notiCount];
+        }
+        [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:countStr];
+        if (self.tableView) [self.tableView reloadData];
+    }];
 }
 
 

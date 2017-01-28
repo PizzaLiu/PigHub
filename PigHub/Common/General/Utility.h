@@ -12,5 +12,6 @@
 
 + (NSString *)trimString:(NSString *) str;
 + (NSString *)formatNumberForInt:(NSInteger)num;
++ (NSDate *)formatZdateForString:(NSString *)dateStr;
 
 @end

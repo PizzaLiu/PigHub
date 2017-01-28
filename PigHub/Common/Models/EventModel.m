@@ -14,15 +14,6 @@
 
 + (instancetype)modelWithDic:(NSDictionary *)dic
 {
-    static NSDateFormatter *dateFormatter;
-    if (!dateFormatter) {
-        dateFormatter = [[NSDateFormatter alloc] init];
-        //dateFormatter.locale = [NSLocale currentLocale];
-        dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
-        // 2017-01-24T08:54:29Z
-        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
-    }
-
     if (!dic) {
         return nil;
     }
@@ -35,7 +26,7 @@
 
         model.actor = [UserModel modelWithDic:[dic objectForKey:@"actor"]];
         model.eventId = [dic objectForKey:@"id"];
-        model.createdDate = [dateFormatter dateFromString: [dic objectForKey:@"created_at"]];
+        model.createdDate = [Utility formatZdateForString:[dic objectForKey:@"created_at"]];
         model.sourceRepo = [Repository modelWithDic:[dic objectForKey:@"repo"]];
         model.isPulic = [[dic objectForKey:@"public"] boolValue];
 

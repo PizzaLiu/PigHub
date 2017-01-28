@@ -25,6 +25,10 @@
 		3E185CCF1E38C72D0017E46A /* EventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CCD1E38C72D0017E46A /* EventTableViewCell.m */; };
 		3E185CD01E38C72D0017E46A /* EventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E185CCE1E38C72D0017E46A /* EventTableViewCell.xib */; };
 		3E185CD31E3A1F660017E46A /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CD21E3A1F660017E46A /* WebViewController.m */; };
+		3E185CD61E3AFFB90017E46A /* NotificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CD51E3AFFB90017E46A /* NotificationModel.m */; };
+		3E185CDC1E3B51270017E46A /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CDB1E3B51270017E46A /* NotificationViewController.m */; };
+		3E185CE01E3B64470017E46A /* NotificationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E185CDE1E3B64470017E46A /* NotificationTableViewCell.m */; };
+		3E185CE11E3B64470017E46A /* NotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E185CDF1E3B64470017E46A /* NotificationTableViewCell.xib */; };
 		3E7092581E0E69D900DB50B7 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7092571E0E69D900DB50B7 /* LanguageViewController.m */; };
 		3E9CF1991E1538BA00238038 /* LanguageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9CF1981E1538BA00238038 /* LanguageModel.m */; };
 		3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCC9B41E21265300E33F6F /* DataEngine.m */; };
@@ -77,6 +81,13 @@
 		3E185CCE1E38C72D0017E46A /* EventTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EventTableViewCell.xib; path = Common/Views/EventTableViewCell.xib; sourceTree = "<group>"; };
 		3E185CD11E3A1F660017E46A /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = Common/ViewControllers/WebViewController.h; sourceTree = "<group>"; };
 		3E185CD21E3A1F660017E46A /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = Common/ViewControllers/WebViewController.m; sourceTree = "<group>"; };
+		3E185CD41E3AFFB90017E46A /* NotificationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationModel.h; path = Common/Models/NotificationModel.h; sourceTree = "<group>"; };
+		3E185CD51E3AFFB90017E46A /* NotificationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotificationModel.m; path = Common/Models/NotificationModel.m; sourceTree = "<group>"; };
+		3E185CDA1E3B51270017E46A /* NotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationViewController.h; path = Common/ViewControllers/NotificationViewController.h; sourceTree = "<group>"; };
+		3E185CDB1E3B51270017E46A /* NotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotificationViewController.m; path = Common/ViewControllers/NotificationViewController.m; sourceTree = "<group>"; };
+		3E185CDD1E3B64470017E46A /* NotificationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationTableViewCell.h; path = Common/Views/NotificationTableViewCell.h; sourceTree = "<group>"; };
+		3E185CDE1E3B64470017E46A /* NotificationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotificationTableViewCell.m; path = Common/Views/NotificationTableViewCell.m; sourceTree = "<group>"; };
+		3E185CDF1E3B64470017E46A /* NotificationTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NotificationTableViewCell.xib; path = Common/Views/NotificationTableViewCell.xib; sourceTree = "<group>"; };
 		3E7092561E0E69D900DB50B7 /* LanguageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageViewController.h; path = Common/ViewControllers/LanguageViewController.h; sourceTree = "<group>"; };
 		3E7092571E0E69D900DB50B7 /* LanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguageViewController.m; path = Common/ViewControllers/LanguageViewController.m; sourceTree = "<group>"; };
 		3E9CF1971E1538BA00238038 /* LanguageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageModel.h; path = Common/Models/LanguageModel.h; sourceTree = "<group>"; };
@@ -165,6 +176,8 @@
 				3E185CC21E384A470017E46A /* EventViewController.m */,
 				3E185CD11E3A1F660017E46A /* WebViewController.h */,
 				3E185CD21E3A1F660017E46A /* WebViewController.m */,
+				3E185CDA1E3B51270017E46A /* NotificationViewController.h */,
+				3E185CDB1E3B51270017E46A /* NotificationViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -180,6 +193,8 @@
 				3ECCC9B71E22441400E33F6F /* Repository.m */,
 				3E185C981E333CA00017E46A /* UserModel.h */,
 				3E185C991E333CA00017E46A /* UserModel.m */,
+				3E185CD41E3AFFB90017E46A /* NotificationModel.h */,
+				3E185CD51E3AFFB90017E46A /* NotificationModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -288,6 +303,9 @@
 				3E185CCC1E38C72D0017E46A /* EventTableViewCell.h */,
 				3E185CCD1E38C72D0017E46A /* EventTableViewCell.m */,
 				3E185CCE1E38C72D0017E46A /* EventTableViewCell.xib */,
+				3E185CDD1E3B64470017E46A /* NotificationTableViewCell.h */,
+				3E185CDE1E3B64470017E46A /* NotificationTableViewCell.m */,
+				3E185CDF1E3B64470017E46A /* NotificationTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -371,6 +389,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E185CE11E3B64470017E46A /* NotificationTableViewCell.xib in Resources */,
 				3EDC33FE1E0695CD00B96CB1 /* LaunchScreen.storyboard in Resources */,
 				3EDC33FB1E0695CD00B96CB1 /* Assets.xcassets in Resources */,
 				3ECCC9BD1E26317600E33F6F /* RepositoryTableViewCell.xib in Resources */,
@@ -441,6 +460,7 @@
 				3E185CC01E3794FE0017E46A /* EventModel.m in Sources */,
 				3E185CC41E384A470017E46A /* EventViewController.m in Sources */,
 				3EDC33F61E0695CD00B96CB1 /* ViewController.m in Sources */,
+				3E185CDC1E3B51270017E46A /* NotificationViewController.m in Sources */,
 				3EDC34161E08287C00B96CB1 /* SegmentBarView.m in Sources */,
 				3EDC34131E07DF7300B96CB1 /* TrendingViewController.m in Sources */,
 				3EDC33F31E0695CD00B96CB1 /* AppDelegate.m in Sources */,
@@ -451,7 +471,9 @@
 				3E185C9A1E333CA00017E46A /* UserModel.m in Sources */,
 				3EDC33F01E0695CD00B96CB1 /* main.m in Sources */,
 				3E185CB01E34E7990017E46A /* MyViewController.m in Sources */,
+				3E185CE01E3B64470017E46A /* NotificationTableViewCell.m in Sources */,
 				3E185CBC1E3716340017E46A /* AboutViewController.m in Sources */,
+				3E185CD61E3AFFB90017E46A /* NotificationModel.m in Sources */,
 				3ECCC9B81E22441400E33F6F /* Repository.m in Sources */,
 				3E185CB81E35AD710017E46A /* LoginViewController.m in Sources */,
 				3E185CC81E38657E0017E46A /* Utility.m in Sources */,

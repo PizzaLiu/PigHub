@@ -10,4 +10,6 @@
 
 @interface NotificationViewController : UITableViewController
 
+@property (copy, nonatomic) NSString *accessToken;
+
 @end

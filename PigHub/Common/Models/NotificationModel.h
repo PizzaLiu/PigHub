@@ -10,4 +10,13 @@
 
 @interface NotificationModel : NSObject
 
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *url;
+@property (nonatomic, copy) NSString *notiId;
+@property (nonatomic, copy) NSString *repoFullName;
+@property (nonatomic, copy) NSString *updatedDateStr;
+@property (nonatomic, strong) NSDate *updatedDate;
+
++(instancetype)modelWithDic:(NSDictionary *)dic;
+
 @end

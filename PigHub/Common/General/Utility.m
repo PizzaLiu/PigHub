@@ -27,4 +27,18 @@
     return [formatter stringFromNumber:[NSNumber numberWithInteger:num]];
 }
 
++ (NSDate *)formatZdateForString:(NSString *)dateStr
+{
+    static NSDateFormatter *dateFormatter;
+    if (!dateFormatter) {
+        dateFormatter = [[NSDateFormatter alloc] init];
+        //dateFormatter.locale = [NSLocale currentLocale];
+        dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
+        // 2017-01-24T08:54:29Z
+        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+    }
+
+    return [dateFormatter dateFromString:dateStr];
+}
+
 @end

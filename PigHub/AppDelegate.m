@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "DataEngine.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,24 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window.backgroundColor = [UIColor whiteColor];
+
+    // init notification badge
+    NSString *accessToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"access_token"];
+    if (accessToken) {
+        weakify(self);
+        [[DataEngine sharedEngine] getUserNotificationsWithAccessToken:accessToken page:1 completionHandler:^(NSArray<NotificationModel *> *notifications, NSError *error) {
+            strongify(self);
+            if (error) return;
+            __weak UITabBarController *tabVc = (UITabBarController *)self.window.rootViewController;
+            NSString *countStr = nil;
+            NSInteger notiCount = [notifications count];
+            if (notiCount > 0) {
+                countStr = [NSString stringWithFormat:@"%lu", notiCount];
+            }
+            [[tabVc.tabBar.items objectAtIndex:3] setBadgeValue:countStr];
+        }];
+    }
+
     return YES;
 }
 

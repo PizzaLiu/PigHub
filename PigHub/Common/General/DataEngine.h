@@ -12,6 +12,7 @@
 #import "EventModel.h"
 #import "AFNetworking.h"
 #import "WeakifyStrongify.h"
+#import "NotificationModel.h"
 
 #pragma mark - AFAppDotNetAPIClient
 
@@ -19,6 +20,7 @@
 @interface AFAppDotNetAPIClient : AFHTTPSessionManager
 
 + (instancetype)sharedClient;
++ (instancetype)sharedHttpClient;
 
 @end
 
@@ -46,5 +48,14 @@
                                        accessToken:(NSString *)access_token
                                               page:(NSInteger)page
                                  completionHandler:(void (^)(NSArray<EventModel *> *users, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getUserNotificationsWithAccessToken:(NSString *)access_token
+                                                         page:(NSInteger)page
+                                            completionHandler:(void (^)(NSArray<NotificationModel *> *notifications, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)markReadedNotificationsWithAccessToken:(NSString *)access_token
+                                                        threadId:(NSString *)threadId
+                                               completionHandler:(void (^)(BOOL done, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)markAllNotificationsReadedWithAccessToken:(NSString *)access_token
+                                                           lastTime:(NSString *)lastReadAt
+                                                  completionHandler:(void (^)(BOOL done, NSError *error))completionBlock;
 
 @end
