@@ -159,7 +159,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
     cell.langLabel.text = repo.langName;
 
-    [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[repo avatarUrlForSize:50]]
+    [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[repo avatarUrlForSize:42]]
                  placeholderImage:[UIImage imageNamed:@"GithubLogo"]];
 
     return cell;
