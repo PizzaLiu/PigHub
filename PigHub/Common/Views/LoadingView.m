@@ -14,9 +14,15 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        // bg
+        UIView *bg = [[UIView alloc] initWithFrame:frame];
+        bg.backgroundColor = [[UIColor alloc] initWithRed:0.0 green:0.0 blue:0.0 alpha:0.2];
+        [self addSubview:bg];
+
+        // cycle
         int loadingViewWidth = 80;
         int loadingViewHeight = 80;
-        UIView *loadingView = [[UIView alloc]initWithFrame:CGRectMake((frame.size.width - loadingViewWidth)/2.0, (frame.size.height - loadingViewHeight)/2.0, loadingViewWidth, loadingViewHeight)];
+        UIView *loadingView = [[UIView alloc] initWithFrame:CGRectMake((frame.size.width - loadingViewWidth)/2.0, (frame.size.height - loadingViewHeight)/2.0, loadingViewWidth, loadingViewHeight)];
         loadingView.backgroundColor = [UIColor colorWithWhite:0. alpha:0.6];
         loadingView.layer.cornerRadius = 5;
 
