@@ -203,7 +203,7 @@
 - (void)oauth2LoginAction
 {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    NSString *reqUrl = [NSString stringWithFormat:@"https://github.com/login/oauth/authorize/?client_id=%@&state=cool&scope=notifications,repo", GitHubClientID];
+    NSString *reqUrl = [NSString stringWithFormat:@"https://github.com/login/oauth/authorize/?client_id=%@&state=cool&scope=notifications", GitHubClientID];
 
     LoginViewController *loginVc = [[LoginViewController alloc] init];
     loginVc.hidesBottomBarWhenPushed = YES;
@@ -214,6 +214,11 @@
         if (!accessToken) return;
 
         strongify(self);
+
+        self.accessToken = accessToken;
+        [[NSUserDefaults standardUserDefaults] setObject:accessToken forKey:@"access_token"];
+        [self setNotificationBadge];
+
         self.loadingView.hidden = NO;
 
         [[DataEngine sharedEngine] getUserInfoWithAccessToken:accessToken completionHandler:^(UserModel *user, NSError *error) {
