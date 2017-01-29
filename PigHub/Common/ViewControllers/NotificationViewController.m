@@ -13,6 +13,8 @@
 #import "WeakifyStrongify.h"
 #import "DataEngine.h"
 #import "LoadingView.h"
+#import "NotificationTableViewCell.h"
+#import "DateTools.h"
 
 @interface NotificationViewController ()
 
@@ -37,7 +39,10 @@
     self.clearsSelectionOnViewWillAppear = YES;
     self.nowPage = 0;
 
-    //[self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"NotificationCell"];
+    //self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    UINib *nib = [UINib nibWithNibName:@"NotificationTableViewCell" bundle:nil];
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"NotificationTableViewCell"];
+
     [self initRefresh];
     [self.tableView.mj_header beginRefreshing];
 }
@@ -90,17 +95,20 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NotificationCell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"NotificationCell"];
-    }
+    NotificationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NotificationTableViewCell" forIndexPath:indexPath];
     
     NotificationModel *noti = [self.tableData objectAtIndex:indexPath.row];
 
-    cell.textLabel.text = noti.repoFullName;
-    cell.detailTextLabel.text = noti.title;
+    cell.repoNameLabel.text = noti.repoFullName;
+    cell.titleLabel.text = noti.title;
+    cell.dateLabel.text = noti.updatedDate.timeAgoSinceNow;
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [NotificationTableViewCell cellHeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

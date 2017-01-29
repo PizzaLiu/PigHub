@@ -10,6 +10,11 @@
 
 @implementation NotificationTableViewCell
 
++ (float)cellHeight
+{
+    return 64.0;
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

@@ -10,4 +10,10 @@
 
 @interface NotificationTableViewCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *repoNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+
++ (float)cellHeight;
+
 @end
