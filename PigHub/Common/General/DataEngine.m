@@ -54,6 +54,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
 
 @interface DataEngine()
 
+@property (nonatomic, strong) NSError *noTargetDataError;
 
 @end
 
@@ -68,6 +69,15 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedEngine = [[self alloc] initPrivate];
+
+        NSDictionary *userInfo = @{
+                                   NSLocalizedDescriptionKey: NSLocalizedString(@"Parse the target data was unsuccessful.", nil),
+                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Cannot parse target dats.", nil),
+                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Maybe the API of Github have changed?", nil)
+                                   };
+        sharedEngine.noTargetDataError = [NSError errorWithDomain:@"DataEngine"
+                                    code:100
+                                userInfo:userInfo];
     });
 
     return sharedEngine;
@@ -178,10 +188,10 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
                 repo = nil;
                 completionBlock(repositories, nil);
             } else {
-                completionBlock(nil, responseObject);
+                completionBlock(nil, [self.noTargetDataError copy]);
             }
         } else {
-            completionBlock(nil, responseObject);
+            completionBlock(nil, [self.noTargetDataError copy]);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         completionBlock(nil, error);
@@ -215,10 +225,10 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
                 user = nil;
                 completionBlock(users, nil);
             } else {
-                completionBlock(nil, responseObject);
+                completionBlock(nil, [self.noTargetDataError copy]);
             }
         } else {
-            completionBlock(nil, responseObject);
+            completionBlock(nil, [self.noTargetDataError copy]);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         completionBlock(nil, error);
@@ -269,9 +279,9 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
     NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             UserModel *user = [UserModel modelWithDic:responseObject];
-            completionBlock(user, responseObject);
+            completionBlock(user, nil);
         } else {
-            completionBlock(nil, responseObject);
+            completionBlock(nil, [self.noTargetDataError copy]);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         completionBlock(nil, error);
@@ -301,7 +311,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
             event = nil;
             completionBlock(events, nil);
         } else {
-            completionBlock(nil, responseObject);
+            completionBlock(nil, [self.noTargetDataError copy]);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         completionBlock(nil, error);
@@ -333,7 +343,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
             noti = nil;
             completionBlock(notifications, nil);
         } else {
-            completionBlock(nil, responseObject);
+            completionBlock(nil, [self.noTargetDataError copy]);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         completionBlock(nil, error);
