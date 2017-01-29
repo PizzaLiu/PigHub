@@ -23,19 +23,9 @@
     model.title = [subjectDic objectForKey:@"title"];
     model.updatedDateStr = [dic objectForKey:@"updated_at"];
     model.updatedDate = [Utility formatZdateForString:model.updatedDateStr];
-    model.url = [NotificationModel transUrlToHtmlUrlWithUrl:[subjectDic objectForKey:@"url"]];
+    model.url = [subjectDic objectForKey:@"url"];
 
     return model;
-}
-
-+(NSString *)transUrlToHtmlUrlWithUrl:(NSString *)url
-{
-    NSString *htmlUrl = [[NSMutableString alloc] init];
-
-    htmlUrl = [url stringByReplacingOccurrencesOfString:@"api.github.com" withString:@"github.com"];
-    htmlUrl = [htmlUrl stringByReplacingOccurrencesOfString:@"/pulls/" withString:@"/pull/"];
-    htmlUrl = [htmlUrl stringByReplacingOccurrencesOfString:@"/repos/" withString:@"/"];
-    return htmlUrl;
 }
 
 @end

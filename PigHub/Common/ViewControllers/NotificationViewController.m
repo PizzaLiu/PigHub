@@ -39,6 +39,11 @@
     self.clearsSelectionOnViewWillAppear = YES;
     self.nowPage = 0;
 
+    CGRect loadingFrame = CGRectMake(0.0, 0.0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 60.0);
+    self.loadingView = [[LoadingView alloc] initWithFrame:loadingFrame];
+    self.loadingView.hidden = YES;
+    [self.view addSubview:self.loadingView];
+
     //self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     UINib *nib = [UINib nibWithNibName:@"NotificationTableViewCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"NotificationTableViewCell"];
@@ -68,10 +73,6 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
-        if (!self.loadingView) {
-            self.loadingView = [[LoadingView alloc] initWithFrame:self.view.frame];
-            [self.view addSubview:self.loadingView];
-        }
         self.loadingView.hidden = NO;
         NSString *lastReadAt = [self.tableData firstObject].updatedDateStr;
 
@@ -114,12 +115,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NotificationModel *noti = [self.tableData objectAtIndex:indexPath.row];
-    WebViewController *vc = [[WebViewController alloc] init];
 
-    vc.url = noti.url;
-    vc.hidesBottomBarWhenPushed = YES;
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.loadingView.hidden = NO;
+    weakify(self);
+    [[DataEngine sharedEngine] getUrlDataWithAccessToken:self.accessToken url:noti.url completionHandler:^(id data, NSError *error) {
+        strongify(self);
+        self.loadingView.hidden = YES;
+        if ([data isKindOfClass:[NSDictionary class]]) {
+            WebViewController *vc = [[WebViewController alloc] init];
 
-    [self.navigationController pushViewController:vc animated:YES];
+            vc.url = [data objectForKey:@"html_url"];
+            vc.hidesBottomBarWhenPushed = YES;
+
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath

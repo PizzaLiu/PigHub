@@ -227,7 +227,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
 - (void)initRefresh
 {
-    __unsafe_unretained UITableView *tableView = self.tableView;
+    __weak UITableView *tableView = self.tableView;
     weakify(self);
     tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
 

@@ -30,7 +30,7 @@
 
 +(instancetype)sharedEngine;
 
-- (void)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionHandler;
+- (NSURLSessionDataTask *)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionHandler;
 
 - (NSURLSessionDataTask *)searchRepositoriesWithPage:(NSInteger)page
                                                query:(NSString *)query
@@ -57,5 +57,8 @@
 - (NSURLSessionDataTask *)markAllNotificationsReadedWithAccessToken:(NSString *)access_token
                                                            lastTime:(NSString *)lastReadAt
                                                   completionHandler:(void (^)(BOOL done, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getUrlDataWithAccessToken:(NSString *)access_token
+                                                url:(NSString *)url
+                                  completionHandler:(void (^)(id data, NSError *error))completionBlock;
 
 @end

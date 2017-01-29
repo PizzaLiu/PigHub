@@ -26,6 +26,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
         _sharedClient = [[AFAppDotNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:AFAppDotNetAPIBaseURLString]];
         _sharedClient.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
+        _sharedClient.requestSerializer.timeoutInterval = 30;
     });
 
     return _sharedClient;
@@ -39,6 +40,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
         _sharedHttpClient.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
 
         _sharedHttpClient.responseSerializer = [AFHTTPResponseSerializer serializer];
+        _sharedHttpClient.requestSerializer.timeoutInterval = 30;
         [_sharedHttpClient.requestSerializer setValue:@"" forHTTPHeaderField:@"User-Agent"];
     });
 
@@ -85,7 +87,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
 
 #pragma mark - Github page
 
-- (void)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionBlock
+- (NSURLSessionDataTask *)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionBlock
 {
     // /trending/developers  /trending
     // /trending/css  /trending/php
@@ -99,10 +101,10 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
         developer = @"";
     }
 
-    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedHttpClient];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedHttpClient];
     NSString *url = [[NSString alloc] initWithFormat:@"https://github.com/trending%@%@?since=%@", developer, langDir, since];
 
-    [manager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    NSURLSessionDataTask *task = [manager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 
         NSError *error = nil;
         NSMutableArray<Repository *> *repositories = nil;
@@ -145,6 +147,8 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         completionBlock(nil, error);
     }];
+
+    return task;
 }
 
 #pragma mark - api
@@ -157,10 +161,9 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
                                    completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionBlock
 {
     NSString *getString = [NSString stringWithFormat:@"/search/repositories?q=%@&sort=%@&page=%ld",query,sort,(long)page];
-    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
     getString = [getString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             // NSInteger totalCount=[[responseObject objectForKey:@"total_count"] intValue];
@@ -195,10 +198,9 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
                             completionHandler:(void (^)(NSArray<UserModel *> *users, NSError *error))completionBlock
 {
     NSString *getString = [NSString stringWithFormat:@"/search/users?q=%@&sort=%@&page=%ld",query,sort,(long)page];
-    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
     getString = [getString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             //NSInteger totalCount = [[responseObject objectForKey:@"total_count"] intValue];
@@ -239,9 +241,8 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
                                  @"code": code,
                                  @"state": @"cool"
                                  };
-    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
 
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     NSURLSessionDataTask *task = [manager POST:postUrl parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -263,9 +264,8 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
                                    completionHandler:(void (^)(UserModel *user, NSError *error))completionBlock
 {
     NSString *getString = [NSString stringWithFormat:@"/user?access_token=%@", access_token];
-    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
 
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             UserModel *user = [UserModel modelWithDic:responseObject];
@@ -288,9 +288,8 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
                                    completionHandler:(void (^)(NSArray<EventModel *> *users, NSError *error))completionBlock
 {
     NSString *getString = [NSString stringWithFormat:@"/users/%@/received_events?access_token=%@&page=%lu", userName, access_token, (long)page];
-    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
 
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject isKindOfClass:[NSArray class]]) {
             NSMutableArray<EventModel *> *events = [[NSMutableArray alloc] init];
@@ -321,9 +320,8 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
 {
     // NSString *getString = [NSString stringWithFormat:@"/notifications?access_token=%@&page=%lu", access_token, (long)page];
     NSString *getString = [NSString stringWithFormat:@"/notifications?access_token=%@&t=%f", access_token, [[NSDate date] timeIntervalSince1970] * 1000];
-    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
 
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject isKindOfClass:[NSArray class]]) {
             NSMutableArray<NotificationModel *> *notifications = [[NSMutableArray alloc] init];
@@ -351,7 +349,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
                                                completionHandler:(void (^)(BOOL done, NSError *error))completionBlock
 {
     NSString *patchString = [NSString stringWithFormat:@"https://api.github.com/notifications/threads/%@?access_token=%@", threadId, access_token];
-    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedHttpClient];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedHttpClient];
 
     NSURLSessionDataTask *task = [manager PATCH:patchString parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
@@ -373,7 +371,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
                                                   completionHandler:(void (^)(BOOL done, NSError *error))completionBlock
 {
     NSString *putString = [NSString stringWithFormat:@"https://api.github.com/notifications?access_token=%@&last_read_at=%@", access_token, lastReadAt];
-    __unsafe_unretained AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedHttpClient];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
 
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     NSURLSessionDataTask *task = [manager PUT:putString parameters:@{} success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -384,6 +382,22 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
         NSInteger statusCode = httpResponse.statusCode;
         completionBlock(statusCode == 205, nil);
+    }];
+
+    return task;
+}
+
+// Get url data with access_token
+- (NSURLSessionDataTask *)getUrlDataWithAccessToken:(NSString *)access_token
+                                                url:(NSString *)url
+                                  completionHandler:(void (^)(id data, NSError *error))completionBlock
+{
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    NSURLSessionDataTask *task = [manager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+        completionBlock(responseObject, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
     }];
 
     return task;
