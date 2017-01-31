@@ -31,7 +31,6 @@
 		3E185CE11E3B64470017E46A /* NotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E185CDF1E3B64470017E46A /* NotificationTableViewCell.xib */; };
 		3E6849111E3E0EE200736935 /* RepositoryInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6849101E3E0EE200736935 /* RepositoryInfoModel.m */; };
 		3E6849131E3E38A800736935 /* RepositoryDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E6849121E3E38A800736935 /* RepositoryDetailViewController.xib */; };
-		3E6849171E3F8AF400736935 /* RepositoryDetailHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E6849161E3F8AF400736935 /* RepositoryDetailHeaderView.xib */; };
 		3E7092581E0E69D900DB50B7 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7092571E0E69D900DB50B7 /* LanguageViewController.m */; };
 		3E9CF1991E1538BA00238038 /* LanguageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9CF1981E1538BA00238038 /* LanguageModel.m */; };
 		3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCC9B41E21265300E33F6F /* DataEngine.m */; };
@@ -93,7 +92,6 @@
 		3E68490F1E3E0EE200736935 /* RepositoryInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RepositoryInfoModel.h; path = Common/Models/RepositoryInfoModel.h; sourceTree = "<group>"; };
 		3E6849101E3E0EE200736935 /* RepositoryInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RepositoryInfoModel.m; path = Common/Models/RepositoryInfoModel.m; sourceTree = "<group>"; };
 		3E6849121E3E38A800736935 /* RepositoryDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RepositoryDetailViewController.xib; path = Common/ViewControllers/RepositoryDetailViewController.xib; sourceTree = "<group>"; };
-		3E6849161E3F8AF400736935 /* RepositoryDetailHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RepositoryDetailHeaderView.xib; path = Common/Views/RepositoryDetailHeaderView.xib; sourceTree = "<group>"; };
 		3E7092561E0E69D900DB50B7 /* LanguageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageViewController.h; path = Common/ViewControllers/LanguageViewController.h; sourceTree = "<group>"; };
 		3E7092571E0E69D900DB50B7 /* LanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguageViewController.m; path = Common/ViewControllers/LanguageViewController.m; sourceTree = "<group>"; };
 		3E9CF1971E1538BA00238038 /* LanguageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageModel.h; path = Common/Models/LanguageModel.h; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 				3E185CD21E3A1F660017E46A /* WebViewController.m */,
 				3E185CDA1E3B51270017E46A /* NotificationViewController.h */,
 				3E185CDB1E3B51270017E46A /* NotificationViewController.m */,
-				3E6849161E3F8AF400736935 /* RepositoryDetailHeaderView.xib */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -397,7 +394,6 @@
 			files = (
 				3E185CE11E3B64470017E46A /* NotificationTableViewCell.xib in Resources */,
 				3EDC33FE1E0695CD00B96CB1 /* LaunchScreen.storyboard in Resources */,
-				3E6849171E3F8AF400736935 /* RepositoryDetailHeaderView.xib in Resources */,
 				3EDC33FB1E0695CD00B96CB1 /* Assets.xcassets in Resources */,
 				3ECCC9BD1E26317600E33F6F /* RepositoryTableViewCell.xib in Resources */,
 				3E6849131E3E38A800736935 /* RepositoryDetailViewController.xib in Resources */,
