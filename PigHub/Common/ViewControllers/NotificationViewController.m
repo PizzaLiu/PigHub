@@ -39,8 +39,7 @@
     self.clearsSelectionOnViewWillAppear = YES;
     self.nowPage = 0;
 
-    CGRect loadingFrame = CGRectMake(0.0, 0.0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 60.0);
-    self.loadingView = [[LoadingView alloc] initWithFrame:loadingFrame];
+    self.loadingView = [[LoadingView alloc] initWithFrame:CGRectZero];
     self.loadingView.hidden = YES;
     [self.view addSubview:self.loadingView];
 

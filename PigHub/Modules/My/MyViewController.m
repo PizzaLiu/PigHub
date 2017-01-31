@@ -203,7 +203,8 @@
 - (void)oauth2LoginAction
 {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    NSString *reqUrl = [NSString stringWithFormat:@"https://github.com/login/oauth/authorize/?client_id=%@&state=cool&scope=notifications", GitHubClientID];
+    // public_repo is for star/unstar repo
+    NSString *reqUrl = [NSString stringWithFormat:@"https://github.com/login/oauth/authorize/?client_id=%@&state=cool&scope=public_repo,notifications", GitHubClientID];
 
     LoginViewController *loginVc = [[LoginViewController alloc] init];
     loginVc.hidesBottomBarWhenPushed = YES;

@@ -413,4 +413,101 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
     return task;
 }
 
+#pragma mark - Repository
+
+// https://developer.github.com/v3/repos/#get
+// Get repository detail
+- (NSURLSessionDataTask *)getRepoInfoWithOrgName:(NSString *)owner
+                                        repoName:(NSString *)name
+                               completionHandler:(void (^)(RepositoryInfoModel *data, NSError *error))completionBlock
+{
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+    NSString *url = [NSString stringWithFormat:@"https://api.github.com/repos/%@/%@", owner, name];
+
+    NSURLSessionDataTask *task = [manager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            completionBlock([RepositoryInfoModel modelWithDic:responseObject], nil);
+        } else {
+            completionBlock(nil, [self.noTargetDataError copy]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
+    }];
+
+    return task;
+}
+
+#pragma mark - Star
+
+// Check if you are starring a repository
+// https://developer.github.com/v3/activity/starring/#check-if-you-are-starring-a-repository
+- (NSURLSessionDataTask *)checkIfStaredWithToken:(NSString *)access_token
+                                       ownerName:(NSString *)owner
+                                        repoName:(NSString *)repo
+                               completionHandler:(void (^)(BOOL done, NSError *error))completionBlock
+{
+    NSString *getString = [NSString stringWithFormat:@"/user/starred/%@/%@?access_token=%@", owner, repo, access_token];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSInteger statusCode = httpResponse.statusCode;
+        completionBlock(statusCode == 204, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSInteger statusCode = httpResponse.statusCode;
+        completionBlock(statusCode == 204, nil);
+    }];
+
+    return task;
+}
+
+// Star a repository
+// https://developer.github.com/v3/activity/starring/#star-a-repository
+- (NSURLSessionDataTask *)staredRepoWithToken:(NSString *)access_token
+                                    ownerName:(NSString *)owner
+                                     repoName:(NSString *)repo
+                            completionHandler:(void (^)(BOOL done, NSError *error))completionBlock
+{
+    NSString *putString = [NSString stringWithFormat:@"/user/starred/%@/%@?access_token=%@", owner, repo, access_token];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    NSURLSessionDataTask *task = [manager PUT:putString parameters:@{} success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSInteger statusCode = httpResponse.statusCode;
+        completionBlock(statusCode == 204, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSInteger statusCode = httpResponse.statusCode;
+        completionBlock(statusCode == 204, nil);
+    }];
+
+    return task;
+}
+
+// Unstar a repository
+// https://developer.github.com/v3/activity/starring/#unstar-a-repository
+- (NSURLSessionDataTask *)unStaredRepoWithToken:(NSString *)access_token
+                                      ownerName:(NSString *)owner
+                                       repoName:(NSString *)repo
+                              completionHandler:(void (^)(BOOL done, NSError *error))completionBlock
+{
+    NSString *delString = [NSString stringWithFormat:@"/user/starred/%@/%@?access_token=%@", owner, repo, access_token];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    NSURLSessionDataTask *task = [manager DELETE:delString parameters:@{} success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSInteger statusCode = httpResponse.statusCode;
+        completionBlock(statusCode == 204, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSInteger statusCode = httpResponse.statusCode;
+        completionBlock(statusCode == 204, nil);
+    }];
+
+    return task;
+}
+
+
 @end

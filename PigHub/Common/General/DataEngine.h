@@ -10,6 +10,7 @@
 #import "Repository.h"
 #import "UserModel.h"
 #import "EventModel.h"
+#import "RepositoryInfoModel.h"
 #import "AFNetworking.h"
 #import "WeakifyStrongify.h"
 #import "NotificationModel.h"
@@ -60,5 +61,20 @@
 - (NSURLSessionDataTask *)getUrlDataWithAccessToken:(NSString *)access_token
                                                 url:(NSString *)url
                                   completionHandler:(void (^)(id data, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getRepoInfoWithOrgName:(NSString *)owner
+                                        repoName:(NSString *)name
+                               completionHandler:(void (^)(RepositoryInfoModel *data, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)checkIfStaredWithToken:(NSString *)access_token
+                                       ownerName:(NSString *)owner
+                                        repoName:(NSString *)repo
+                               completionHandler:(void (^)(BOOL done, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)staredRepoWithToken:(NSString *)access_token
+                                    ownerName:(NSString *)owner
+                                     repoName:(NSString *)repo
+                            completionHandler:(void (^)(BOOL done, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)unStaredRepoWithToken:(NSString *)access_token
+                                      ownerName:(NSString *)owner
+                                       repoName:(NSString *)repo
+                              completionHandler:(void (^)(BOOL done, NSError *error))completionBlock;
 
 @end
