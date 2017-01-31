@@ -27,13 +27,13 @@
         model.actor = [UserModel modelWithDic:[dic objectForKey:@"actor"]];
         model.eventId = [dic objectForKey:@"id"];
         model.createdDate = [Utility formatZdateForString:[dic objectForKey:@"created_at"]];
-        model.sourceRepo = [Repository modelWithDic:[dic objectForKey:@"repo"]];
+        model.sourceRepo = [RepositoryModel modelWithDic:[dic objectForKey:@"repo"]];
         model.isPulic = [[dic objectForKey:@"public"] boolValue];
 
         if ([typeStr isEqualToString:@"ForkEvent"]) {
             model.actionName = @"forked";
             model.eventType = GitHubUserEventTypeFork;
-            model.destRepo = [Repository modelWithDic:[payload objectForKey:@"forkee"]];
+            model.destRepo = [RepositoryModel modelWithDic:[payload objectForKey:@"forkee"]];
         } else if ([typeStr isEqualToString:@"WatchEvent"]) {
             model.actionName = [payload objectForKey:@"action"];
             model.eventType = GitHubUserEventTypeWatch;

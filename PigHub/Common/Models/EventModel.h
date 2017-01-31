@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "UserModel.h"
-#import "Repository.h"
+#import "RepositoryModel.h"
 
 typedef NS_OPTIONS(NSUInteger, GitHubUserEventType) {
     GitHubUserEventTypeUnknow = 0,
@@ -25,8 +25,8 @@ typedef NS_OPTIONS(NSUInteger, GitHubUserEventType) {
 
 @property (nonatomic, assign) GitHubUserEventType eventType;
 @property (nonatomic, strong) UserModel *actor;
-@property (nonatomic, strong) Repository *sourceRepo;
-@property (nonatomic, strong) Repository *destRepo;
+@property (nonatomic, strong) RepositoryModel *sourceRepo;
+@property (nonatomic, strong) RepositoryModel *destRepo;
 @property (nonatomic, strong) NSDate *createdDate;
 @property (nonatomic, copy) NSString *eventId;
 @property (nonatomic, copy) NSString *actionName;

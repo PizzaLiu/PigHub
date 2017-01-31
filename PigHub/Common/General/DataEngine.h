@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Repository.h"
+#import "RepositoryModel.h"
 #import "UserModel.h"
 #import "EventModel.h"
 #import "RepositoryInfoModel.h"
@@ -31,12 +31,12 @@
 
 +(instancetype)sharedEngine;
 
-- (NSURLSessionDataTask *)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionHandler;
+- (NSURLSessionDataTask *)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<RepositoryModel *> *repositories, NSError *error))completionHandler;
 
 - (NSURLSessionDataTask *)searchRepositoriesWithPage:(NSInteger)page
                                                query:(NSString *)query
                                                 sort:(NSString *)sort
-                                   completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionBlock;
+                                   completionHandler:(void (^)(NSArray<RepositoryModel *> *repositories, NSError *error))completionBlock;
 - (NSURLSessionDataTask *)searchUsersWithPage:(NSInteger)page
                                         query:(NSString *)query
                                          sort:(NSString *)sort

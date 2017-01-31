@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Repository : NSObject
+@interface RepositoryModel : NSObject
 
 @property (nonatomic, copy) NSString *repoId;
 @property (nonatomic, copy) NSString *name;

@@ -8,7 +8,7 @@
 
 #import "SearchViewController.h"
 #import "SegmentBarView.h"
-#import "Repository.h"
+#import "RepositoryModel.h"
 #import "UserModel.h"
 #import "RepositoryTableViewCell.h"
 #import "UserTableViewCell.h"
@@ -29,7 +29,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *noticeLabel;
 @property (weak, nonatomic) UIImageView *navHairline;
 
-@property (strong, nonatomic) NSMutableArray<Repository *> *repoTableData;
+@property (strong, nonatomic) NSMutableArray<RepositoryModel *> *repoTableData;
 @property (strong, nonatomic) NSMutableArray<UserModel *> *userTableData;
 @property (strong, nonatomic) NSMutableArray *tableData;
 
@@ -155,7 +155,7 @@
 
     if ([self.typeSigment selectedSegmentIndex] == 0) {
         RepositoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepoTableViewCell" forIndexPath:indexPath];
-        Repository *repo = [self.repoTableData objectAtIndex:indexPath.row];
+        RepositoryModel *repo = [self.repoTableData objectAtIndex:indexPath.row];
 
         cell.nameLabel.text = repo.name;
         cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
@@ -191,7 +191,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.typeSigment selectedSegmentIndex] == 0) {
-        Repository *repo = [self.repoTableData objectAtIndex:indexPath.row];
+        RepositoryModel *repo = [self.repoTableData objectAtIndex:indexPath.row];
         RepositoryDetailViewController *rdvc = [[RepositoryDetailViewController alloc] init];
         rdvc.repo = repo;
         rdvc.hidesBottomBarWhenPushed = YES;
@@ -282,7 +282,7 @@
         NSString *query = self.searchController.searchBar.text;
 
         if ([self.typeSigment selectedSegmentIndex] == 0) {
-            [[DataEngine sharedEngine] searchRepositoriesWithPage:1 query:query sort:@"stars" completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
+            [[DataEngine sharedEngine] searchRepositoriesWithPage:1 query:query sort:@"stars" completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
                 if (error) {
                     self.noticeLabel.text = @"error occured in loading data";
                     self.noticeLabel.hidden = NO;
@@ -319,7 +319,7 @@
         NSString *query = self.searchController.searchBar.text;
 
         if ([self.typeSigment selectedSegmentIndex] == 0) {
-            [[DataEngine sharedEngine] searchRepositoriesWithPage:(self.repoNowPage+1) query:query sort:@"stars" completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
+            [[DataEngine sharedEngine] searchRepositoriesWithPage:(self.repoNowPage+1) query:query sort:@"stars" completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
                 if (error) {
                     ;
                 } else if ([repositories count] <= 0) {

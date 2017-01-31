@@ -28,7 +28,7 @@
 
     model.parent = nil;
     if ([[dic objectForKey:@"fork"] boolValue]) {
-        model.parent = [Repository modelWithDic:[dic objectForKey:@"parent"]];
+        model.parent = [RepositoryModel modelWithDic:[dic objectForKey:@"parent"]];
     }
 
     model.htmlUrl = [dic objectForKey:@"html_url"];

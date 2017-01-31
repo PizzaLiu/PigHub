@@ -7,7 +7,7 @@
 //
 
 #import "AboutViewController.h"
-#import "Repository.h"
+#import "RepositoryModel.h"
 #import "RepositoryDetailViewController.h"
 #import "UserModel.h"
 #import "UserDetailViewController.h"
@@ -31,7 +31,7 @@
 
 #pragma mark - Actions
 
-- (void)showRepoDetailWithRepo:(Repository *)repo
+- (void)showRepoDetailWithRepo:(RepositoryModel *)repo
 {
     RepositoryDetailViewController *vc = [[RepositoryDetailViewController alloc] init];
     vc.repo = repo;
@@ -59,7 +59,7 @@
 }
 
 - (IBAction)showSourceCodeAction:(id)sender {
-    Repository *repo = [Repository new];
+    RepositoryModel *repo = [RepositoryModel new];
 
     repo.name = @"PigHub";
     repo.href = @"https://github.com/PizzaLiu/PigHub";
@@ -70,7 +70,7 @@
 }
 
 - (IBAction)showAFNetworkingAction:(id)sender {
-    Repository *repo = [Repository new];
+    RepositoryModel *repo = [RepositoryModel new];
 
     repo.name = @"AFNetworking";
     repo.href = @"https://github.com/AFNetworking/AFNetworking";
@@ -80,7 +80,7 @@
     [self showRepoDetailWithRepo:repo];
 }
 - (IBAction)showHTMLReaderAction:(id)sender {
-    Repository *repo = [Repository new];
+    RepositoryModel *repo = [RepositoryModel new];
 
     repo.name = @"HTMLReader";
     repo.href = @"https://github.com/nolanw/HTMLReader";
@@ -90,7 +90,7 @@
     [self showRepoDetailWithRepo:repo];
 }
 - (IBAction)showMJRefreshAction:(id)sender {
-    Repository *repo = [Repository new];
+    RepositoryModel *repo = [RepositoryModel new];
 
     repo.name = @"MJRefresh";
     repo.href = @"https://github.com/CoderMJLee/MJRefresh";
@@ -100,7 +100,7 @@
     [self showRepoDetailWithRepo:repo];
 }
 - (IBAction)showSDWebImageAction:(id)sender {
-    Repository *repo = [Repository new];
+    RepositoryModel *repo = [RepositoryModel new];
 
     repo.name = @"SDWebImage";
     repo.href = @"https://github.com/rs/SDWebImage";
@@ -110,7 +110,7 @@
     [self showRepoDetailWithRepo:repo];
 }
 - (IBAction)showDateToolsAction:(id)sender {
-    Repository *repo = [Repository new];
+    RepositoryModel *repo = [RepositoryModel new];
 
     repo.name = @"DateTool";
     repo.href = @"https://github.com/MatthewYork/DateTools";

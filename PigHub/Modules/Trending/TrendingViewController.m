@@ -13,7 +13,7 @@
 #import "WeakifyStrongify.h"
 #import "MJRefresh.h"
 #import "DataEngine.h"
-#import "Repository.h"
+#import "RepositoryModel.h"
 #import "RepositoryTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "RepositoryDetailViewController.h"
@@ -29,7 +29,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 @property (weak, nonatomic) IBOutlet UILabel *noticeLabel;
 @property (weak, nonatomic) UIImageView *navHairline;
 
-@property (strong, nonatomic) NSArray<Repository *> *tableData;
+@property (strong, nonatomic) NSArray<RepositoryModel *> *tableData;
 @property (strong, nonatomic) Language *targetLanguage;
 
 @property (strong, nonatomic) NSString *sinceStr;
@@ -150,7 +150,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RepositoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
-    Repository *repo = [self.tableData objectAtIndex:indexPath.row];
+    RepositoryModel *repo = [self.tableData objectAtIndex:indexPath.row];
 
     cell.nameLabel.text = repo.name;
     cell.descLabel.text = repo.desc;
@@ -172,7 +172,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Repository *repo = [self.tableData objectAtIndex:indexPath.row];
+    RepositoryModel *repo = [self.tableData objectAtIndex:indexPath.row];
     RepositoryDetailViewController *rdvc = [[RepositoryDetailViewController alloc] init];
     rdvc.repo = repo;
     rdvc.hidesBottomBarWhenPushed = YES;
@@ -233,7 +233,7 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 
         strongify(self);
         self.noticeLabel.hidden = YES;
-        [[DataEngine sharedEngine] getTrendingDataWithSince:self.sinceStr lang:self.targetLanguage.query isDeveloper:NO completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
+        [[DataEngine sharedEngine] getTrendingDataWithSince:self.sinceStr lang:self.targetLanguage.query isDeveloper:NO completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
             if (error) {
                 self.noticeLabel.text = @"error occured in loading data";
                 self.noticeLabel.hidden = NO;

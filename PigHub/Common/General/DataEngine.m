@@ -97,7 +97,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
 
 #pragma mark - Github page
 
-- (NSURLSessionDataTask *)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionBlock
+- (NSURLSessionDataTask *)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<RepositoryModel *> *repositories, NSError *error))completionBlock
 {
     // /trending/developers  /trending
     // /trending/css  /trending/php
@@ -117,17 +117,17 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
     NSURLSessionDataTask *task = [manager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 
         NSError *error = nil;
-        NSMutableArray<Repository *> *repositories = nil;
+        NSMutableArray<RepositoryModel *> *repositories = nil;
         @try {
             NSString *markup = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
             HTMLDocument *document = [HTMLDocument documentWithString:markup];
             NSArray<HTMLElement *> *repoList = [document nodesMatchingSelector:@".repo-list li"];
 
             repositories = [[NSMutableArray alloc] initWithCapacity:[repoList count]];
-            Repository *repository = nil;
+            RepositoryModel *repository = nil;
             HTMLElement *link = nil;
             for (HTMLElement *repo in repoList) {
-                repository = [[Repository alloc] init];
+                repository = [[RepositoryModel alloc] init];
 
                 link = [repo firstNodeMatchingSelector:@"h3 a"];
                 repository.langName = [Utility trimString:[repo firstNodeMatchingSelector:@"[itemprop='programmingLanguage']"].textContent];
@@ -152,7 +152,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
                                         code:303
                                     userInfo:userInfo];
         } @finally {
-            completionBlock([NSArray<Repository *> arrayWithArray:repositories], error);
+            completionBlock([NSArray<RepositoryModel *> arrayWithArray:repositories], error);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         completionBlock(nil, error);
@@ -168,7 +168,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
 - (NSURLSessionDataTask *)searchRepositoriesWithPage:(NSInteger)page
                                                query:(NSString *)query
                                                 sort:(NSString *)sort
-                                   completionHandler:(void (^)(NSArray<Repository *> *repositories, NSError *error))completionBlock
+                                   completionHandler:(void (^)(NSArray<RepositoryModel *> *repositories, NSError *error))completionBlock
 {
     NSString *getString = [NSString stringWithFormat:@"/search/repositories?q=%@&sort=%@&page=%ld",query,sort,(long)page];
     __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
@@ -179,10 +179,10 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
             // NSInteger totalCount=[[responseObject objectForKey:@"total_count"] intValue];
             NSArray *list = [responseObject objectForKey:@"items"];
             if ([list isKindOfClass:[NSArray class]] && list.count > 0) {
-                NSMutableArray<Repository *> *repositories = [[NSMutableArray alloc] init];
-                Repository *repo = nil;
+                NSMutableArray<RepositoryModel *> *repositories = [[NSMutableArray alloc] init];
+                RepositoryModel *repo = nil;
                 for (NSInteger i = 0; i < list.count; i++) {
-                    repo = [Repository modelWithDic:[list objectAtIndex:i]];
+                    repo = [RepositoryModel modelWithDic:[list objectAtIndex:i]];
                     [repositories addObject:repo];
                 }
                 repo = nil;

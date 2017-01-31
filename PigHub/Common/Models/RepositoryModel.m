@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Repository.h"
+#import "RepositoryModel.h"
 #import "Utility.h"
 
-@implementation Repository
+@implementation RepositoryModel
 
 + (NSDictionary *)spliteRepoPath:(NSString *)path
 {
@@ -25,7 +25,7 @@
 
 + (instancetype)modelWithDic:(NSDictionary *)dic
 {
-    Repository *repo = [[Repository alloc] init];
+    RepositoryModel *repo = [[RepositoryModel alloc] init];
 
     if (repo) {
         NSDictionary *owner = [dic valueForKey:@"owner"];
@@ -42,7 +42,7 @@
         // repo.starCount = [[dic valueForKey:@"stargazers_count"] stringValue];
         repo.href = [dic valueForKey:@"html_url"] ? [dic valueForKey:@"html_url"] : [NSString stringWithFormat:@"https://github.com/%@", repo.name];
 
-        NSDictionary *repoPath = [Repository spliteRepoPath:repo.name];
+        NSDictionary *repoPath = [RepositoryModel spliteRepoPath:repo.name];
         if (repoPath) {
             repo.orgName = [repoPath objectForKey:@"orgName"];
             repo.name = [repoPath objectForKey:@"repoName"];

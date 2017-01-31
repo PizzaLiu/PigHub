@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "UserModel.h"
-#import "Repository.h"
+#import "RepositoryModel.h"
 
 @interface RepositoryInfoModel : NSObject
 
@@ -23,7 +23,7 @@
 @property (nonatomic, assign) NSInteger forkCount;
 @property (nonatomic, assign) NSInteger watchCount;
 
-@property (nonatomic, strong) Repository *parent;
+@property (nonatomic, strong) RepositoryModel *parent;
 
 @property (nonatomic, copy) NSString *htmlUrl;
 @property (nonatomic, copy) NSString *defaultBranch;

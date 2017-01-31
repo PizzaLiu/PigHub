@@ -9,7 +9,7 @@
 #import "RankingViewController.h"
 #import "LanguageViewController.h"
 #import "SegmentBarView.h"
-#import "Repository.h"
+#import "RepositoryModel.h"
 #import "LanguageModel.h"
 #import "MJRefresh.h"
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -30,7 +30,7 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
 @property (weak, nonatomic) IBOutlet UILabel *noticeLabel;
 @property (weak, nonatomic) UIImageView *navHairline;
 
-@property (strong, nonatomic) NSMutableArray<Repository *> *repoTableData;
+@property (strong, nonatomic) NSMutableArray<RepositoryModel *> *repoTableData;
 @property (strong, nonatomic) NSMutableArray<UserModel *> *userTableData;
 @property (strong, nonatomic) NSMutableArray *tableData;
 @property (strong, nonatomic) Language *targetLanguage;
@@ -167,7 +167,7 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
 
     if ([self.typeSigment selectedSegmentIndex] == 0) {
         RepositoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepoTableViewCell" forIndexPath:indexPath];
-        Repository *repo = [self.repoTableData objectAtIndex:indexPath.row];
+        RepositoryModel *repo = [self.repoTableData objectAtIndex:indexPath.row];
 
         cell.nameLabel.text = repo.name;
         cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
@@ -203,7 +203,7 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.typeSigment selectedSegmentIndex] == 0) {
-        Repository *repo = [self.repoTableData objectAtIndex:indexPath.row];
+        RepositoryModel *repo = [self.repoTableData objectAtIndex:indexPath.row];
         RepositoryDetailViewController *rdvc = [[RepositoryDetailViewController alloc] init];
         rdvc.repo = repo;
         rdvc.hidesBottomBarWhenPushed = YES;
@@ -278,7 +278,7 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
         self.noticeLabel.hidden = YES;
 
         if ([self.typeSigment selectedSegmentIndex] == 0) {
-            [[DataEngine sharedEngine] searchRepositoriesWithPage:1 query:[NSString stringWithFormat:@"language:%@", self.targetLanguage.query] sort:@"stars" completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
+            [[DataEngine sharedEngine] searchRepositoriesWithPage:1 query:[NSString stringWithFormat:@"language:%@", self.targetLanguage.query] sort:@"stars" completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
                 if (error) {
                     self.noticeLabel.text = @"error occured in loading data";
                     self.noticeLabel.hidden = NO;
@@ -320,7 +320,7 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
         strongify(self);
 
         if ([self.typeSigment selectedSegmentIndex] == 0) {
-            [[DataEngine sharedEngine] searchRepositoriesWithPage:(self.repoNowPage+1) query:[NSString stringWithFormat:@"language:%@", self.targetLanguage.query] sort:@"stars" completionHandler:^(NSArray<Repository *> *repositories, NSError *error) {
+            [[DataEngine sharedEngine] searchRepositoriesWithPage:(self.repoNowPage+1) query:[NSString stringWithFormat:@"language:%@", self.targetLanguage.query] sort:@"stars" completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
                 if (error) {
                     ;
                 } else if ([repositories count] <= 0) {

@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Repository.h"
+#import "RepositoryModel.h"
 
 @interface RepositoryDetailViewController : UIViewController
 
-@property (strong, nonatomic) Repository *repo;
+@property (strong, nonatomic) RepositoryModel *repo;
 
 @end
