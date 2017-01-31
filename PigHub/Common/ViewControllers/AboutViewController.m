@@ -63,6 +63,8 @@
 
     repo.name = @"PigHub";
     repo.href = @"https://github.com/PizzaLiu/PigHub";
+    repo.orgName = @"PizzaLiu";
+    repo.name = @"PigHub";
 
     [self showRepoDetailWithRepo:repo];
 }
@@ -72,6 +74,8 @@
 
     repo.name = @"AFNetworking";
     repo.href = @"https://github.com/AFNetworking/AFNetworking";
+    repo.orgName = @"AFNetworking";
+    repo.name = @"AFNetworking";
 
     [self showRepoDetailWithRepo:repo];
 }
@@ -80,6 +84,8 @@
 
     repo.name = @"HTMLReader";
     repo.href = @"https://github.com/nolanw/HTMLReader";
+    repo.orgName = @"nolanw";
+    repo.name = @"HTMLReader";
 
     [self showRepoDetailWithRepo:repo];
 }
@@ -88,6 +94,8 @@
 
     repo.name = @"MJRefresh";
     repo.href = @"https://github.com/CoderMJLee/MJRefresh";
+    repo.orgName = @"CoderMJLee";
+    repo.name = @"MJRefresh";
 
     [self showRepoDetailWithRepo:repo];
 }
@@ -96,6 +104,8 @@
 
     repo.name = @"SDWebImage";
     repo.href = @"https://github.com/rs/SDWebImage";
+    repo.orgName = @"rs";
+    repo.name = @"SDWebImage";
 
     [self showRepoDetailWithRepo:repo];
 }
@@ -104,6 +114,8 @@
 
     repo.name = @"DateTool";
     repo.href = @"https://github.com/MatthewYork/DateTools";
+    repo.orgName = @"MatthewYork";
+    repo.name = @"DateTools";
 
     [self showRepoDetailWithRepo:repo];
 }

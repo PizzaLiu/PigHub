@@ -34,7 +34,7 @@
     model.htmlUrl = [dic objectForKey:@"html_url"];
     model.defaultBranch = [dic objectForKey:@"default_branch"];
 
-    model.updatedDate = [Utility formatZdateForString:[dic objectForKey:@"updated_at"]];
+    model.updatedDate = [Utility formatZdateForString:[dic objectForKey:@"pushed_at"]];
     model.createdDate = [Utility formatZdateForString:[dic objectForKey:@"created_at"]];
 
     return model;
@@ -45,5 +45,9 @@
     return [NSString stringWithFormat:@"https://github.com/%@/%@/blob/%@/README.md", self.owner.name, self.name, self.defaultBranch];
 }
 
+-(NSString *)anotherReadMeUrl
+{
+    return [NSString stringWithFormat:@"https://github.com/%@/%@/blob/%@/readme.md", self.owner.name, self.name, self.defaultBranch];
+}
 
 @end

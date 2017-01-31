@@ -34,5 +34,6 @@
 +(instancetype)modelWithDic:(NSDictionary *)dic;
 
 -(NSString *)readMeUrl;
+-(NSString *)anotherReadMeUrl;
 
 @end

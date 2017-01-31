@@ -13,5 +13,6 @@
 + (NSString *)trimString:(NSString *) str;
 + (NSString *)formatNumberForInt:(NSInteger)num;
 + (NSDate *)formatZdateForString:(NSString *)dateStr;
++ (NSString *)getShortDayFromDate:(NSDate *)date;
 
 @end
