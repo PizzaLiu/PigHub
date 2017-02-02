@@ -32,7 +32,6 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
 
 @property (strong, nonatomic) NSMutableArray<RepositoryModel *> *repoTableData;
 @property (strong, nonatomic) NSMutableArray<UserModel *> *userTableData;
-@property (strong, nonatomic) NSMutableArray *tableData;
 @property (strong, nonatomic) Language *targetLanguage;
 
 @property (assign, nonatomic) long repoNowPage;
@@ -54,8 +53,9 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
     [super viewDidLoad];
     self.title = @"Ranking";
 
-    self.tableData = [[NSMutableArray alloc] init];
-    self.repoNowPage = 1;
+    self.repoTableData = [[NSMutableArray alloc] init];
+    self.userTableData = [[NSMutableArray alloc] init];
+    self.repoNowPage = 0;
 
     self.navHairline = [self findNavBarHairline];
 
@@ -128,7 +128,6 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
             strongify(self);
             if (![self.targetLanguage.query isEqualToString:selectedLang.query]) {
                 self.targetLanguage = selectedLang;
-                self.tableData = nil;
                 [self.tableView reloadData];
                 [self.tableView.mj_header beginRefreshing];
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -273,39 +272,11 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
         self.noticeLabel.hidden = YES;
 
         if ([self.typeSigment selectedSegmentIndex] == 0) {
-            [[DataEngine sharedEngine] searchRepositoriesWithPage:1 query:[NSString stringWithFormat:@"language:%@", self.targetLanguage.query] sort:@"stars" completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
-                if (error) {
-                    self.noticeLabel.text = @"error occured in loading data";
-                    self.noticeLabel.hidden = NO;
-                } else if ([repositories count] <= 0) {
-                    self.noticeLabel.text = @"no relatived data or being dissected";
-                    self.noticeLabel.hidden = NO;
-                }
-                self.repoTableData = [NSMutableArray arrayWithArray:repositories];
-                [tableView reloadData];
-                [tableView.mj_header endRefreshing];
-                self.repoNowPage = 1;
-            }];
+            self.repoNowPage = 0;
+            [self loadSearchReposData];
         } else {
-            NSString *query;
-            if ([self.targetLanguage.query isEqualToString:@""]) {
-                query = @"repos:>1";
-            } else {
-                query = [NSString stringWithFormat:@"language:%@", self.targetLanguage.query];
-            }
-            [[DataEngine sharedEngine] searchUsersWithPage:1 query:query sort:@"stars" completionHandler:^(NSArray<UserModel *> *users, NSError *error) {
-                if (error) {
-                    self.noticeLabel.text = @"error occured in loading data";
-                    self.noticeLabel.hidden = NO;
-                } else if ([users count] <= 0) {
-                    self.noticeLabel.text = @"no relatived data or being dissected";
-                    self.noticeLabel.hidden = NO;
-                }
-                self.userTableData = [NSMutableArray arrayWithArray:users];
-                [tableView reloadData];
-                [tableView.mj_header endRefreshing];
-                self.userNowPage = 1;
-            }];
+            self.userNowPage = 0;
+            [self loadSearchUsersData];
         }
 
     }];
@@ -315,37 +286,9 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
         strongify(self);
 
         if ([self.typeSigment selectedSegmentIndex] == 0) {
-            [[DataEngine sharedEngine] searchRepositoriesWithPage:(self.repoNowPage+1) query:[NSString stringWithFormat:@"language:%@", self.targetLanguage.query] sort:@"stars" completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
-                if (error) {
-                    ;
-                } else if ([repositories count] <= 0) {
-                    [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                } else {
-                    [self.repoTableData addObjectsFromArray:repositories];
-                    [tableView reloadData];
-                    self.repoNowPage++;
-                }
-                [tableView.mj_footer endRefreshing];
-            }];
+            [self loadSearchReposData];
         } else {
-            NSString *query;
-            if ([self.targetLanguage.query isEqualToString:@""]) {
-                query = @"repos:>1";
-            } else {
-                query = [NSString stringWithFormat:@"language:%@", self.targetLanguage.query];
-            }
-            [[DataEngine sharedEngine] searchUsersWithPage:(self.userNowPage+1) query:query sort:@"stars" completionHandler:^(NSArray<UserModel *> *users, NSError *error) {
-                if (error) {
-                    ;
-                } else if ([users count] <= 0) {
-                    [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                } else {
-                    [self.userTableData addObjectsFromArray:users];
-                    [tableView reloadData];
-                    self.userNowPage++;
-                }
-                [tableView.mj_footer endRefreshing];
-            }];
+            [self loadSearchUsersData];
         }
 
     }];
@@ -355,6 +298,78 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
     ((MJRefreshNormalHeader *)tableView.mj_header).lastUpdatedTimeLabel.hidden = YES;
 
     [tableView.mj_header beginRefreshing];
+}
+
+- (void)loadSearchReposData
+{
+    weakify(self);
+    [[DataEngine sharedEngine] searchRepositoriesWithPage:(self.repoNowPage+1) query:[NSString stringWithFormat:@"language:%@", self.targetLanguage.query] sort:@"stars" completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
+        strongify(self);
+        self.noticeLabel.hidden = YES;
+        if (error) {
+            if (self.repoNowPage == 0) {
+                self.noticeLabel.text = @"error occured in loading data";
+                self.noticeLabel.hidden = NO;
+            }
+        } else if ([repositories count] <= 0) {
+            if (self.repoNowPage == 0) {
+                self.noticeLabel.text = @"no relatived data or being dissected";
+                self.noticeLabel.hidden = NO;
+            } else {
+                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            }
+        } else {
+            if (self.repoNowPage == 0) {
+                self.repoTableData = [[NSMutableArray alloc] initWithArray:repositories];
+            } else {
+                [self.repoTableData addObjectsFromArray:repositories];
+            }
+            [self.tableView reloadData];
+            self.repoNowPage++;
+        }
+        [self.tableView.mj_footer endRefreshing];
+        [self.tableView.mj_header endRefreshing];
+    }];
+
+}
+
+- (void)loadSearchUsersData
+{
+    NSString *query;
+    if ([self.targetLanguage.query isEqualToString:@""]) {
+        query = @"repos:>1";
+    } else {
+        query = [NSString stringWithFormat:@"language:%@", self.targetLanguage.query];
+    }
+
+    weakify(self);
+    [[DataEngine sharedEngine] searchUsersWithPage:(self.userNowPage+1) query:query sort:@"stars" completionHandler:^(NSArray<UserModel *> *users, NSError *error) {
+        strongify(self);
+        self.noticeLabel.hidden = YES;
+        if (error) {
+            if (self.userNowPage == 0) {
+                self.noticeLabel.text = @"error occured in loading data";
+                self.noticeLabel.hidden = NO;
+            }
+        } else if ([users count] <= 0) {
+            if (self.userNowPage == 0) {
+                self.noticeLabel.text = @"no relatived data or being dissected";
+                self.noticeLabel.hidden = NO;
+            } else {
+                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            }
+        } else {
+            if (self.userNowPage == 0) {
+                self.userTableData = [[NSMutableArray alloc] initWithArray:users];
+            } else {
+                [self.userTableData addObjectsFromArray:users];
+            }
+            [self.tableView reloadData];
+            self.userNowPage++;
+        }
+        [self.tableView.mj_footer endRefreshing];
+        [self.tableView.mj_header endRefreshing];
+    }];
 }
 
 #pragma mark - segmentbar

@@ -31,7 +31,6 @@
 
 @property (strong, nonatomic) NSMutableArray<RepositoryModel *> *repoTableData;
 @property (strong, nonatomic) NSMutableArray<UserModel *> *userTableData;
-@property (strong, nonatomic) NSMutableArray *tableData;
 
 @property (assign, nonatomic) long repoNowPage;
 @property (assign, nonatomic) long userNowPage;
@@ -60,7 +59,6 @@
     // other initial
     self.title = @"Search";
 
-    self.tableData = [[NSMutableArray alloc] init];
     self.repoNowPage = 1;
 
     self.navHairline = [self findNavBarHairline];
@@ -75,7 +73,7 @@
     [self.tableView registerNib:repoNib forCellReuseIdentifier:@"RepoTableViewCell"];
     UINib *userNib = [UINib nibWithNibName:@"UserTableViewCell" bundle:nil];
     [self.tableView registerNib:userNib forCellReuseIdentifier:@"UserTableViewCell"];
-    
+
     [self initRefresh];
 
 }
@@ -266,88 +264,108 @@
 
 - (void)initRefresh
 {
-    __unsafe_unretained UITableView *tableView = self.tableView;
     weakify(self);
 
-    tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
 
-        [tableView reloadData];
+        strongify(self);
+        [self.tableView reloadData];
+        self.noticeLabel.hidden = YES;
+
+        if ([self.typeSigment selectedSegmentIndex] == 0) {
+            self.repoNowPage = 0;
+            [self loadSearchReposData];
+        } else {
+            self.userNowPage = 0;
+            [self loadSearchUsersData];
+        }
+
+    }];
+
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+
+        strongify(self);
+
+        if ([self.typeSigment selectedSegmentIndex] == 0) {
+            [self loadSearchReposData];
+        } else {
+            [self loadSearchUsersData];
+        }
+
+    }];
+
+    self.tableView.mj_header.automaticallyChangeAlpha = YES;
+    self.tableView.mj_footer.automaticallyChangeAlpha = YES;
+    ((MJRefreshNormalHeader *)self.tableView.mj_header).lastUpdatedTimeLabel.hidden = YES;
+}
+
+
+- (void)loadSearchReposData
+{
+    NSString *query = self.searchController.searchBar.text;
+    weakify(self);
+    [[DataEngine sharedEngine] searchRepositoriesWithPage:(self.repoNowPage+1) query:query sort:@"stars" completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
         strongify(self);
         self.noticeLabel.hidden = YES;
-        NSString *query = self.searchController.searchBar.text;
-
-        if ([self.typeSigment selectedSegmentIndex] == 0) {
-            [[DataEngine sharedEngine] searchRepositoriesWithPage:1 query:query sort:@"stars" completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
-                if (error) {
-                    self.noticeLabel.text = @"error occured in loading data";
-                    self.noticeLabel.hidden = NO;
-                } else if ([repositories count] <= 0) {
-                    self.noticeLabel.text = @"no relatived data or being dissected";
-                    self.noticeLabel.hidden = NO;
-                }
-                self.repoTableData = [NSMutableArray arrayWithArray:repositories];
-                [tableView reloadData];
-                [tableView.mj_header endRefreshing];
-                self.repoNowPage = 1;
-            }];
+        if (error) {
+            if (self.repoNowPage == 0) {
+                self.noticeLabel.text = @"error occured in loading data";
+                self.noticeLabel.hidden = NO;
+            }
+        } else if ([repositories count] <= 0) {
+            if (self.repoNowPage == 0) {
+                self.noticeLabel.text = @"no relatived data or being dissected";
+                self.noticeLabel.hidden = NO;
+            } else {
+                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            }
         } else {
-            [[DataEngine sharedEngine] searchUsersWithPage:1 query:query sort:@"stars" completionHandler:^(NSArray<UserModel *> *users, NSError *error) {
-                if (error) {
-                    self.noticeLabel.text = @"error occured in loading data";
-                    self.noticeLabel.hidden = NO;
-                } else if ([users count] <= 0) {
-                    self.noticeLabel.text = @"no relatived data or being dissected";
-                    self.noticeLabel.hidden = NO;
-                }
-                self.userTableData = [NSMutableArray arrayWithArray:users];
-                [tableView reloadData];
-                [tableView.mj_header endRefreshing];
-                self.userNowPage = 1;
-            }];
+            if (self.repoNowPage == 0) {
+                self.repoTableData = [[NSMutableArray alloc] initWithArray:repositories];
+            } else {
+                [self.repoTableData addObjectsFromArray:repositories];
+            }
+            [self.tableView reloadData];
+            self.repoNowPage++;
         }
-
+        [self.tableView.mj_footer endRefreshing];
+        [self.tableView.mj_header endRefreshing];
     }];
 
-    tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+}
 
+- (void)loadSearchUsersData
+{
+    NSString *query = self.searchController.searchBar.text;
+
+    weakify(self);
+    [[DataEngine sharedEngine] searchUsersWithPage:(self.userNowPage+1) query:query sort:@"stars" completionHandler:^(NSArray<UserModel *> *users, NSError *error) {
         strongify(self);
-        NSString *query = self.searchController.searchBar.text;
-
-        if ([self.typeSigment selectedSegmentIndex] == 0) {
-            [[DataEngine sharedEngine] searchRepositoriesWithPage:(self.repoNowPage+1) query:query sort:@"stars" completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
-                if (error) {
-                    ;
-                } else if ([repositories count] <= 0) {
-                    [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                } else {
-                    [self.repoTableData addObjectsFromArray:repositories];
-                    [tableView reloadData];
-                    self.repoNowPage++;
-                }
-                [tableView.mj_footer endRefreshing];
-            }];
+        self.noticeLabel.hidden = YES;
+        if (error) {
+            if (self.userNowPage == 0) {
+                self.noticeLabel.text = @"error occured in loading data";
+                self.noticeLabel.hidden = NO;
+            }
+        } else if ([users count] <= 0) {
+            if (self.userNowPage == 0) {
+                self.noticeLabel.text = @"no relatived data or being dissected";
+                self.noticeLabel.hidden = NO;
+            } else {
+                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            }
         } else {
-            [[DataEngine sharedEngine] searchUsersWithPage:(self.userNowPage+1) query:query sort:@"stars" completionHandler:^(NSArray<UserModel *> *users, NSError *error) {
-                if (error) {
-                    ;
-                } else if ([users count] <= 0) {
-                    [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                } else {
-                    [self.userTableData addObjectsFromArray:users];
-                    [tableView reloadData];
-                    self.userNowPage++;
-                }
-                [tableView.mj_footer endRefreshing];
-            }];
+            if (self.userNowPage == 0) {
+                self.userTableData = [[NSMutableArray alloc] initWithArray:users];
+            } else {
+                [self.userTableData addObjectsFromArray:users];
+            }
+            [self.tableView reloadData];
+            self.userNowPage++;
         }
-
+        [self.tableView.mj_footer endRefreshing];
+        [self.tableView.mj_header endRefreshing];
     }];
-
-    tableView.mj_header.automaticallyChangeAlpha = YES;
-    tableView.mj_footer.automaticallyChangeAlpha = YES;
-    ((MJRefreshNormalHeader *)tableView.mj_header).lastUpdatedTimeLabel.hidden = YES;
-
-    //[tableView.mj_header beginRefreshing];
 }
 
 #pragma mark - segmentbar

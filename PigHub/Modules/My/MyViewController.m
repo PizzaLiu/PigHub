@@ -146,7 +146,7 @@
             // logout
             if (indexPath.row == 3) {
                 NSString *title = NSLocalizedString(@"Notification", @"Title for logout notification");
-                NSString *message = NSLocalizedString(@"Are you sure?", @"Message for logout notification");
+                NSString *message = NSLocalizedString(@"Are you sure to logout?", @"Message for logout notification");
                 NSString *cancelButtonTitle = NSLocalizedString(@"NO", @"Cancel button title for logout notification");
                 NSString *confirmButtonTitle = NSLocalizedString(@"YES", @"Confirm button title for logout notification");
                 UIAlertView *logoutAlert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:cancelButtonTitle otherButtonTitles:confirmButtonTitle, nil];

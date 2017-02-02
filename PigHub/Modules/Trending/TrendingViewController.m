@@ -228,10 +228,10 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
         self.noticeLabel.hidden = YES;
         [[DataEngine sharedEngine] getTrendingDataWithSince:self.sinceStr lang:self.targetLanguage.query isDeveloper:NO completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
             if (error) {
-                self.noticeLabel.text = @"error occured in loading data";
+                self.noticeLabel.text = NSLocalizedString(@"error occured in loading data", @"");
                 self.noticeLabel.hidden = NO;
             } else if ([repositories count] <= 0) {
-                self.noticeLabel.text = @"no relatived data or being dissected";
+                self.noticeLabel.text = NSLocalizedString(@"no relatived data or being dissected", @"");
                 self.noticeLabel.hidden = NO;
             }
             self.tableData = repositories;
@@ -240,13 +240,12 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
         }];
 
     }];
-    //self.tableView.mj_header = header;
+
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:nil];
     [tableView.mj_footer endRefreshingWithNoMoreData];
 
     tableView.mj_header.automaticallyChangeAlpha = YES;
     ((MJRefreshNormalHeader *)tableView.mj_header).lastUpdatedTimeLabel.hidden = YES;
-    // header.stateLabel.hidden = YES;
 
     [tableView.mj_header beginRefreshing];
 }
@@ -256,7 +255,10 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
 - (IBAction)sinceSegmentChange:(id)sender {
     static NSArray *sinces;
     if (!sinces) {
-        sinces = @[@"daily", @"weekly", @"monthly"];
+        sinces = @[NSLocalizedString(@"daily", @""),
+                   NSLocalizedString(@"weekly", @""),
+                   NSLocalizedString(@"monthly", @"")
+                   ];
     }
     NSInteger index = [sender selectedSegmentIndex];
     self.sinceStr = sinces[index];
