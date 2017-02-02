@@ -191,7 +191,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="26" id="eWw-lq-ZQp"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <state key="normal" title="PizzaLiu/PigHub"/>
                             <connections>
                                 <action selector="showForkRepoAction:" destination="-1" eventType="touchUpInside" id="u42-Vm-IV9"/>

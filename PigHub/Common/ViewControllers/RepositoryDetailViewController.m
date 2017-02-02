@@ -78,9 +78,7 @@
     }];
 
 
-    if (!self.accessToken || [self.accessToken isEqualToString:@""]) {
-        [self addStarItemWithStarred:NO];
-    } else {
+    if (self.accessToken && ![self.accessToken isEqualToString:@""]) {
         weakify(self);
         [[DataEngine sharedEngine] checkIfStaredWithToken:self.accessToken ownerName:self.repo.orgName repoName:self.repo.name completionHandler:^(BOOL starred, NSError *error) {
             strongify(self);
@@ -123,9 +121,8 @@
     self.updatedDateLabel.text = [Utility getShortDayFromDate:repoInfo.updatedDate];
 
     if (repoInfo.parent) {
-        self.forkTextLabel.hidden = NO;
-        self.forkRepoButton.hidden = NO;
         self.homepageButton.hidden = YES;
+        [self.forkRepoButton setTitle:[NSString stringWithFormat:@"%@/%@", repoInfo.parent.orgName, repoInfo.parent.name] forState:UIControlStateNormal];
     } else {
         self.forkTextLabel.hidden = YES;
         self.forkRepoButton.hidden = YES;
