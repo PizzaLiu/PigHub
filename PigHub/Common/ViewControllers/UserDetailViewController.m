@@ -192,6 +192,9 @@
         headerHeight -= self.bioLabel.frame.size.height;
     }
     self.headerViewHeightConstraint.constant = headerHeight;
+    CGRect headerFrame = self.headerView.frame;
+    headerFrame.size.height = headerHeight;
+    self.headerView.frame = headerFrame;
 
     [self.headerView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
                                                                 attribute:NSLayoutAttributeWidth
