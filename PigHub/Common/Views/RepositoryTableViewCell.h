@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RepositoryModel.h"
 
 
 @interface RepositoryTableViewCell : UITableViewCell
+
+@property (weak, nonatomic) RepositoryModel *repo;
 
 @property (weak, nonatomic) IBOutlet UILabel *orderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;

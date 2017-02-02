@@ -8,8 +8,15 @@
 
 #import "UserModel.h"
 #import <UIKit/UIKit.h>
+#import "Utility.h"
 
 @implementation UserModel
+
+/*
+
+ @property (nonatomic, strong) NSDate *createdDate;
+ @property (nonatomic, strong) NSDate *updatedDate;
+ */
 
 + (instancetype)modelWithDic:(NSDictionary *)dic
 {
@@ -20,6 +27,22 @@
         user.avatarUrl = [dic valueForKey:@"avatar_url"];
         user.href = [dic valueForKey:@"html_url"] ? [dic valueForKey:@"html_url"] : [NSString stringWithFormat:@"https://github.com/%@", user.name];
         user.score = [[dic valueForKey:@"score"] floatValue];
+
+        if ([dic valueForKey:@"name"]) {
+            user.fullName = [dic valueForKey:@"name"];
+            user.company = [dic valueForKey:@"company"] == (id)[NSNull null] ? @"" : [dic valueForKey:@"company"];
+            user.blog = [dic valueForKey:@"blog"] == (id)[NSNull null] ? @"" : [dic valueForKey:@"blog"];
+            user.location = [dic valueForKey:@"location"] == (id)[NSNull null] ? @"" : [dic valueForKey:@"location"];
+            user.email = [dic valueForKey:@"email"] == (id)[NSNull null] ? @"" : [dic valueForKey:@"email"];
+            user.bio = [dic valueForKey:@"bio"] == (id)[NSNull null] ? @"" : [dic valueForKey:@"bio"];
+            user.reposUrl = [dic valueForKey:@"repos_url"];
+            user.reposCount = [[dic valueForKey:@"public_repos"] integerValue];
+            user.followersUrl = [dic valueForKey:@"followers_url"];
+            user.followersCount = [[dic valueForKey:@"followers"] integerValue];
+
+            user.updatedDate = [Utility formatZdateForString:[dic objectForKey:@"updated_at"]];
+            user.createdDate = [Utility formatZdateForString:[dic objectForKey:@"created_at"]];
+        }
     }
 
     return user;
@@ -28,7 +51,11 @@
 - (NSString *)avatarUrlForSize:(int)size
 {
     int realSize = [UIScreen mainScreen].scale * size;
-    return [NSString stringWithFormat:@"%@&s=%d", self.avatarUrl, realSize];
+
+    if ([self.avatarUrl containsString:@"?"]) {
+        return [NSString stringWithFormat:@"%@&s=%d", self.avatarUrl, realSize];
+    }
+    return [NSString stringWithFormat:@"%@?s=%d", self.avatarUrl, realSize];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder

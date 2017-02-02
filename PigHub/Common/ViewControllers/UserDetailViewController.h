@@ -12,5 +12,6 @@
 @interface UserDetailViewController : UIViewController
 
 @property (nonatomic, strong) UserModel *user;
+@property (nonatomic, copy) NSString *accessToken;
 
 @end

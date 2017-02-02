@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RepositoryTableViewCell.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @implementation RepositoryTableViewCell
 
@@ -22,6 +23,19 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)setRepo:(RepositoryModel *)repo
+{
+    _repo = repo;
+
+    self.nameLabel.text = repo.name;
+    self.descLabel.text = repo.desc;
+    self.starLabel.text = repo.starCount;
+    self.ownerLabel.text = repo.orgName;
+    self.langLabel.text = repo.langName;
+    [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:[repo avatarUrlForSize:50]]
+                        placeholderImage:[UIImage imageNamed:@"DefaultAvatar"]];
 }
 
 + (float)cellHeight

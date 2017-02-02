@@ -76,5 +76,19 @@
                                       ownerName:(NSString *)owner
                                        repoName:(NSString *)repo
                               completionHandler:(void (^)(BOOL done, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getUserInfoWithUserName:(NSString *)name
+                                completionHandler:(void (^)(UserModel *data, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)checkIfFollowWithToken:(NSString *)access_token
+                                        userName:(NSString *)name
+                               completionHandler:(void (^)(BOOL done, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)followUserWithToken:(NSString *)access_token
+                                     userName:(NSString *)name
+                            completionHandler:(void (^)(BOOL done, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)unFollowUserWithToken:(NSString *)access_token
+                                       userName:(NSString *)name
+                              completionHandler:(void (^)(BOOL done, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getUserReposWithUserName:(NSString *)name
+                                              page:(NSInteger)page
+                                 completionHandler:(void (^)(NSArray<RepositoryModel *> *repos, NSError *error))completionBlock;
 
 @end

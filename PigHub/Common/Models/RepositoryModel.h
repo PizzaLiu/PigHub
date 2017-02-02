@@ -19,6 +19,8 @@
 @property (nonatomic, copy) NSString *desc;
 @property (nonatomic, copy) NSString *starCount;
 
+@property (nonatomic, assign) BOOL isForked;
+
 + (instancetype)modelWithDic:(NSDictionary *)dic;
 - (NSString *) avatarUrlForSize:(int) size;
 

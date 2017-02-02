@@ -31,6 +31,7 @@
         NSDictionary *owner = [dic valueForKey:@"owner"];
         repo.name = [dic valueForKey:@"name"];
         repo.repoId = [dic valueForKey:@"id"];
+        repo.isForked = [dic valueForKey:@"fork"] ? [[dic valueForKey:@"fork"] boolValue] : NO;
 
         if (owner) {
             repo.orgName = [owner valueForKey:@"login"];

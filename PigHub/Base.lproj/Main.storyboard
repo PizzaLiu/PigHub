@@ -422,12 +422,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Fire" width="25" height="24"/>
-        <image name="GithubLogo" width="24" height="25"/>
+        <image name="Fire" width="30" height="30"/>
+        <image name="GithubLogo" width="30" height="30"/>
         <image name="Menu" width="20" height="16"/>
-        <image name="Search" width="25" height="25"/>
+        <image name="Search" width="30" height="30"/>
         <image name="Sort" width="20" height="20"/>
-        <image name="Star" width="24" height="25"/>
+        <image name="Star" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="OWz-na-aut"/>

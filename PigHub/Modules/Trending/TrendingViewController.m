@@ -152,15 +152,8 @@ NSString * const SelectedLangQueryPrefKey = @"TrendingSelectedLangPrefKey";
     RepositoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
     RepositoryModel *repo = [self.tableData objectAtIndex:indexPath.row];
 
-    cell.nameLabel.text = repo.name;
-    cell.descLabel.text = repo.desc;
-    cell.starLabel.text = repo.starCount;
-    cell.ownerLabel.text = repo.orgName;
+    cell.repo = repo;
     cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
-    cell.langLabel.text = repo.langName;
-
-    [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[repo avatarUrlForSize:42]]
-                 placeholderImage:[UIImage imageNamed:@"DefaultAvatar"]];
 
     return cell;
 }
