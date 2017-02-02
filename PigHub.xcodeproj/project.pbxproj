@@ -356,6 +356,7 @@
 				3EDC33E91E0695CD00B96CB1 /* Resources */,
 				E160B156032FFF3119AF3810 /* [CP] Embed Pods Frameworks */,
 				7BDE3C0EAC4C876AF71FE12E /* [CP] Copy Pods Resources */,
+				3E6849231E435E1E00736935 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -421,6 +422,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3E6849231E435E1E00736935 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "REV=`git rev-list HEAD | wc -l | awk '{print $1}'`\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion ${REV}\" \"${TARGET_BUILD_DIR}\"/${INFOPLIST_PATH}\n";
+		};
 		43EA92FF9EDB59B397BC8E41 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
