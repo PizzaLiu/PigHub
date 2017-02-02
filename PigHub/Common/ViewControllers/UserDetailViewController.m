@@ -62,6 +62,7 @@
 
     self.loadingView = [[LoadingView alloc] initWithFrame:CGRectZero];
     self.loadingView.hidden = NO;
+    self.view.userInteractionEnabled = NO;
     [self.view addSubview:self.loadingView];
 
     if(!self.accessToken) self.accessToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"access_token"];
@@ -81,10 +82,12 @@
     UINib *nib = [UINib nibWithNibName:@"RepositoryTableViewCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"UserRepoCell"];
     [self initRefresh];
-    [self.tableView.mj_header beginRefreshing];
 
+    weakify(self);
     [[DataEngine sharedEngine] getUserInfoWithUserName:self.user.name completionHandler:^(UserModel *data, NSError *error) {
+        strongify(self);
         self.loadingView.hidden = YES;
+        self.view.userInteractionEnabled = YES;
         if (data) {
             self.user = data;
             [self initHeaderWithUser:self.user];
@@ -260,9 +263,6 @@
 
 - (void)loadReposData
 {
-    if (!self.user || [self.user.name isEqualToString:@""]) {
-        return;
-    }
     [[DataEngine sharedEngine] getUserReposWithUserName:self.user.name page:(++self.nowRepoPage) completionHandler:^(NSArray<RepositoryModel *> *repos, NSError *error) {
         if (!repos || repos.count <= 0) {
             [self.tableView.mj_footer endRefreshingWithNoMoreData];

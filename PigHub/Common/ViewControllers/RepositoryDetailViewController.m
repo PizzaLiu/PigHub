@@ -66,6 +66,7 @@
     // loading view
     [self.view addSubview:self.loadingView];
     self.loadingView.hidden = NO;
+    self.view.userInteractionEnabled = NO;
 
 
     weakify(self);
@@ -228,6 +229,7 @@
     [self.headerView layoutIfNeeded];
 
     self.loadingView.hidden = YES;
+    self.view.userInteractionEnabled = YES;
     self.webView.hidden = NO;
 }
 
