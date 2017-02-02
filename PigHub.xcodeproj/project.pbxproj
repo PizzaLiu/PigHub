@@ -32,6 +32,8 @@
 		3E6849111E3E0EE200736935 /* RepositoryInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6849101E3E0EE200736935 /* RepositoryInfoModel.m */; };
 		3E6849131E3E38A800736935 /* RepositoryDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E6849121E3E38A800736935 /* RepositoryDetailViewController.xib */; };
 		3E6849191E408DE900736935 /* UserDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E6849181E408DE900736935 /* UserDetailViewController.xib */; };
+		3E68491F1E43349C00736935 /* StarRepositoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E68491E1E43349C00736935 /* StarRepositoryViewController.m */; };
+		3E6849221E434B7600736935 /* FollowingUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6849211E434B7600736935 /* FollowingUserViewController.m */; };
 		3E7092581E0E69D900DB50B7 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7092571E0E69D900DB50B7 /* LanguageViewController.m */; };
 		3E9CF1991E1538BA00238038 /* LanguageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9CF1981E1538BA00238038 /* LanguageModel.m */; };
 		3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECCC9B41E21265300E33F6F /* DataEngine.m */; };
@@ -94,6 +96,10 @@
 		3E6849101E3E0EE200736935 /* RepositoryInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RepositoryInfoModel.m; path = Common/Models/RepositoryInfoModel.m; sourceTree = "<group>"; };
 		3E6849121E3E38A800736935 /* RepositoryDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RepositoryDetailViewController.xib; path = Common/ViewControllers/RepositoryDetailViewController.xib; sourceTree = "<group>"; };
 		3E6849181E408DE900736935 /* UserDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserDetailViewController.xib; path = Common/ViewControllers/UserDetailViewController.xib; sourceTree = "<group>"; };
+		3E68491D1E43349C00736935 /* StarRepositoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarRepositoryViewController.h; sourceTree = "<group>"; };
+		3E68491E1E43349C00736935 /* StarRepositoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarRepositoryViewController.m; sourceTree = "<group>"; };
+		3E6849201E434B7600736935 /* FollowingUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowingUserViewController.h; sourceTree = "<group>"; };
+		3E6849211E434B7600736935 /* FollowingUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowingUserViewController.m; sourceTree = "<group>"; };
 		3E7092561E0E69D900DB50B7 /* LanguageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageViewController.h; path = Common/ViewControllers/LanguageViewController.h; sourceTree = "<group>"; };
 		3E7092571E0E69D900DB50B7 /* LanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguageViewController.m; path = Common/ViewControllers/LanguageViewController.m; sourceTree = "<group>"; };
 		3E9CF1971E1538BA00238038 /* LanguageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageModel.h; path = Common/Models/LanguageModel.h; sourceTree = "<group>"; };
@@ -184,6 +190,10 @@
 				3E185CD21E3A1F660017E46A /* WebViewController.m */,
 				3E185CDA1E3B51270017E46A /* NotificationViewController.h */,
 				3E185CDB1E3B51270017E46A /* NotificationViewController.m */,
+				3E68491D1E43349C00736935 /* StarRepositoryViewController.h */,
+				3E68491E1E43349C00736935 /* StarRepositoryViewController.m */,
+				3E6849201E434B7600736935 /* FollowingUserViewController.h */,
+				3E6849211E434B7600736935 /* FollowingUserViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -465,6 +475,7 @@
 			files = (
 				3E185C9E1E33420D0017E46A /* UserTableViewCell.m in Sources */,
 				3E9CF1991E1538BA00238038 /* LanguageModel.m in Sources */,
+				3E68491F1E43349C00736935 /* StarRepositoryViewController.m in Sources */,
 				3E185CC01E3794FE0017E46A /* EventModel.m in Sources */,
 				3E185CC41E384A470017E46A /* EventViewController.m in Sources */,
 				3E185CDC1E3B51270017E46A /* NotificationViewController.m in Sources */,
@@ -487,6 +498,7 @@
 				3E185CC81E38657E0017E46A /* Utility.m in Sources */,
 				3ECCC9B51E21265300E33F6F /* DataEngine.m in Sources */,
 				3E185CCF1E38C72D0017E46A /* EventTableViewCell.m in Sources */,
+				3E6849221E434B7600736935 /* FollowingUserViewController.m in Sources */,
 				3E185CD31E3A1F660017E46A /* WebViewController.m in Sources */,
 				3E185CA21E3386E80017E46A /* UserDetailViewController.m in Sources */,
 				3E185CCB1E3896430017E46A /* LoadingView.m in Sources */,

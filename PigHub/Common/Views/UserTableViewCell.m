@@ -7,6 +7,7 @@
 //
 
 #import "UserTableViewCell.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @implementation UserTableViewCell
 
@@ -26,6 +27,13 @@
 + (float)cellHeight
 {
     return 61;
+}
+
+- (void)setUser:(UserModel *)user
+{
+    self.nameLabel.text = user.name;
+    [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:[user avatarUrlForSize:44]]
+                        placeholderImage:[UIImage imageNamed:@"DefaultAvatar"]];
 }
 
 @end

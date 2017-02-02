@@ -7,8 +7,17 @@
 //
 
 #import "StarRepositoryViewController.h"
+#import "RepositoryTableViewCell.h"
+#import "RepositoryDetailViewController.h"
+#import "MJRefresh.h"
+#import "WeakifyStrongify.h"
+#import "DataEngine.h"
 
 @interface StarRepositoryViewController ()
+
+@property (nonatomic, strong) NSMutableArray<RepositoryModel *> *tableData;
+
+@property (nonatomic, assign) NSInteger repoNowPage;
 
 @end
 
@@ -16,12 +25,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+    self.tableData = [[NSMutableArray alloc] initWithCapacity:0];
+
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+    UINib *nib = [UINib nibWithNibName:@"RepositoryTableViewCell" bundle:nil];
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"StarRepoCell"];
+
+    self.clearsSelectionOnViewWillAppear = NO;
+
+    [self initRefresh];
+    [self.tableView.mj_header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -32,67 +47,129 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+    return [self.tableData count];
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    RepositoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"StarRepoCell" forIndexPath:indexPath];
     
-    // Configure the cell...
+    RepositoryModel *repo = [self.tableData objectAtIndex:indexPath.row];
+
+    cell.repo = repo;
+    cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
     
     return cell;
 }
-*/
 
-/*
-// Override to support conditional editing of the table view.
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    if (self.accessToken) {
+        return YES;
+    }
+    return NO;
 }
-*/
 
-/*
-// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    RepositoryModel *repo = [self.tableData objectAtIndex:indexPath.row];
+    RepositoryDetailViewController *rdvc = [[RepositoryDetailViewController alloc] init];
+    rdvc.repo = repo;
+    rdvc.hidesBottomBarWhenPushed = YES;
+
+    [self.navigationController pushViewController:rdvc animated:YES];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [RepositoryTableViewCell cellHeight];
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
+        // unstar a repo
+        RepositoryModel *targetRepo = [self.tableData objectAtIndex:indexPath.row];
+        [[DataEngine sharedEngine] unStaredRepoWithToken:self.accessToken ownerName:targetRepo.orgName repoName:targetRepo.name completionHandler:^(BOOL done, NSError *error) {
+            // do nothing ...
+        }];
+        [self.tableData removeObject:targetRepo];
+
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    }
 }
-*/
 
-/*
-// Override to support conditional rearranging of the table view.
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return NSLocalizedString(@"unstar", @"unstar a repo");
+}
+
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
+    return NO;
 }
-*/
 
-/*
-#pragma mark - Navigation
+#pragma mark - refresh
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)loadStarRepos
+{
+    weakify(self);
+    if (self.accessToken) {
+        [[DataEngine sharedEngine] getUserStarredsWithAccessToken:self.accessToken page:(self.repoNowPage+1) completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
+            strongify(self);
+            [self loadStarReposWithRepositories:repositories];
+        }];
+    } else {
+        [[DataEngine sharedEngine] getUserStarredsWithUserName:self.userName page:(self.repoNowPage+1) completionHandler:^(NSArray<RepositoryModel *> *repositories, NSError *error) {
+            strongify(self);
+            [self loadStarReposWithRepositories:repositories];
+        }];
+    }
 }
-*/
+
+- (void)loadStarReposWithRepositories:(NSArray<RepositoryModel *> *)repositories
+{
+    if ([repositories count] <= 0) {
+        [self.tableView.mj_footer endRefreshingWithNoMoreData];
+        return;
+    } else {
+        if (self.repoNowPage == 0) {
+            self.tableData = [[NSMutableArray alloc] initWithArray:repositories];
+        } else {
+            [self.tableData addObjectsFromArray:repositories];
+        }
+        [self.tableView reloadData];
+        self.repoNowPage++;
+    }
+    [self.tableView.mj_footer endRefreshing];
+    [self.tableView.mj_header endRefreshing];
+
+}
+
+- (void)initRefresh
+{
+    weakify(self);
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+
+        strongify(self);
+        self.repoNowPage = 0;
+        [self loadStarRepos];
+
+    }];
+
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+
+        strongify(self);
+        [self loadStarRepos];
+
+    }];
+
+    self.tableView.mj_header.automaticallyChangeAlpha = YES;
+    self.tableView.mj_footer.automaticallyChangeAlpha = YES;
+    ((MJRefreshNormalHeader *)self.tableView.mj_header).lastUpdatedTimeLabel.hidden = YES;
+}
 
 @end

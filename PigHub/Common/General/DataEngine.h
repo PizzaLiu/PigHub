@@ -90,5 +90,20 @@
 - (NSURLSessionDataTask *)getUserReposWithUserName:(NSString *)name
                                               page:(NSInteger)page
                                  completionHandler:(void (^)(NSArray<RepositoryModel *> *repos, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getUserFollowersWithAccessToken:(NSString *)accessToken
+                                                     page:(NSInteger)page
+                                        completionHandler:(void (^)(NSArray<UserModel *> *users, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getUserFollowingsWithAccessToken:(NSString *)accessToken
+                                                      page:(NSInteger)page
+                                         completionHandler:(void (^)(NSArray<UserModel *> *users, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getUserStarredsWithAccessToken:(NSString *)accessToken
+                                                    page:(NSInteger)page
+                                       completionHandler:(void (^)(NSArray<RepositoryModel *> *repositories, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getUserStarredsWithUserName:(NSString *)userName
+                                                 page:(NSInteger)page
+                                    completionHandler:(void (^)(NSArray<RepositoryModel *> *repositories, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getUserFollowingsWithUserName:(NSString *)username
+                                                   page:(NSInteger)page
+                                      completionHandler:(void (^)(NSArray<UserModel *> *users, NSError *error))completionBlock;
 
 @end

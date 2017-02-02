@@ -10,4 +10,7 @@
 
 @interface StarRepositoryViewController : UITableViewController
 
+@property (nonatomic, copy) NSString *userName;
+@property (nonatomic, copy) NSString *accessToken;
+
 @end

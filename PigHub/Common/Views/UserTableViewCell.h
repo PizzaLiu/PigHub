@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserModel.h"
 
 @interface UserTableViewCell : UITableViewCell
+
+@property (weak, nonatomic) UserModel *user;
 
 @property (weak, nonatomic) IBOutlet UILabel *orderLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImage;

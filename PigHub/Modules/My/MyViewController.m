@@ -16,6 +16,8 @@
 #import "EventViewController.h"
 #import "LoadingView.h"
 #import "NotificationViewController.h"
+#import "StarRepositoryViewController.h"
+#import "FollowingUserViewController.h"
 
 @interface MyViewController () <UIAlertViewDelegate>
 
@@ -62,7 +64,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0 && self.user) {
-        return 4;
+        return 6;
     }
     return 1;
 }
@@ -104,6 +106,12 @@
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 break;
             case 3:
+                cell.textLabel.text = NSLocalizedString(@"Stars", @"My starred repo");
+                break;
+            case 4:
+                cell.textLabel.text = NSLocalizedString(@"Follows", @"My followed user");
+                break;
+            case 5:
                 cell.textLabel.text = NSLocalizedString(@"Logout", @"Login by github OAuth2");
                 break;
             default:
@@ -143,8 +151,22 @@
                 notiVc.accessToken = self.accessToken;
                 [self.navigationController pushViewController:notiVc animated:YES];
             } else
-            // logout
+            // Stars
             if (indexPath.row == 3) {
+                StarRepositoryViewController *starVc = [[StarRepositoryViewController alloc] init];
+                starVc.accessToken = self.accessToken;
+                starVc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:starVc animated:YES];
+            } else
+            // Follows
+            if (indexPath.row == 4) {
+                FollowingUserViewController *followVc = [[FollowingUserViewController alloc] init];
+                followVc.accessToken = self.accessToken;
+                followVc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:followVc animated:YES];
+            } else
+            // logout
+            if (indexPath.row == 5) {
                 NSString *title = NSLocalizedString(@"Notification", @"Title for logout notification");
                 NSString *message = NSLocalizedString(@"Are you sure to logout?", @"Message for logout notification");
                 NSString *cancelButtonTitle = NSLocalizedString(@"NO", @"Cancel button title for logout notification");

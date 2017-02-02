@@ -467,6 +467,62 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
 
 #pragma mark - Star
 
+// List repositories being starred by the authenticated user.
+// https://developer.github.com/v3/activity/starring/#list-repositories-being-starred
+- (NSURLSessionDataTask *)getUserStarredsWithAccessToken:(NSString *)accessToken
+                                                    page:(NSInteger)page
+                                       completionHandler:(void (^)(NSArray<RepositoryModel *> *repositories, NSError *error))completionBlock
+{
+    NSString *getString = [NSString stringWithFormat:@"/user/starred?sort=created&direction=desc&access_token=%@&page=%lu", accessToken, (long)page];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSArray class]]) {
+            NSMutableArray<RepositoryModel *> *repos = [[NSMutableArray alloc] init];
+            RepositoryModel *repo = nil;
+            for (NSDictionary *repoDic in responseObject) {
+                repo = [RepositoryModel modelWithDic:repoDic];
+                [repos addObject:repo];
+            }
+            completionBlock(repos, nil);
+        } else {
+            completionBlock(nil, [self.noTargetDataError copy]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
+    }];
+
+    return task;
+}
+
+// List repositories being starred by a user.
+// https://developer.github.com/v3/activity/starring/#list-repositories-being-starred
+- (NSURLSessionDataTask *)getUserStarredsWithUserName:(NSString *)userName
+                                                 page:(NSInteger)page
+                                    completionHandler:(void (^)(NSArray<RepositoryModel *> *repositories, NSError *error))completionBlock
+{
+    NSString *getString = [NSString stringWithFormat:@"/user/%@/starred?sort=created&direction=desc&page=%lu", userName, (long)page];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSArray class]]) {
+            NSMutableArray<RepositoryModel *> *repos = [[NSMutableArray alloc] init];
+            RepositoryModel *repo = nil;
+            for (NSDictionary *repoDic in responseObject) {
+                repo = [RepositoryModel modelWithDic:repoDic];
+                [repos addObject:repo];
+            }
+            completionBlock(repos, nil);
+        } else {
+            completionBlock(nil, [self.noTargetDataError copy]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
+    }];
+
+    return task;
+}
+
 // Check if you are starring a repository
 // https://developer.github.com/v3/activity/starring/#check-if-you-are-starring-a-repository
 - (NSURLSessionDataTask *)checkIfStaredWithToken:(NSString *)access_token
@@ -561,6 +617,90 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
 }
 
 #pragma mark - Follow
+
+// List the authenticated user's followers
+// https://developer.github.com/v3/users/followers/#list-followers-of-a-user
+- (NSURLSessionDataTask *)getUserFollowersWithAccessToken:(NSString *)accessToken
+                                                     page:(NSInteger)page
+                                        completionHandler:(void (^)(NSArray<UserModel *> *users, NSError *error))completionBlock
+{
+    NSString *getString = [NSString stringWithFormat:@"/user/followers?access_token=%@&page=%lu", accessToken, (long)page];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSArray class]]) {
+            NSMutableArray<UserModel *> *repos = [[NSMutableArray alloc] init];
+            UserModel *user = nil;
+            for (NSDictionary *userDic in responseObject) {
+                user = [UserModel modelWithDic:userDic];
+                [repos addObject:user];
+            }
+            completionBlock(repos, nil);
+        } else {
+            completionBlock(nil, [self.noTargetDataError copy]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
+    }];
+
+    return task;
+}
+
+// List who the authenticated user is following
+// https://developer.github.com/v3/users/followers/#list-users-followed-by-another-user
+- (NSURLSessionDataTask *)getUserFollowingsWithAccessToken:(NSString *)accessToken
+                                                      page:(NSInteger)page
+                                         completionHandler:(void (^)(NSArray<UserModel *> *users, NSError *error))completionBlock
+{
+    NSString *getString = [NSString stringWithFormat:@"/user/following?access_token=%@&page=%lu", accessToken, (long)page];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSArray class]]) {
+            NSMutableArray<UserModel *> *users = [[NSMutableArray alloc] init];
+            UserModel *user = nil;
+            for (NSDictionary *userDic in responseObject) {
+                user = [UserModel modelWithDic:userDic];
+                [users addObject:user];
+            }
+            completionBlock(users, nil);
+        } else {
+            completionBlock(nil, [self.noTargetDataError copy]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
+    }];
+
+    return task;
+}
+
+// List who a user is following:
+// https://developer.github.com/v3/users/followers/#list-users-followed-by-another-user
+- (NSURLSessionDataTask *)getUserFollowingsWithUserName:(NSString *)username
+                                                   page:(NSInteger)page
+                                      completionHandler:(void (^)(NSArray<UserModel *> *users, NSError *error))completionBlock
+{
+    NSString *getString = [NSString stringWithFormat:@"/user/%@/following?page=%lu", username, (long)page];
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+
+    NSURLSessionDataTask *task = [manager GET:getString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSArray class]]) {
+            NSMutableArray<UserModel *> *users = [[NSMutableArray alloc] init];
+            UserModel *user = nil;
+            for (NSDictionary *userDic in responseObject) {
+                user = [UserModel modelWithDic:userDic];
+                [users addObject:user];
+            }
+            completionBlock(users, nil);
+        } else {
+            completionBlock(nil, [self.noTargetDataError copy]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
+    }];
+
+    return task;
+}
 
 // Check if you are following a user
 // https://developer.github.com/v3/users/followers/#check-if-you-are-following-a-user

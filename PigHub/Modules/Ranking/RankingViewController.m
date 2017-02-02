@@ -317,6 +317,7 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
                 self.noticeLabel.hidden = NO;
             } else {
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                return;
             }
         } else {
             if (self.repoNowPage == 0) {
@@ -357,6 +358,7 @@ NSString * const RankingSelectedLangQueryPrefKey = @"RankingSelectedLangPrefKey"
                 self.noticeLabel.hidden = NO;
             } else {
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                return;
             }
         } else {
             if (self.userNowPage == 0) {

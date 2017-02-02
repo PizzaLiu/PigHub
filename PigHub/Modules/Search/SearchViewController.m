@@ -164,10 +164,8 @@
     UserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserTableViewCell" forIndexPath:indexPath];
     UserModel *user = [self.userTableData objectAtIndex:indexPath.row];
 
-    cell.nameLabel.text = user.name;
+    cell.user = user;
     cell.orderLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
-    [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:[user avatarUrlForSize:44]]
-                        placeholderImage:[UIImage imageNamed:@"DefaultAvatar"]];
 
     return cell;
 }
@@ -318,6 +316,7 @@
                 self.noticeLabel.hidden = NO;
             } else {
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                return;
             }
         } else {
             if (self.repoNowPage == 0) {
@@ -353,6 +352,7 @@
                 self.noticeLabel.hidden = NO;
             } else {
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                return;
             }
         } else {
             if (self.userNowPage == 0) {
