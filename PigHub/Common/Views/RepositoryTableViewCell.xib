@@ -14,7 +14,7 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="96" id="KGk-i7-Jjw" customClass="RepositoryTableViewCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -99,7 +99,6 @@
                             <constraint firstAttribute="trailing" secondItem="GbG-Ty-HXz" secondAttribute="trailing" constant="8" id="3AV-Br-hko"/>
                             <constraint firstItem="KXR-nA-e7p" firstAttribute="leading" secondItem="muS-Vg-gmN" secondAttribute="leading" constant="8" id="4bP-7O-JRa"/>
                             <constraint firstItem="gX6-lf-xfz" firstAttribute="top" secondItem="muS-Vg-gmN" secondAttribute="top" constant="8" id="4nT-NJ-J4b"/>
-                            <constraint firstAttribute="width" constant="320" id="5T3-WT-XAg"/>
                             <constraint firstAttribute="trailing" secondItem="0yz-6j-gmn" secondAttribute="trailing" constant="8" id="70J-lP-2f2"/>
                             <constraint firstAttribute="trailing" secondItem="dJx-Ab-c83" secondAttribute="trailing" constant="8" id="A6v-yH-ukM"/>
                             <constraint firstAttribute="trailing" secondItem="ke5-XU-Fe6" secondAttribute="trailing" constant="20" id="FYs-a8-hQJ"/>
@@ -124,7 +123,9 @@
                 <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
                     <constraint firstItem="muS-Vg-gmN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="P72-dT-VNB"/>
+                    <constraint firstItem="muS-Vg-gmN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="dgv-St-rrc"/>
                     <constraint firstItem="muS-Vg-gmN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="qHr-OR-Al3"/>
+                    <constraint firstAttribute="trailing" secondItem="muS-Vg-gmN" secondAttribute="trailing" id="quO-4t-duP"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
