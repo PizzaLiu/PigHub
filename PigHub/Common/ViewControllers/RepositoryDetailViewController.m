@@ -62,6 +62,8 @@
     self.webView.delegate = self;
     self.webView.backgroundColor = [UIColor whiteColor];
     self.webView.scalesPageToFit = YES;
+    self.webView.scrollView.contentInset = UIEdgeInsetsMake(71.0, 0, 0, 0);
+    self.webView.opaque = NO;
 
     // loading view
     [self.view addSubview:self.loadingView];
