@@ -41,6 +41,8 @@
 
 @property (assign, nonatomic) BOOL starred;
 
+@property (assign, nonatomic) BOOL contentLoaded;
+
 @end
 
 @implementation RepositoryDetailViewController 
@@ -51,6 +53,7 @@
     self.accessToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"access_token"];
     self.title = self.repo.name;
     self.loadingView = [[LoadingView alloc] initWithFrame:CGRectZero];
+    self.contentLoaded = NO;
 
     // set avatar radius
     self.avatarImageView.layer.cornerRadius = 5.0;
@@ -171,6 +174,11 @@
     self.navigationItem.rightBarButtonItem = starItem;
 }
 
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    return !self.contentLoaded;
+}
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     // hide page header & footer
@@ -226,6 +234,7 @@
     //[self.headerView setNeedsLayout];
     //[self.headerView layoutIfNeeded];
 
+    self.contentLoaded = YES;
     self.loadingView.hidden = YES;
     self.view.userInteractionEnabled = YES;
     self.webView.hidden = NO;
