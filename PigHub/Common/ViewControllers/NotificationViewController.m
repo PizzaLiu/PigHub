@@ -139,7 +139,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return NSLocalizedString(@"readed", @"mark notification readed");
+    return NSLocalizedString(@"read", @"mark notification as read");
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
