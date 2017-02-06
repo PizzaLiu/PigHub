@@ -62,7 +62,7 @@
     self.webView.delegate = self;
     self.webView.backgroundColor = [UIColor whiteColor];
     self.webView.scalesPageToFit = YES;
-    self.webView.scrollView.contentInset = UIEdgeInsetsMake(71.0, 0, 0, 0);
+    self.webView.scrollView.contentInset = UIEdgeInsetsMake(72.0, 0, 0, 0);
     self.webView.opaque = NO;
 
     // loading view
@@ -196,6 +196,20 @@
 
     // refix headerView constraint
     self.headerView.hidden = NO;
+    [self.webView.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
+                                                                        attribute:NSLayoutAttributeTop
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:self.webView.scrollView
+                                                                        attribute:NSLayoutAttributeTop
+                                                                       multiplier:1.0
+                                                                         constant:-headerHeight]];
+    [self.webView.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
+                                                                        attribute:NSLayoutAttributeLeft
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:self.webView.scrollView
+                                                                        attribute:NSLayoutAttributeLeft
+                                                                       multiplier:1.0
+                                                                         constant:0.0]];
     [self.headerView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
                                                                         attribute:NSLayoutAttributeWidth
                                                                         relatedBy:NSLayoutRelationEqual
@@ -203,6 +217,7 @@
                                                                         attribute:NSLayoutAttributeNotAnAttribute
                                                                        multiplier:1.0
                                                                          constant:self.view.frame.size.width]];
+    /*
     [self.headerView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
                                                                         attribute:NSLayoutAttributeHeight
                                                                         relatedBy:NSLayoutRelationEqual
@@ -211,24 +226,11 @@
                                                                        multiplier:1.0
                                                                          constant:headerHeight]];
 
-    [self.webView.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
-                                                                  attribute:NSLayoutAttributeTop
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self.webView.scrollView
-                                                                  attribute:NSLayoutAttributeTop
-                                                                 multiplier:1.0
-                                                                   constant:-headerHeight]];
 
-    [self.webView.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
-                                                                  attribute:NSLayoutAttributeLeft
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self.webView.scrollView
-                                                                  attribute:NSLayoutAttributeLeft
-                                                                 multiplier:1.0
-                                                                   constant:0.0]];
-    [self.headerView needsUpdateConstraints];
-    [self.headerView setNeedsLayout];
-    [self.headerView layoutIfNeeded];
+     */
+    //[self.headerView needsUpdateConstraints];
+    //[self.headerView setNeedsLayout];
+    //[self.headerView layoutIfNeeded];
 
     self.loadingView.hidden = YES;
     self.view.userInteractionEnabled = YES;
