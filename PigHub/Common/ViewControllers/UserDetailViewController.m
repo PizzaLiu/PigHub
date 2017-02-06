@@ -294,6 +294,8 @@
             strongify(self);
             if (done) {
                 self.followed = NO;
+                self.user.followersCount--;
+                self.followerCountLabel.text = [Utility formatNumberForInt:self.user.followersCount];
             } else {
                 self.followed = YES;
                 rightItem.image = followingImg;
@@ -307,6 +309,8 @@
             strongify(self);
             if (done) {
                 self.followed = YES;
+                self.user.followersCount++;
+                self.followerCountLabel.text = [Utility formatNumberForInt:self.user.followersCount];
             } else {
                 self.followed = NO;
                 rightItem.image = followImg;

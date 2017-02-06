@@ -63,10 +63,6 @@
 
     // web view
     self.webView.delegate = self;
-    self.webView.backgroundColor = [UIColor whiteColor];
-    self.webView.scalesPageToFit = YES;
-    self.webView.scrollView.contentInset = UIEdgeInsetsMake(72.0, 0, 0, 0);
-    self.webView.opaque = NO;
 
     // loading view
     [self.view addSubview:self.loadingView];
@@ -77,6 +73,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
+    self.webView.backgroundColor = [UIColor whiteColor];
+    self.webView.scalesPageToFit = YES;
+    self.webView.scrollView.contentInset = UIEdgeInsetsMake(72.0, 0, 0, 0);
+    self.webView.opaque = NO;
 
     weakify(self);
 
@@ -256,6 +257,8 @@
             strongify(self);
             if (done) {
                 self.starred = YES;
+                self.repoInfo.starCount++;
+                self.starCountLabel.text = [Utility formatNumberForInt:self.repoInfo.starCount];
             } else {
                 self.starred = NO;
                 self.navigationItem.rightBarButtonItem.image = [UIImage imageNamed:@"StarPierced20"];
@@ -268,6 +271,8 @@
             strongify(self);
             if (done) {
                 self.starred = NO;
+                self.repoInfo.starCount--;
+                self.starCountLabel.text = [Utility formatNumberForInt:self.repoInfo.starCount];
             } else {
                 self.starred = YES;
                 self.navigationItem.rightBarButtonItem.image = [UIImage imageNamed:@"Star20"];
