@@ -77,7 +77,13 @@
         self.repoInfo = data;
         //self.loadingView.hidden = YES;
         [self initHeaderViewWithRepoInfo:data];
-        [self initContentViewWithUrlstr:data.readMeUrl];
+        //[self initContentViewWithUrlstr:data.readMeUrl];
+    }];
+
+    [[DataEngine sharedEngine] getRepoReadmeWithOrgName:self.repo.orgName repoName:self.repo.name completionHandler:^(NSDictionary *data, NSError *error) {
+        strongify(self);
+        self.repoInfo.readmeUrl = [data objectForKey:@"html_url"];
+        [self initContentViewWithUrlstr:[data objectForKey:@"html_url"]];
     }];
 
 
@@ -167,18 +173,6 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    // handle 404
-    NSCachedURLResponse *urlResponse = [[NSURLCache sharedURLCache] cachedResponseForRequest:webView.request];
-    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) urlResponse.response;
-    NSInteger statusCode = httpResponse.statusCode;
-    if (statusCode == 404 && [[webView.request.URL absoluteString] isEqualToString:self.repoInfo.readMeUrl]) {
-        self.webView.hidden = YES;
-        // retry another readme url  -_-!
-        [self initContentViewWithUrlstr:self.repoInfo.anotherReadMeUrl];
-        return;
-    }
-
-
     // hide page header & footer
     NSString *cssString = @"body{background-color:white;} header,.reponav-wrapper,.blob-breadcrumb,footer { display:none!important; }";
     NSString *javascriptString = @"var style = document.createElement('style'); style.innerHTML = '%@'; document.head.appendChild(style)";

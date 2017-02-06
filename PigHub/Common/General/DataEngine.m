@@ -465,6 +465,28 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.github.com";
     return task;
 }
 
+// https://developer.github.com/v3/repos/contents/#get-the-readme
+// Get repository readme info
+- (NSURLSessionDataTask *)getRepoReadmeWithOrgName:(NSString *)owner
+                                          repoName:(NSString *)name
+                                 completionHandler:(void (^)(NSDictionary *data, NSError *error))completionBlock
+{
+    __weak AFHTTPSessionManager *manager = [AFAppDotNetAPIClient sharedClient];
+    NSString *url = [NSString stringWithFormat:@"https://api.github.com/repos/%@/%@/readme", owner, name];
+
+    NSURLSessionDataTask *task = [manager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            completionBlock(responseObject, nil);
+        } else {
+            completionBlock(nil, [self.noTargetDataError copy]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completionBlock(nil, error);
+    }];
+
+    return task;
+}
+
 #pragma mark - Star
 
 // List repositories being starred by the authenticated user.

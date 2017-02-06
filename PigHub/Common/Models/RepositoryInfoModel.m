@@ -40,14 +40,12 @@
     return model;
 }
 
--(NSString *)readMeUrl
+-(NSString *)readmeUrl
 {
+    if (_readmeUrl) {
+        return _readmeUrl;
+    }
     return [NSString stringWithFormat:@"https://github.com/%@/%@/blob/%@/README.md", self.owner.name, self.name, self.defaultBranch];
-}
-
--(NSString *)anotherReadMeUrl
-{
-    return [NSString stringWithFormat:@"https://github.com/%@/%@/blob/%@/readme.md", self.owner.name, self.name, self.defaultBranch];
 }
 
 @end

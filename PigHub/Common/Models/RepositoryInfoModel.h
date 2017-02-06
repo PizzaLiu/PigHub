@@ -26,6 +26,7 @@
 @property (nonatomic, strong) RepositoryModel *parent;
 
 @property (nonatomic, copy) NSString *htmlUrl;
+@property (nonatomic, copy) NSString *readmeUrl;
 @property (nonatomic, copy) NSString *defaultBranch;
 
 @property (nonatomic, strong) NSDate *createdDate;
@@ -33,7 +34,6 @@
 
 +(instancetype)modelWithDic:(NSDictionary *)dic;
 
--(NSString *)readMeUrl;
--(NSString *)anotherReadMeUrl;
+-(NSString *)readmeUrl;
 
 @end

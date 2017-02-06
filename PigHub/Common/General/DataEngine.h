@@ -105,5 +105,8 @@
 - (NSURLSessionDataTask *)getUserFollowingsWithUserName:(NSString *)username
                                                    page:(NSInteger)page
                                       completionHandler:(void (^)(NSArray<UserModel *> *users, NSError *error))completionBlock;
+- (NSURLSessionDataTask *)getRepoReadmeWithOrgName:(NSString *)owner
+                                          repoName:(NSString *)name
+                                 completionHandler:(void (^)(NSDictionary *data, NSError *error))completionBlock;
 
 @end
