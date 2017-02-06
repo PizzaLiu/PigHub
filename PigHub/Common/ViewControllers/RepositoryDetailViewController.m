@@ -171,9 +171,11 @@
 
 - (void)addStarItemWithStarred:(BOOL)starred
 {
-    UIImage *img = [UIImage imageNamed:@"StarPierced20"];
+    UIImage *img;
     if (starred) {
         img = [UIImage imageNamed:@"Star20"];
+    } else {
+        img = [UIImage imageNamed:@"StarPierced20"];
     }
     UIBarButtonItem *starItem = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:self action:@selector(starAction:)];
 
@@ -182,7 +184,7 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    return !self.contentLoaded;
+    return self.contentLoaded ? NO : YES;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
@@ -193,57 +195,43 @@
     NSString *javascriptWithCSSString = [NSString stringWithFormat:javascriptString, cssString];
     [webView stringByEvaluatingJavaScriptFromString:javascriptWithCSSString];
 
-    float headerHeight = self.headerView.frame.size.height;
+    float headerHeight = _headerView.frame.size.height;
     float scrollOffset = headerHeight + 64.0;
 
-    [self.headerView removeFromSuperview];
-    self.webView.scrollView.contentInset = UIEdgeInsetsMake(scrollOffset, 0, 0, 0);
-    [self.webView.scrollView setContentOffset: CGPointMake(0, -scrollOffset) animated:NO];
+    [_headerView removeFromSuperview];
+    webView.scrollView.contentInset = UIEdgeInsetsMake(scrollOffset, 0, 0, 0);
+    [webView.scrollView setContentOffset: CGPointMake(0, -scrollOffset) animated:NO];
 
-    [self.webView.scrollView addSubview:self.headerView];
+    [webView.scrollView addSubview:self.headerView];
 
     // refix headerView constraint
-    self.headerView.hidden = NO;
-    [self.webView.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
+    _headerView.hidden = NO;
+    [webView.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:_headerView
                                                                         attribute:NSLayoutAttributeTop
                                                                         relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.webView.scrollView
+                                                                           toItem:webView.scrollView
                                                                         attribute:NSLayoutAttributeTop
                                                                        multiplier:1.0
                                                                          constant:-headerHeight]];
-    [self.webView.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
+    [webView.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:_headerView
                                                                         attribute:NSLayoutAttributeLeft
                                                                         relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.webView.scrollView
+                                                                           toItem:webView.scrollView
                                                                         attribute:NSLayoutAttributeLeft
                                                                        multiplier:1.0
                                                                          constant:0.0]];
-    [self.headerView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
+    [_headerView addConstraint:[NSLayoutConstraint constraintWithItem:_headerView
                                                                         attribute:NSLayoutAttributeWidth
                                                                         relatedBy:NSLayoutRelationEqual
                                                                            toItem:nil
                                                                         attribute:NSLayoutAttributeNotAnAttribute
                                                                        multiplier:1.0
                                                                          constant:self.view.frame.size.width]];
-    /*
-    [self.headerView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
-                                                                        attribute:NSLayoutAttributeHeight
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:nil
-                                                                        attribute:NSLayoutAttributeNotAnAttribute
-                                                                       multiplier:1.0
-                                                                         constant:headerHeight]];
 
-
-     */
-    //[self.headerView needsUpdateConstraints];
-    //[self.headerView setNeedsLayout];
-    //[self.headerView layoutIfNeeded];
-
-    self.contentLoaded = YES;
-    self.loadingView.hidden = YES;
+    _contentLoaded = YES;
+    _loadingView.hidden = YES;
     self.view.userInteractionEnabled = YES;
-    self.webView.hidden = NO;
+    webView.hidden = NO;
 }
 
 #pragma mark - Actions
