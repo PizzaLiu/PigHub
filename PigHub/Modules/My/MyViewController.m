@@ -244,7 +244,9 @@
 
         self.loadingView.hidden = NO;
 
+        weakify(self);
         [[DataEngine sharedEngine] getUserInfoWithAccessToken:accessToken completionHandler:^(UserModel *user, NSError *error) {
+            strongify(self);
             if (user) {
                 self.user = user;
                 [self.tableView reloadData];

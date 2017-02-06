@@ -266,7 +266,9 @@
 
 - (void)loadReposData
 {
+    weakify(self)
     [[DataEngine sharedEngine] getUserReposWithUserName:self.user.name page:(++self.nowRepoPage) completionHandler:^(NSArray<RepositoryModel *> *repos, NSError *error) {
+        strongify(self);
         if (!repos || repos.count <= 0) {
             [self.tableView.mj_footer endRefreshingWithNoMoreData];
         } else {
