@@ -72,9 +72,14 @@
     [self.view addSubview:self.loadingView];
     self.loadingView.hidden = NO;
     self.view.userInteractionEnabled = NO;
+}
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 
     weakify(self);
+
     [[DataEngine sharedEngine] getRepoInfoWithOrgName:self.repo.orgName repoName:self.repo.name completionHandler:^(RepositoryInfoModel *data, NSError *error) {
         strongify(self);
         self.repoInfo = data;
@@ -91,7 +96,6 @@
 
 
     if (self.accessToken && ![self.accessToken isEqualToString:@""]) {
-        weakify(self);
         [[DataEngine sharedEngine] checkIfStaredWithToken:self.accessToken ownerName:self.repo.orgName repoName:self.repo.name completionHandler:^(BOOL starred, NSError *error) {
             strongify(self);
             self.starred = starred;
@@ -100,9 +104,10 @@
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)dealloc
 {
-    [super viewWillAppear:animated];
+    _webView.delegate = nil;
+    [_webView stopLoading];
 }
 
 - (void)didReceiveMemoryWarning {
