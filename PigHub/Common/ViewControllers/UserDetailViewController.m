@@ -183,7 +183,6 @@
 
     self.headerView.hidden = NO;
     [self.headerView removeFromSuperview];
-    self.tableView.tableHeaderView = self.headerView;
 
     // refix headerView constraint
     float headerHeight = self.headerView.frame.size.height;
@@ -195,6 +194,7 @@
     CGRect headerFrame = self.headerView.frame;
     headerFrame.size.height = headerHeight;
     self.headerView.frame = headerFrame;
+    self.tableView.tableHeaderView = self.headerView;
 
     [self.headerView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
                                                                 attribute:NSLayoutAttributeWidth
@@ -203,15 +203,6 @@
                                                                 attribute:NSLayoutAttributeNotAnAttribute
                                                                multiplier:1.0
                                                                  constant:self.view.frame.size.width]];
-
-    [self.headerView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
-                                                                attribute:NSLayoutAttributeHeight
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:nil
-                                                                attribute:NSLayoutAttributeNotAnAttribute
-                                                               multiplier:1.0
-                                                                 constant:headerHeight]];
-
     [self.tableView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
                                                                         attribute:NSLayoutAttributeLeft
                                                                         relatedBy:NSLayoutRelationEqual
@@ -219,8 +210,8 @@
                                                                         attribute:NSLayoutAttributeLeft
                                                                        multiplier:1.0
                                                                          constant:0.0]];
-    [self.headerView needsUpdateConstraints];
-    [self.headerView setNeedsLayout];
+    //[self.headerView needsUpdateConstraints];
+    //[self.headerView setNeedsLayout];
     [self.headerView layoutIfNeeded];
 }
 
