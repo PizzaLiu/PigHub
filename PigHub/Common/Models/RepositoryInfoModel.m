@@ -48,4 +48,13 @@
     return [NSString stringWithFormat:@"https://github.com/%@/%@/blob/%@/README.md", self.owner.name, self.name, self.defaultBranch];
 }
 
+- (NSString *)homePage
+{
+    if ([_homePage containsString:@"http"]) {
+        return _homePage;
+    }
+
+    return [NSString stringWithFormat:@"http://%@", _homePage];
+}
+
 @end

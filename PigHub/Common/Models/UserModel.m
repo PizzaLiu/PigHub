@@ -12,12 +12,6 @@
 
 @implementation UserModel
 
-/*
-
- @property (nonatomic, strong) NSDate *createdDate;
- @property (nonatomic, strong) NSDate *updatedDate;
- */
-
 + (instancetype)modelWithDic:(NSDictionary *)dic
 {
     UserModel *user = [[UserModel alloc] init];
