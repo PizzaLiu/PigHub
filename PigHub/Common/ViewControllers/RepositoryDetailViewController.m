@@ -6,6 +6,7 @@
 //  Copyright © 2017年 PizzaLiu. All rights reserved.
 //
 
+#import <WebKit/WebKit.h>
 #import "RepositoryDetailViewController.h"
 #import "LoadingView.h"
 #import "DataEngine.h"
@@ -15,9 +16,15 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "Utility.h"
 
-@interface RepositoryDetailViewController() <UIWebViewDelegate>
+@interface RepositoryDetailViewController() <WKNavigationDelegate>
 
-@property (weak, nonatomic) IBOutlet UIWebView *webView;
+{
+    float topBlankHeight;
+    float headerHeight;
+    float scrollOffset;
+}
+
+@property (strong, nonatomic) WKWebView *wkWebView;
 
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
@@ -55,38 +62,47 @@
     self.loadingView = [[LoadingView alloc] initWithFrame:CGRectZero];
     self.contentLoaded = NO;
 
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+
     // set avatar radius
     self.avatarImageView.layer.cornerRadius = 5.0;
     self.avatarImageView.layer.masksToBounds = YES;
     self.avatarImageView.layer.borderColor = [UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:0.5].CGColor;
     self.avatarImageView.layer.borderWidth = 0.3;
 
-    // web view
-    self.webView.delegate = self;
+    // MKWebView
+
+    // hide page header & footer
+    NSString *cssString = @"body{background-color:white;} header,.reponav-wrapper,.blob-breadcrumb,footer { display:none!important; }";
+    NSString *javascriptString = @"var style = document.createElement('style'); style.innerHTML = '%@'; document.head.appendChild(style)";
+    NSString *javascriptWithCSSString = [NSString stringWithFormat:javascriptString, cssString];
+    WKUserScript *script = [[WKUserScript alloc] initWithSource:javascriptWithCSSString injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+    WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+    [config.userContentController addUserScript:script];
+
+    _wkWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:config];
+    _wkWebView.navigationDelegate = self;
+    _wkWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view insertSubview:_wkWebView belowSubview:_headerView];
+
+    topBlankHeight = [[UIApplication sharedApplication] statusBarFrame].size.height + self.navigationController.navigationBar.frame.size.height;
+    headerHeight = _headerView.frame.size.height;
+    scrollOffset = headerHeight + topBlankHeight;
+    _wkWebView.scrollView.contentInset = UIEdgeInsetsMake(scrollOffset, 0, 0, 0);
 
     // loading view
     [self.view addSubview:self.loadingView];
     self.loadingView.hidden = NO;
     self.view.userInteractionEnabled = NO;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
-    self.webView.backgroundColor = [UIColor whiteColor];
-    self.webView.scalesPageToFit = YES;
-    self.webView.scrollView.contentInset = UIEdgeInsetsMake(72.0, 0, 0, 0);
-    self.webView.opaque = NO;
 
     weakify(self);
 
     [[DataEngine sharedEngine] getRepoInfoWithOrgName:self.repo.orgName repoName:self.repo.name completionHandler:^(RepositoryInfoModel *data, NSError *error) {
         strongify(self);
         self.repoInfo = data;
-        //self.loadingView.hidden = YES;
         [self initHeaderViewWithRepoInfo:data];
-        //[self initContentViewWithUrlstr:data.readMeUrl];
     }];
 
     [[DataEngine sharedEngine] getRepoReadmeWithOrgName:self.repo.orgName repoName:self.repo.name completionHandler:^(NSDictionary *data, NSError *error) {
@@ -105,15 +121,81 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 - (void)dealloc
 {
-    _webView.delegate = nil;
-    [_webView stopLoading];
+    _wkWebView.navigationDelegate = nil;
+    [_wkWebView stopLoading];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - WKNavigationDelegate
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
+{
+    NSString *url = navigationAction.request.URL.absoluteString;
+
+    if (_contentLoaded) {
+        decisionHandler(WKNavigationActionPolicyCancel);
+
+        if (![url isEqualToString:self.repoInfo.readmeUrl]) {
+            WebViewController *vc = [[WebViewController alloc] init];
+            vc.url = url;
+            vc.hidesBottomBarWhenPushed = YES;
+
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    } else {
+        decisionHandler(WKNavigationActionPolicyAllow);
+    }
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
+{
+    [_headerView removeFromSuperview];
+
+    _wkWebView.scrollView.contentInset = UIEdgeInsetsMake(scrollOffset, 0, 0, 0);
+    _wkWebView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(topBlankHeight, 0, 0, 0);
+    [_wkWebView.scrollView setContentOffset: CGPointMake(0, -scrollOffset) animated:NO];
+
+    [_wkWebView.scrollView addSubview:self.headerView];
+
+    // refix headerView constraint
+    _headerView.hidden = NO;
+    [_wkWebView.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:_headerView
+                                                                   attribute:NSLayoutAttributeTop
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:_wkWebView.scrollView
+                                                                   attribute:NSLayoutAttributeTop
+                                                                  multiplier:1.0
+                                                                    constant:-headerHeight]];
+    [_wkWebView.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:_headerView
+                                                                   attribute:NSLayoutAttributeLeft
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:_wkWebView.scrollView
+                                                                   attribute:NSLayoutAttributeLeft
+                                                                  multiplier:1.0
+                                                                    constant:0.0]];
+    [_headerView addConstraint:[NSLayoutConstraint constraintWithItem:_headerView
+                                                            attribute:NSLayoutAttributeWidth
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:nil
+                                                            attribute:NSLayoutAttributeNotAnAttribute
+                                                           multiplier:1.0
+                                                             constant:self.view.frame.size.width]];
+
+    _contentLoaded = YES;
+    self.view.userInteractionEnabled = YES;
+    _wkWebView.hidden = NO;
+    _loadingView.hidden = YES;
 }
 
 #pragma mark - InitView
@@ -163,11 +245,8 @@
     // load webview
     NSURL *url = [NSURL URLWithString:uri];
     NSURLRequest *req = [[NSURLRequest alloc] initWithURL: url];
-    [self.webView loadRequest:req];
-    self.webView.hidden = NO;
+    [_wkWebView loadRequest:req];
 }
-
-#pragma mark - Webview
 
 - (void)addStarItemWithStarred:(BOOL)starred
 {
@@ -182,57 +261,6 @@
     self.navigationItem.rightBarButtonItem = starItem;
 }
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    return self.contentLoaded ? NO : YES;
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    // hide page header & footer
-    NSString *cssString = @"body{background-color:white;} header,.reponav-wrapper,.blob-breadcrumb,footer { display:none!important; }";
-    NSString *javascriptString = @"var style = document.createElement('style'); style.innerHTML = '%@'; document.head.appendChild(style)";
-    NSString *javascriptWithCSSString = [NSString stringWithFormat:javascriptString, cssString];
-    [webView stringByEvaluatingJavaScriptFromString:javascriptWithCSSString];
-
-    float headerHeight = _headerView.frame.size.height;
-    float scrollOffset = headerHeight + 64.0;
-
-    [_headerView removeFromSuperview];
-    webView.scrollView.contentInset = UIEdgeInsetsMake(scrollOffset, 0, 0, 0);
-    [webView.scrollView setContentOffset: CGPointMake(0, -scrollOffset) animated:NO];
-
-    [webView.scrollView addSubview:self.headerView];
-
-    // refix headerView constraint
-    _headerView.hidden = NO;
-    [webView.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:_headerView
-                                                                        attribute:NSLayoutAttributeTop
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:webView.scrollView
-                                                                        attribute:NSLayoutAttributeTop
-                                                                       multiplier:1.0
-                                                                         constant:-headerHeight]];
-    [webView.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:_headerView
-                                                                        attribute:NSLayoutAttributeLeft
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:webView.scrollView
-                                                                        attribute:NSLayoutAttributeLeft
-                                                                       multiplier:1.0
-                                                                         constant:0.0]];
-    [_headerView addConstraint:[NSLayoutConstraint constraintWithItem:_headerView
-                                                                        attribute:NSLayoutAttributeWidth
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:nil
-                                                                        attribute:NSLayoutAttributeNotAnAttribute
-                                                                       multiplier:1.0
-                                                                         constant:self.view.frame.size.width]];
-
-    _contentLoaded = YES;
-    _loadingView.hidden = YES;
-    self.view.userInteractionEnabled = YES;
-    webView.hidden = NO;
-}
 
 #pragma mark - Actions
 
