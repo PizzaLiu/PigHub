@@ -100,9 +100,9 @@
             strongify(self);
             self.followed = followed;
             [self addFollowItemWithFollowed:followed];
-            [self.tableView.mj_header beginRefreshing];
         }];
     }
+    [self.tableView.mj_header beginRefreshing];
 
 }
 
