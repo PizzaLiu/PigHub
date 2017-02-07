@@ -11,6 +11,7 @@
 #import "RepositoryDetailViewController.h"
 #import "UserModel.h"
 #import "UserDetailViewController.h"
+#import "WebViewController.h"
 
 @interface AboutViewController ()
 
@@ -119,5 +120,14 @@
 
     [self showRepoDetailWithRepo:repo];
 }
+
+- (IBAction)showIssuesAction:(id)sender {
+    WebViewController *vc = [[WebViewController alloc] init];
+    vc.url = @"https://github.com/PizzaLiu/PigHub/issues";
+    vc.hidesBottomBarWhenPushed = YES;
+
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 @end
