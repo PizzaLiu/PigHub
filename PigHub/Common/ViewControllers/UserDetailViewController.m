@@ -203,6 +203,15 @@
                                                                 attribute:NSLayoutAttributeNotAnAttribute
                                                                multiplier:1.0
                                                                  constant:self.view.frame.size.width]];
+
+    [self.headerView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
+                                                                attribute:NSLayoutAttributeHeight
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:nil
+                                                                attribute:NSLayoutAttributeNotAnAttribute
+                                                               multiplier:1.0
+                                                                 constant:headerHeight]];
+
     [self.tableView addConstraint:[NSLayoutConstraint constraintWithItem:self.headerView
                                                                         attribute:NSLayoutAttributeLeft
                                                                         relatedBy:NSLayoutRelationEqual
