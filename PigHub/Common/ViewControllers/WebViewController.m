@@ -6,11 +6,12 @@
 //  Copyright © 2017年 PizzaLiu. All rights reserved.
 //
 
+#import <WebKit/WebKit.h>
 #import "HTMLReader.h"
 #import "WebViewController.h"
 #import "LoadingView.h"
 
-@interface WebViewController () <UIWebViewDelegate>
+@interface WebViewController () <WKNavigationDelegate>
 
 @property (nonatomic, strong) UIView *loadingView;
 
@@ -24,18 +25,19 @@
     self.title = NSLocalizedString(@"Loading...", @"Title of loading page");
 
     self.loadingView = [[LoadingView alloc] initWithFrame:self.view.frame];
+    self.loadingView.hidden = NO;
 
     // web view
-    UIWebView *webView = [[UIWebView alloc] init];
-    webView.delegate = self;
-    webView.scalesPageToFit = YES;
+    WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.frame];
+    webView.navigationDelegate = self;
+    webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
     self.view = webView;
     [self.view addSubview:self.loadingView];
 
     NSURL *url = [NSURL URLWithString:self.url];
     NSURLRequest *req = [[NSURLRequest alloc] initWithURL: url];
-    [(UIWebView *)self.view loadRequest:req];
+    [(WKWebView *)self.view loadRequest:req];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,19 +47,15 @@
 
 #pragma mark - WebViewDelegate
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    if (!self.title || [self.title isEqualToString:NSLocalizedString(@"Loading...", @"Title of loading page")]) {
-        NSString *htmlContent = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"];
-        HTMLDocument *document = [HTMLDocument documentWithString:htmlContent];
-        self.title = [document firstNodeMatchingSelector:@"title"].textContent;
-    }
-    self.loadingView.hidden = YES;
-}
-
-- (void)webViewDidStartLoad:(UIWebView *)webView
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation
 {
     self.loadingView.hidden = NO;
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
+{
+    self.title = webView.title;
+    self.loadingView.hidden = YES;
 }
 
 @end
