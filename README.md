@@ -29,6 +29,8 @@ or just search `PigHub` in App Store.
 ![My](_Screenshots/my.png)
 ![User](_Screenshots/user.png)
 ![Repo](_Screenshots/repo.png)
+![Events](_Screenshots/events.png)
+![Notifications](_Screenshots/notifications.png)
 
 -------------
 
