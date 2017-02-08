@@ -25,7 +25,7 @@ xcuserdata
 
 ## Other
 *.xccheckout
-*.xcworkspacedata
+# *.xcworkspacedata
 *.moved-aside
 *.xcuserstate
 *.xcscmblueprint
@@ -51,3 +51,4 @@ Carthage/Build
 
 AppConfig.h
 PigHub.xcodeproj/project.pbxproj
+!PigHub.xcworkspace/contents.xcworkspacedat
