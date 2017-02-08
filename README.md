@@ -25,8 +25,11 @@ or just search `PigHub` in App Store.
 ![Trending](_Screenshots/trending.png)
 ![Ranking](_Screenshots/ranking.png)
 ![Search](_Screenshots/search.png)
+![My](_Screenshots/my.png)
 ![User](_Screenshots/user.png)
 ![Repo](_Screenshots/repo.png)
+
+-------------
 
 ## Why is it called PigHub?
 
