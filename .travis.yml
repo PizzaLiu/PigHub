@@ -1,2 +1,2 @@
 language: objective-c
-script: cp PigHub/Common/General/AppConfig.sample.h PigHub/Common/General/AppConfig.sample && xcodebuild -workspace PigHub.xcworkspace -scheme PigHub -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+script: cp PigHub/Common/General/AppConfig.sample.h PigHub/Common/General/AppConfig.h && xcodebuild -workspace PigHub.xcworkspace -scheme PigHub -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
