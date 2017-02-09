@@ -4,16 +4,15 @@ A lite GitHub explorer of iOS.
 
 [![Build Status](https://travis-ci.org/PizzaLiu/PigHub.svg?branch=master)](https://travis-ci.org/PizzaLiu/PigHub/)
 [![](https://img.shields.io/github/release/PizzaLiu/PigHub.svg)](https://github.com/PizzaLiu/PigHub/releases)
-![](https://img.shields.io/gratipay/pighub/shields.svg)
 [![Gratipay](https://img.shields.io/gratipay/user/PizzaLiu.svg)](https://gratipay.com/~PizzaLiu/)
 
-## How to get it
+## How to get it?
 
-Download from App Store: https://itunes.apple.com/cn/app/pighub/id1202177372
+Download from App Store: https://itunes.apple.com/app/pighub/id1202177372
 
 or just search `PigHub` in App Store.
 
-## How to build it
+## How to build it?
 
 0. Get yourself a github api OAuth `Client ID` and `Client Secret` [here](https://github.com/settings/applications/new).
 1. Clone this project to your disk: `$ git clone https://github.com/PizzaLiu/PigHub.git`.
