@@ -4,7 +4,7 @@ A lite GitHub explorer of iOS.
 
 [![Build Status](https://travis-ci.org/PizzaLiu/PigHub.svg?branch=master)](https://travis-ci.org/PizzaLiu/PigHub/)
 [![](https://img.shields.io/github/release/PizzaLiu/PigHub.svg)](https://github.com/PizzaLiu/PigHub/releases)
-[![Gratipay](https://img.shields.io/gratipay/user/PizzaLiu.svg)](https://gratipay.com/~PizzaLiu/)
+[![Gratipay](https://img.shields.io/gratipay/user/PizzaLiu.svg)](https://gratipay.com/PigHub/)
 
 ## How to get it?
 

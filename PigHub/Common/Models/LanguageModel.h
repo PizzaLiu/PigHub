@@ -12,8 +12,8 @@
 
 @interface Language : NSObject <NSCoding>
 
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *query;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *query;
 
 - initWithName:(NSString *)name query:(NSString *)query;
 

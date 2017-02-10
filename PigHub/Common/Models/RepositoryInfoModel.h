@@ -32,8 +32,8 @@
 @property (nonatomic, strong) NSDate *createdDate;
 @property (nonatomic, strong) NSDate *updatedDate;
 
-+(instancetype)modelWithDic:(NSDictionary *)dic;
++ (instancetype)modelWithDic:(NSDictionary *)dic;
 
--(NSString *)readmeUrl;
+- (NSString *)readmeUrl;
 
 @end

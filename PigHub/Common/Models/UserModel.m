@@ -14,7 +14,7 @@
 
 + (instancetype)modelWithDic:(NSDictionary *)dic
 {
-    UserModel *user = [[UserModel alloc] init];
+    UserModel *user = [[[self class] alloc] init];
 
     if (user) {
         user.name = [dic valueForKey:@"login"];

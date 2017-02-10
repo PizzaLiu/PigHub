@@ -124,7 +124,7 @@
     return menues;
 }
 
--(void)showActorDetail:(id)sender
+- (void)showActorDetail:(id)sender
 {
     EventModel *event = [self.tableData objectAtIndex:self.tableView.indexPathForSelectedRow.row];
     UserDetailViewController *vc = [[UserDetailViewController alloc] init];
@@ -134,7 +134,7 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
--(void)showWebPage:(id)sender
+- (void)showWebPage:(id)sender
 {
     EventModel *event = [self.tableData objectAtIndex:self.tableView.indexPathForSelectedRow.row];
     WebViewController *vc = [[WebViewController alloc] init];
@@ -144,7 +144,7 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
--(void)showSourceRepoDetail:(id)sender
+- (void)showSourceRepoDetail:(id)sender
 {
     EventModel *event = [self.tableData objectAtIndex:self.tableView.indexPathForSelectedRow.row];
     RepositoryDetailViewController *vc = [[RepositoryDetailViewController alloc] init];
@@ -154,7 +154,7 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
--(void)showDestRepoDetail:(id)sender
+- (void)showDestRepoDetail:(id)sender
 {
     EventModel *event = [self.tableData objectAtIndex:self.tableView.indexPathForSelectedRow.row];
     RepositoryDetailViewController *vc = [[RepositoryDetailViewController alloc] init];

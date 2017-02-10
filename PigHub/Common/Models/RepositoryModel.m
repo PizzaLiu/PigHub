@@ -25,7 +25,7 @@
 
 + (instancetype)modelWithDic:(NSDictionary *)dic
 {
-    RepositoryModel *repo = [[RepositoryModel alloc] init];
+    RepositoryModel *repo = [[[self class] alloc] init];
 
     if (repo) {
         NSDictionary *owner = [dic valueForKey:@"owner"];

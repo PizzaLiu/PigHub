@@ -11,9 +11,9 @@
 
 @implementation NotificationModel
 
-+(instancetype)modelWithDic:(NSDictionary *)dic
++ (instancetype)modelWithDic:(NSDictionary *)dic
 {
-    NotificationModel *model = [[NotificationModel alloc] init];
+    NotificationModel *model = [[[self class] alloc] init];
 
     NSDictionary *repoDic = [dic objectForKey:@"repository"];
     NSDictionary *subjectDic = [dic objectForKey:@"subject"];

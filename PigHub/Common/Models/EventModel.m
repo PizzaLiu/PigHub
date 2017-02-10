@@ -18,7 +18,7 @@
         return nil;
     }
 
-    EventModel *model = [[EventModel alloc] init];
+    EventModel *model = [[[self class] alloc] init];
 
     if (model) {
         NSString *typeStr = [dic objectForKey:@"type"];

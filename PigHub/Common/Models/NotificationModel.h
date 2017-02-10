@@ -17,6 +17,6 @@
 @property (nonatomic, copy) NSString *updatedDateStr;
 @property (nonatomic, strong) NSDate *updatedDate;
 
-+(instancetype)modelWithDic:(NSDictionary *)dic;
++ (instancetype)modelWithDic:(NSDictionary *)dic;
 
 @end

@@ -11,8 +11,8 @@
 
 @interface LanguageViewController : UITableViewController
 
-@property (nonatomic, strong) NSString *selectedLanguageQuery;
-@property (nonatomic, strong) NSString *selectedLanguageName;
+@property (nonatomic, copy) NSString *selectedLanguageQuery;
+@property (nonatomic, copy) NSString *selectedLanguageName;
 @property(nonatomic, copy) void (^dismissBlock)(Language *);
 
 @end

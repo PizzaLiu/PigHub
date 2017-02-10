@@ -11,9 +11,9 @@
 
 @implementation RepositoryInfoModel
 
-+(instancetype)modelWithDic:(NSDictionary *)dic
++ (instancetype)modelWithDic:(NSDictionary *)dic
 {
-    RepositoryInfoModel *model = [[RepositoryInfoModel alloc] init];
+    RepositoryInfoModel *model = [[[self class] alloc] init];
 
     model.repoId = [dic objectForKey:@"id"];
     model.name = [dic objectForKey:@"name"];
@@ -40,7 +40,7 @@
     return model;
 }
 
--(NSString *)readmeUrl
+- (NSString *)readmeUrl
 {
     if (_readmeUrl) {
         return _readmeUrl;

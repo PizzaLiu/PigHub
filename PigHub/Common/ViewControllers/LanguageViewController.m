@@ -13,6 +13,7 @@
 {
     NSInteger selectedIndex;
 }
+
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sortBtn;
 
 @end
@@ -99,7 +100,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (selectedIndex == indexPath.row) {
         selectedIndex = 0;

@@ -29,7 +29,7 @@
 
 @interface DataEngine : NSObject
 
-+(instancetype)sharedEngine;
++ (instancetype)sharedEngine;
 
 - (NSURLSessionDataTask *)getTrendingDataWithSince:(NSString *)since lang:(NSString *) lang isDeveloper:(BOOL)isDeveloper completionHandler:(void (^)(NSArray<RepositoryModel *> *repositories, NSError *error))completionHandler;
 
